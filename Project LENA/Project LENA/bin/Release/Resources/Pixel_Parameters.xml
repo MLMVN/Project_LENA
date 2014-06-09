@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<Method type="Kernel">
+  <Parameters>
+    <numberofsectors>384</numberofsectors>
+    <inLayerSize>3</inLayerSize>
+    <hidLayerSize>54</hidLayerSize>
+    <kernel>0</kernel>
+  </Parameters>
+</Method>
+

@@ -1,0 +1,14 @@
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Debug\Project LENA.exe.config
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\obj\Debug\Project LENA.csprojResolveAssemblyReference.cache
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\obj\Debug\Project_LENA.Properties.Resources.resources
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\obj\Debug\Project LENA.csproj.GenerateResource.Cache
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Debug\Project LENA.exe
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Debug\Project LENA.pdb
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Debug\BitMiracle.LibTiff.NET.dll
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Debug\Microsoft.WindowsAPICodePack.dll
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Debug\BitMiracle.LibTiff.NET.xml
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Debug\Microsoft.WindowsAPICodePack.Shell.pdb
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Debug\Microsoft.WindowsAPICodePack.pdb
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\obj\Debug\Project LENA.exe
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\obj\Debug\Project LENA.pdb

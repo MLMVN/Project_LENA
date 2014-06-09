@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<Method type="Patch">
+  <Parameters>
+    <numberofsectors>384</numberofsectors>
+    <step>3</step>
+    <layer>4</layer>
+    <networkSize>511511511169</networkSize>
+    <inputsPerSample>170512512512</inputsPerSample>
+  </Parameters>
+</Method>

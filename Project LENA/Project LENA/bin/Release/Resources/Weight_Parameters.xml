@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Method type="Weight_Parameters">
+  <Parameters>
+    <Sample_Directory>C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Release\Resources\Lena_Y_gauss_0.1_Samples_200_Patches_13x13.txt</Sample_Directory>
+    <Initial_Weights>1</Initial_Weights>
+    <Weight_Directory>C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Release\Resources\Lena_Y_gauss_0.1_rmse_3.0_session_1.wgt</Weight_Directory>
+    <Inputs_Per_Sample>512, 512, 512, 170</Inputs_Per_Sample>
+    <Size_Of_Network>511, 511, 511, 169</Size_Of_Network>
+    <Output>0</Output>
+    <Samples_In_Learning>200</Samples_In_Learning>
+    <Number_Of_Sectors>384</Number_Of_Sectors>
+    <Stopping_Criteria>2</Stopping_Criteria>
+    <Angular_RMSE />
+    <Local_Threshold>0</Local_Threshold>
+    <Global_Threshold>3</Global_Threshold>
+  </Parameters>
+</Method>

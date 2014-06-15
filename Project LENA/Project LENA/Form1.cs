@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-/*---------------------- Added Libraries ----------------------*/
+/* ---------------------- Added Libraries ---------------------- */
 using System.Runtime.InteropServices; // DLLImport
 using System.Threading; // CancellationToken
 using System.Xml; // Loading xml file parameters
@@ -21,6 +21,7 @@ namespace Project_LENA
 {
     public partial class Form1 : Form
     {
+        #region Form Initiallization
         Functions functions;
         MLMVN mlmvn;
 
@@ -32,7 +33,7 @@ namespace Project_LENA
         public Form1()
         {
             functions = new Functions(this);
-            mlmvn = new MLMVN(this);          
+            mlmvn = new MLMVN(this);
             this.Size = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
             this.Location = new Point(0, 0);
             InitializeComponent(); // begins the initialization of the form     
@@ -57,17 +58,17 @@ namespace Project_LENA
                 cp.ExStyle |= 0x02000000;
                 return cp;
             }
-        } 
+        }
 
         // Help button on windows form
         private void Form1_helpButtonClicked(object sender, CancelEventArgs e)
         {
             MessageBox.Show("This program uses an intelligent approach to image processing using MLMVN, " +
                 "otherwise known as Multilayer feedforward neural network based on multi-valued neurons." +
-                "\n\nThis program can create and generate an image suitable to be filtered, generate samples" +
+                "\n\nThis program can create and generate an image suitable to be filtered, generate samples " +
                 "used to create weights used to process images, generate the weights learned from this process," +
                 "and filter a noisy image from the weights created. \n\nAdditional help can be provided by " +
-                "hovering over an element of interest.",
+                "hovering the cursor over an element of interest.",
                 "About Project LENA", MessageBoxButtons.OK, MessageBoxIcon.Information);
             e.Cancel = true; // does not display question mark on cursor after message
         }
@@ -151,12 +152,13 @@ namespace Project_LENA
                 this.timer16.Enabled = false;
                 if (this.Height >= 650 && this.button10.Enabled == false) this.timer15.Enabled = true;
                 else if (this.button10.Enabled == false) this.timer10.Enabled = true; // Makes tab larger; user clicked 'Process Image'
-                else if (radioButton3.Checked == true || radioButton4.Checked == true && this.Height > 390) timer14.Enabled = true;
+                else if (radioButton3.Checked == true && this.Height > 390 || radioButton4.Checked == true && this.Height > 390) timer14.Enabled = true;
                 else if (radioButton3.Checked == true || radioButton4.Checked == true) this.timer11.Enabled = true; // radiobutton enabled              
-                else if (this.Height >= 250) this.timer7.Enabled = true;              
+                else if (this.Height >= 250) this.timer7.Enabled = true;
                 else this.timer8.Enabled = true;
             }
         }
+        #endregion
 
         #region Timers
         // When user clicks tab 1 from a larger tab
@@ -316,58 +318,128 @@ namespace Project_LENA
         // process using pixels, tab 4
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.Height == 250) this.timer11.Enabled = true;
+            if (this.Height <= 390) this.timer11.Enabled = true;
 
-            checkBox7.Visible = false;
-            label27.Visible = false;
-            maskedTextBox1.Visible = false;
-            maskedTextBox2.Visible = false;
+
+            //this.comboBox4.Items.Add(new object[] {
+            //"3 x 3",
+            //"5 x 5",
+            //"7 x 7"});
+            comboBox4.Items.Clear();
+            comboBox4.Items.Add("3 x 3");
+            comboBox4.Items.Add("5 x 5");
+            comboBox4.Items.Add("7 x 7");
 
             label23.Visible = true;
+            label23.Text = "Number of sectors:";
+            toolTip1.SetToolTip(label23, "The number of sectors to be processed from the unit circle.\r\nUsed for classification in the learning algorithm.");
+
+            textBox13.Visible = true;
+            textBox13.Location = new Point(117, 26);
+
             label24.Visible = true;
             label24.Text = "Input layer size:";
+            toolTip1.SetToolTip(label24, "The size of the layers.");
             label24.Location = new Point(210, 30);
+
+            textBox16.Visible = true;
+            textBox16.Location = new Point(296, 26);
+
             label25.Visible = true;
             label25.Text = "Hidden layer size:";
-            label25.Location = new Point(385, 30);
-            label26.Visible = true;
-            label26.Text = "Kernel Size:";
-            textBox13.Visible = true;
-            textBox16.Visible = true;
-            textBox16.Location = new Point(296, 27);
+            label25.Location = new Point(390, 30);
+            toolTip1.SetToolTip(label25, "The size of the hidden layers used in the weights.");
+
             textBox17.Visible = true;
-            textBox17.Location = new Point(481, 27);
+            textBox17.MinimumSize = new Size(58, 20);
+            textBox17.MaximumSize = new Size(58, 20);
+            textBox17.Size = new Size(58, 20);
+            textBox17.Location = new Point(486, 26);
+
+            label26.Visible = true;
+            label26.Text = "Kernel size:";
+            toolTip1.SetToolTip(label26, "Size of the kernel surrounding the pixel being processed.");
+
+            comboBox4.Visible = true;
+            comboBox4.DropDownStyle = ComboBoxStyle.DropDown;
+            comboBox4.Location = new Point(82, 57);
+            toolTip1.SetToolTip(comboBox4, "Size of the kernel surrounding the pixel being processed.");
+
+
+
+
+
             comboBox4.Visible = true;
         }
 
         // process using patches, tab 4
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.Height == 250) this.timer11.Enabled = true;
+            if (this.Height <= 390) this.timer11.Enabled = true;
 
-            checkBox7.Visible = true;
-            if (this.checkBox7.Checked == false)
-            {
-                label27.Visible = true;
-                maskedTextBox2.Visible = true;
-            }
-            comboBox4.Visible = false;
+
+
+            //this.comboBox4.Items.Add(new object[] {
+            //"New patch method",
+            //"Old patch method"});
+
+            comboBox4.Items.Clear();
+            comboBox4.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox4.Items.Add("Legacy method");
+            comboBox4.Items.Add("New patch method");
 
             label23.Visible = true;
+            label23.Text = "Method:";
+            toolTip1.SetToolTip(label23, "The patch function to be used.");
+
+            comboBox4.Visible = true;
+            comboBox4.Location = new Point(67, 26);
+            toolTip1.SetToolTip(comboBox4, "The patch function to be used.");
+
             label24.Visible = true;
-            label24.Text = "Step:";
-            label24.Location = new Point(230, 30);
-            label25.Visible = true;
-            label25.Text = "Layers:";
-            label25.Location = new Point(380, 30);
-            label26.Visible = true;
-            label26.Text = "Network Size:";          
+            label24.Text = "Number of sectors:";
+            label24.Location = new Point(220, 30);
+            toolTip1.SetToolTip(label24, "The number of sectors to be processed from the unit circle.\r\nUsed for classification in the learning algorithm.");
+            //toolTip1.SetToolTip(label24, "The size to be overlapped by each patch.");
+
             textBox13.Visible = true;
+            textBox13.Location = new Point(322, 26);
+
+            label25.Visible = true;
+            label25.Text = "Step:";
+            toolTip1.SetToolTip(label25, "The size to be overlapped by each patch.");
+            label25.Location = new Point(424, 29);
+
             textBox16.Visible = true;
-            textBox16.Location = new Point(268, 27);
+            textBox16.Location = new Point(462, 27);
+
+            label26.Visible = true;
+            label26.Text = "Network size:";
+            toolTip1.SetToolTip(label26, "The network array to be used to generate the weights.");
+
             textBox17.Visible = true;
-            textBox17.Location = new Point(427, 27);
-            maskedTextBox1.Visible = true;            
+            textBox17.MinimumSize = new Size(106, 20);
+            textBox17.MaximumSize = new Size(154, 20);
+            Size size = TextRenderer.MeasureText(textBox17.Text, textBox17.Font);
+            textBox17.Width = size.Width;
+            textBox17.Height = size.Height;
+            textBox17.Location = new Point(92, 57);
+        }
+
+        private void textBox17_TextChanged(object sender, EventArgs e)
+        {
+            Size size = TextRenderer.MeasureText(textBox17.Text, textBox17.Font);
+            textBox17.Width = size.Width;
+            textBox17.Height = size.Height;
+        }
+
+        private void textBox20_TextChanged(object sender, EventArgs e)
+        {
+            Size size = TextRenderer.MeasureText(textBox20.Text, textBox20.Font);
+            textBox20.Width = size.Width;
+            textBox20.Height = size.Height;
+            label16.Location = new Point(textBox20.Location.X + textBox20.Width + 58, 30);
+            comboBox2.Location = new Point(label16.Location.X + label16.Width + 6, 26);
         }
 
         // Load color image
@@ -439,10 +511,10 @@ namespace Project_LENA
                         // Conversion from RGB to YUV, as written here:
                         // http://www.eagle.tamut.edu/faculty/igor/MY%20CLASSES/CS-467/Lecture-12.pdf on slide 18
                         // Also part of the CCIR Recommendation 601-1 - PSNR 27.8757 to VEGA
-                        Y[i, j] = (0.299 * red[i, j]) + (0.587 * green[i, j]) + (0.114 * blue[i, j]); 
+                        Y[i, j] = (0.299 * red[i, j]) + (0.587 * green[i, j]) + (0.114 * blue[i, j]);
                         U[i, j] = -(0.14713 * red[i, j]) - (0.28886 * green[i, j]) + (0.436 * blue[i, j]);
                         V[i, j] = (0.615 * red[i, j]) - (0.51499 * green[i, j]) - (0.10001 * blue[i, j]);
-                        
+
                     }
                 }
 
@@ -477,7 +549,7 @@ namespace Project_LENA
                 saveFileDialog2.FileName = Path.GetFileNameWithoutExtension(textBox11.Text) + "_Y" + ".tif";
 
                 if (saveFileDialog2.ShowDialog() == DialogResult.OK)
-                {                   
+                {
                     using (Tiff output = Tiff.Open(saveFileDialog2.FileName, "w"))
                     {
                         // Write the tiff tags to the file
@@ -516,6 +588,7 @@ namespace Project_LENA
                             output.WriteScanline(im, i);
                         }
                         output.WriteDirectory();
+                        output.Dispose();
 
                         #region Save YUV image - (for debugging purposes)
 
@@ -547,6 +620,7 @@ namespace Project_LENA
                     //System.Diagnostics.Process.Start(FileName);                   
                 }
                 textBox18.Text = saveFileDialog2.FileName;
+                colorimage.Dispose();
             }
         }
 
@@ -581,8 +655,6 @@ namespace Project_LENA
                 int height = greyimage.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
                 byte bits = greyimage.GetField(TiffTag.BITSPERSAMPLE)[0].ToByte();
                 byte pixel = greyimage.GetField(TiffTag.SAMPLESPERPIXEL)[0].ToByte();
-                double dpiX = greyimage.GetField(TiffTag.XRESOLUTION)[0].ToDouble();
-                double dpiY = greyimage.GetField(TiffTag.YRESOLUTION)[0].ToDouble();
                 #endregion
 
                 if (string.IsNullOrEmpty(textBox18.Text))
@@ -642,9 +714,9 @@ namespace Project_LENA
                 string fileName = textBox18.Text;
 
                 if (checkBox3.Checked == true)
-                fileName = Path.GetFileNameWithoutExtension(textBox18.Text) + "_Gauss_" + Convert.ToString(noise) + ".tif";
+                    fileName = Path.GetFileNameWithoutExtension(textBox18.Text) + "_Gauss_" + Convert.ToString(noise) + ".tif";
                 if (checkBox3.Checked == false)
-                fileName = Path.GetFileNameWithoutExtension(textBox18.Text) + "_Gauss_" + Convert.ToString(noise) + "_(Noise)" + ".tif";
+                    fileName = Path.GetFileNameWithoutExtension(textBox18.Text) + "_Gauss_" + Convert.ToString(noise) + "_Noise" + ".tif";
 
                 saveFileDialog2.FileName = fileName;
 
@@ -678,9 +750,10 @@ namespace Project_LENA
                             output.WriteScanline(im, i);
                         }
                         output.WriteDirectory();
+                        output.Dispose();
                     }
                 }
-               // System.Diagnostics.Process.Start(fileName);
+                greyimage.Dispose();
             }
             #endregion
 
@@ -696,11 +769,9 @@ namespace Project_LENA
                 int height = colorimage.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
                 byte bits = colorimage.GetField(TiffTag.BITSPERSAMPLE)[0].ToByte();
                 byte pixel = colorimage.GetField(TiffTag.SAMPLESPERPIXEL)[0].ToByte();
-                double dpiX = colorimage.GetField(TiffTag.XRESOLUTION)[0].ToDouble();
-                double dpiY = colorimage.GetField(TiffTag.YRESOLUTION)[0].ToDouble();
                 #endregion
 
-
+                int test = (int)bits;
 
                 if (string.IsNullOrEmpty(textBox18.Text))
                 {
@@ -727,14 +798,21 @@ namespace Project_LENA
 
                 byte[] scanline = new byte[colorimage.ScanlineSize()];
 
+
+                int test2 = scanline.Length;// (0);
+
+                //(int[])scanline;
+                //for (int i =0);
+
                 // Read the image into the memory buffer
                 byte[,] red = new byte[height, width];
                 byte[,] green = new byte[height, width];
                 byte[,] blue = new byte[height, width];
 
-                for (int i = height - 1; i != -1; i--)
+                //for (int i = height - 1; i != -1; i--)
+                for (int i = 0; height > i; i++)
                 {
-                    colorimage.ReadScanline(scanline, i);
+                    colorimage.ReadScanline(scanline, i); // EVIL BUG HERE
                     for (int j = 0; j < width; j++)
                     {
                         red[i, j] = scanline[3 * j]; // PSNR: INFINITY, Channel is correct
@@ -848,7 +926,7 @@ namespace Project_LENA
 
                 #region Merge RGB
 
-                byte[,] RGB = new byte[height, colorimage.ScanlineSize()];           
+                byte[,] RGB = new byte[height, colorimage.ScanlineSize()];
 
                 for (int i = 0; i < height; i++)
                 {
@@ -879,7 +957,7 @@ namespace Project_LENA
                 if (checkBox3.Checked == true)
                     fileName = Path.GetFileNameWithoutExtension(textBox18.Text) + "_Gauss_" + Convert.ToString(noise) + ".tif";
                 if (checkBox3.Checked == false)
-                    fileName = Path.GetFileNameWithoutExtension(textBox18.Text) + "_Gauss_" + Convert.ToString(noise) + "_(Noise)" + ".tif";
+                    fileName = Path.GetFileNameWithoutExtension(textBox18.Text) + "_Gauss_" + Convert.ToString(noise) + "_Noise" + ".tif";
 
                 saveFileDialog2.FileName = fileName;
 
@@ -904,11 +982,31 @@ namespace Project_LENA
                         // Write the tiff tags to the file
                         output.SetField(TiffTag.IMAGEWIDTH, width);
                         output.SetField(TiffTag.IMAGELENGTH, height);
-                        output.SetField(TiffTag.COMPRESSION, Compression.NONE);
+                        output.SetField(TiffTag.SAMPLESPERPIXEL, 3);
+                        output.SetField(TiffTag.BITSPERSAMPLE, 8);
+                        output.SetField(TiffTag.ORIENTATION, BitMiracle.LibTiff.Classic.Orientation.TOPLEFT);
+                        output.SetField(TiffTag.ROWSPERSTRIP, height);
+                        output.SetField(TiffTag.XRESOLUTION, 88.0);
+                        output.SetField(TiffTag.YRESOLUTION, 88.0);
+                        output.SetField(TiffTag.RESOLUTIONUNIT, ResUnit.INCH);
                         output.SetField(TiffTag.PLANARCONFIG, PlanarConfig.CONTIG);
                         output.SetField(TiffTag.PHOTOMETRIC, Photometric.RGB);
-                        output.SetField(TiffTag.BITSPERSAMPLE, 8);
-                        output.SetField(TiffTag.SAMPLESPERPIXEL, 3);
+                        output.SetField(TiffTag.COMPRESSION, Compression.NONE);
+                        output.SetField(TiffTag.FILLORDER, FillOrder.MSB2LSB);
+
+
+                        //output.SetField(TiffTag.IMAGEWIDTH, width);
+                        //output.SetField(TiffTag.IMAGELENGTH, height);
+                        //output.SetField(TiffTag.COMPRESSION, Compression.NONE);
+                        //output.SetField(TiffTag.PLANARCONFIG, PlanarConfig.CONTIG);
+                        //output.SetField(TiffTag.PHOTOMETRIC, Photometric.RGB);
+                        //output.SetField(TiffTag.BITSPERSAMPLE, 8);
+                        //output.SetField(TiffTag.SAMPLESPERPIXEL, 3);
+
+                        //int width = colorimage.GetField(TiffTag.IMAGEWIDTH)[0].ToInt();
+                        //int height = colorimage.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
+                        //byte bits = colorimage.GetField(TiffTag.BITSPERSAMPLE)[0].ToByte();
+                        //byte pixel = colorimage.GetField(TiffTag.SAMPLESPERPIXEL)[0].ToByte();
 
                         byte[] im = new byte[colorimage.ScanlineSize() * sizeof(byte /*can be changed depending on the format of the image*/)];
 
@@ -921,9 +1019,11 @@ namespace Project_LENA
                             }
                             output.WriteEncodedStrip(i, im, colorimage.ScanlineSize());
                         }
-                       // output.WriteDirectory();
+                        output.WriteDirectory();
+                        output.Dispose();
                     }
                 }
+                colorimage.Dispose();
             }
             #endregion
         }
@@ -1025,8 +1125,7 @@ namespace Project_LENA
                             kernel = Convert.ToInt32(comboBox6.Text.Substring(0, i + 1));
                     }
 
-                    // ************************  Let the user enter any odd number as size of the patch
-                    // In this case the user can only enter the one dimension
+                    // ************************  Let the user enter any odd number as size of the pixel
                     if (kernel % 2 != 1)
                     {
                         button6.Enabled = true;
@@ -1052,7 +1151,7 @@ namespace Project_LENA
             {
                 // combobox values
                 int kernel = 0;
-               
+
                 if (comboBox7.Text == "")
                 {
                     // Error Windows when no number of samples entered
@@ -1061,8 +1160,8 @@ namespace Project_LENA
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                else 
-                {                 
+                else
+                {
                     char[] c = comboBox7.Text.ToCharArray(); // seperates compbox elements into an array
 
                     for (int i = 0; i < c.Length; i++)
@@ -1074,7 +1173,6 @@ namespace Project_LENA
                     }
 
                     // ************************  Let the user enter any odd number as size of the patch
-                    // In this case the user can only enter the one dimension
                     if (kernel % 2 != 1)
                     {
                         button6.Enabled = true;
@@ -1083,9 +1181,9 @@ namespace Project_LENA
                         return;
                     }
                 }
-                
 
-                string fileName = Path.GetFileNameWithoutExtension(textBox14.Text) + "_Samples_"+ comboBox8.Text + "_Patches_" + kernel +"x" + kernel + ".txt";
+
+                string fileName = Path.GetFileNameWithoutExtension(textBox14.Text) + "_Samples_" + comboBox8.Text + "_Patches_" + kernel + "x" + kernel + ".txt";
 
                 saveFileDialog1.FileName = fileName;
 
@@ -1096,13 +1194,15 @@ namespace Project_LENA
             }
             #endregion
 
+            cleanimage.Dispose();
+            noisedimage.Dispose();
             button6.Enabled = true;
         }
 
         // Learn button
         private async void button7_Click(object sender, EventArgs e)
         {
-            this.button7.Enabled = false;       
+            this.button7.Enabled = false;
 
             #region Error checking
             // Error Windows when no image entered
@@ -1130,7 +1230,7 @@ namespace Project_LENA
             }
 
             // Error Windows when no radio button checked
-            if (!maskedTextBox4.MaskCompleted || !maskedTextBox3.MaskCompleted || string.IsNullOrEmpty(textBox8.Text) || string.IsNullOrEmpty(textBox7.Text))
+            if (string.IsNullOrEmpty(textBox20.Text) || string.IsNullOrEmpty(textBox8.Text) || string.IsNullOrEmpty(textBox7.Text))
             {
                 button7.Enabled = true;
                 MessageBox.Show("Check for empty parameters.", "Error",
@@ -1191,48 +1291,95 @@ namespace Project_LENA
 
             int NumberofSamples = Convert.ToInt32(textBox8.Text);
 
-            double GlobalThreshold = Convert.ToInt32(textBox4.Text);
-            double LocalThreshold = Convert.ToInt32(textBox5.Text);
+            double GlobalThreshold = Convert.ToDouble(textBox4.Text);
+            double LocalThreshold = Convert.ToDouble(textBox5.Text);
 
             // convert string array to int
-            string[] a = maskedTextBox3.Text.Split(',');
+            string[] a = textBox20.Text.Split(',', '.');
             int[] networkSize = new int[4];
             for (int i = 0; i < a.Length; i++)
             {
                 networkSize[i] = Convert.ToInt32(a[i]);
             }
 
-            string[] b = maskedTextBox4.Text.Split(',');
-            int[] inputsPerSample = new int[4];
-            for (int i = 0; i < b.Length; i++)
-            {
-                inputsPerSample[i] = Convert.ToInt32(b[i]);
-            }
+            // determine number of samples
+            int[] inputsPerSample = new int[a.Length];
+            inputsPerSample[0] = networkSize[a.Length - 1] + 1;
+            for (int i = 1; i < a.Length; i++)
+                inputsPerSample[i] = networkSize[0] + 1;
+            // end for
+
             int NumberofSectors = Convert.ToInt32(textBox7.Text);
             #endregion
 
+            this.comboBox3.Enabled = false;
+            this.checkBox1.Enabled = false;
+            this.textBox5.Enabled = false;
+            this.textBox4.Enabled = false;
             this.button15.Enabled = true;
             this.checkBox6.Enabled = true;
-            this.button7.Enabled = false;
+            this.button21.Enabled = true;
             this.timer9.Enabled = true;
 
+            // Begin processing
+            // Create new stopwatch
+            Stopwatch stopwatch = new Stopwatch();
+
+            // Begin timing
+            stopwatch.Start();
             this.Text = Title + " (Working)";
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate);
 
             try
             {
                 Complex[][,] weights = await Task.Run(() => mlmvn.Learning(Samples, NumberofSamples, Weights, 4, networkSize, inputsPerSample, NumberofSectors, GlobalThreshold, LocalThreshold, randomWeights, cTokenSource2.Token, pTokenSource2.Token));
+
+                string[] imagename = Path.GetFileNameWithoutExtension(textBox2.Text).Split('_');
+
+                string fileName = imagename[0] + "_" + imagename[1] + "_" + imagename[2] + "_" + imagename[3] + "_Samples_" + NumberofSamples + "_Network_[" +
+                        networkSize[0] + "," + networkSize[1] + "," + networkSize[2] + "," + networkSize[3] + "]" + "_RMSE_" + GlobalThreshold + ".wgt";
+
+                // Stop timing
+                stopwatch.Stop();
+
+                // Write result
+                SetText2("Time elapsed: " + stopwatch.Elapsed + Environment.NewLine);
+
+                saveFileDialog4.FileName = fileName;
+
+                if (saveFileDialog4.ShowDialog() == DialogResult.OK) // Test result.
+                {
+                    MLMVN.saveMlmvnWeights(saveFileDialog4.FileName, weights, networkSize);
+                }
             }
             catch (OperationCanceledException)
             {
                 SetText2("\r\nProgress canceled.\r\n");
+
+                // Stop timing
+                stopwatch.Stop();
+
+                // Write result
+                SetText2("Time elapsed: " + stopwatch.Elapsed + Environment.NewLine + Environment.NewLine);
+
                 // Set the CancellationTokenSource to null when the work is complete.
-                cTokenSource1 = null;
+                cTokenSource2 = null;
             }
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
 
-            cTokenSource1 = null;
+            cTokenSource2 = null;
+
+            if (comboBox3.SelectedIndex == 2)
+            {
+                checkBox1.Enabled = true;
+            }
+
+            this.comboBox3.Enabled = true;
+            this.textBox5.Enabled = true;
+            this.textBox4.Enabled = true;
             this.button7.Enabled = true;
+            this.button15.Enabled = false;
+            this.checkBox6.Enabled = false;
 
             this.Text = Title;
         }
@@ -1259,10 +1406,9 @@ namespace Project_LENA
             button11.Enabled = true; // Cancel button
             checkBox2.Checked = false; // Pause button; unchecked            
             checkBox2.Enabled = true; // Pause button; enabled
-            radioButton3.Enabled = false;
-            radioButton4.Enabled = false;
-            button17.Enabled = false;
-            checkBox7.Enabled = false;
+            radioButton3.Enabled = false; // process using pixels button
+            radioButton4.Enabled = false; // process using patches button
+            button17.Enabled = false; // load parameters button
 
             // open the noisy image
             Tiff noisyimage = Tiff.Open(textBox9.Text, "r");
@@ -1280,7 +1426,6 @@ namespace Project_LENA
                 radioButton3.Enabled = true;
                 radioButton4.Enabled = true;
                 button17.Enabled = true;
-                checkBox7.Enabled = true;
                 MessageBox.Show("Invalid or no image entered.", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -1293,7 +1438,6 @@ namespace Project_LENA
                 radioButton3.Enabled = true;
                 radioButton4.Enabled = true;
                 button17.Enabled = true;
-                checkBox7.Enabled = true;
                 MessageBox.Show("No weights entered.", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -1308,7 +1452,6 @@ namespace Project_LENA
                 radioButton3.Enabled = true;
                 radioButton4.Enabled = true;
                 button17.Enabled = true;
-                checkBox7.Enabled = true;
                 MessageBox.Show("No inplementation checked.", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -1352,6 +1495,9 @@ namespace Project_LENA
             byte[,] noisy = new byte[height, width];
             noisy = Functions.Tiff2Array(noisyimage, height, width);
 
+            // remove the loaded image from memory
+            noisyimage.Dispose();
+
             // Update title text
             this.Text = Title + " (Working)";
 
@@ -1369,47 +1515,57 @@ namespace Project_LENA
                         radioButton3.Enabled = true;
                         radioButton4.Enabled = true;
                         button17.Enabled = true;
-                        checkBox7.Enabled = true;
                         MessageBox.Show("Please load or enter parameters.", "Error",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    // Enable the resize event
-                    this.timer10.Enabled = true;
 
                     // parameters
                     int numberofsectors = Convert.ToInt32(textBox13.Text);
                     int inLayerSize = Convert.ToInt32(textBox16.Text);
                     int hidLayerSize = Convert.ToInt32(textBox17.Text);
-                    int kernel;
-                    if (comboBox4.SelectedIndex == 0)
-                    {
-                        kernel = 3; // 3x3 window
-                    }
 
-                    else if (comboBox4.SelectedIndex == 1)
-                    {
-                        kernel = 5; // 5x5 window
-                    }
+                    // combobox values
+                    int kernel = 0;
 
-                    else if (comboBox4.SelectedIndex == 2)
+                    if (comboBox4.Text == "")
                     {
-                        kernel = 7; //7x7 window
+                        // Error Windows when no number of samples entered
+                        button6.Enabled = true;
+                        MessageBox.Show("No kernel size selected.", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
                     else
                     {
-                        MessageBox.Show("No kernel size selected.", "Error",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        button10.Enabled = true;
-                        button11.Enabled = false;
-                        checkBox2.Enabled = false;
-                        radioButton3.Enabled = true;
-                        radioButton4.Enabled = true;
-                        button17.Enabled = true;
-                        checkBox7.Enabled = true;
-                        this.Text = Title;
-                        return;
+                        char[] c = comboBox4.Text.ToCharArray(); // seperates compbox elements into an array
+
+                        for (int i = 0; i < c.Length; i++)
+                        {
+                            if (c[i].ToString() == " " || c[i].ToString() == "x" || c[i].ToString() == "X")
+                                break;
+                            else
+                                kernel = Convert.ToInt32(comboBox4.Text.Substring(0, i + 1));
+                        }
+
+                        // ************************  Let the user enter any odd number as size of the patch
+                        if (kernel % 2 != 1)
+                        {
+                            MessageBox.Show("Please enter an odd number", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            button10.Enabled = true;
+                            button11.Enabled = false;
+                            checkBox2.Enabled = false;
+                            radioButton3.Enabled = true;
+                            radioButton4.Enabled = true;
+                            button17.Enabled = true;
+                            this.Text = Title;
+                            return;
+                        }
                     }
+
+                    // Enable the resize event
+                    this.timer10.Enabled = true;
 
                     // Initiallization of progress bar elements
                     TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
@@ -1438,7 +1594,7 @@ namespace Project_LENA
 
                         functions.WriteToFile(denoised, width, height, bits, pixel, dpiX, dpiY, saveFileDialog2.FileName);
 
-                    }       
+                    }
                 }
                 catch (OperationCanceledException)
                 {
@@ -1458,19 +1614,18 @@ namespace Project_LENA
                     radioButton3.Enabled = true;
                     radioButton4.Enabled = true;
                     button17.Enabled = true;
-                    checkBox7.Enabled = true;
                     return;
                 }
             }
             #endregion
 
             #region Process using patches
+
             else if (radioButton4.Checked) // Process using patches
             {
                 try
                 {
-                    if (string.IsNullOrEmpty(textBox13.Text) || string.IsNullOrEmpty(textBox16.Text) || string.IsNullOrEmpty(textBox17.Text) ||
-                        !maskedTextBox1.MaskCompleted || !maskedTextBox2.MaskCompleted)
+                    if (string.IsNullOrEmpty(textBox13.Text) || string.IsNullOrEmpty(textBox16.Text) || string.IsNullOrEmpty(textBox17.Text))
                     {
                         MessageBox.Show("Please load or enter parameters.", "Error",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1480,67 +1635,78 @@ namespace Project_LENA
                         radioButton3.Enabled = true;
                         radioButton4.Enabled = true;
                         button17.Enabled = true;
-                        checkBox7.Enabled = true;
+                        this.Text = Title;
                         return;
                     }
 
-                    // Enable the resize event
-                    this.timer10.Enabled = true;
 
-                    // parameters
-                    int numberofsectors = Convert.ToInt32(textBox13.Text);
-                    int step = Convert.ToInt32(textBox16.Text);
-                    int layer = Convert.ToInt32(textBox17.Text);
-                    
+                    // network size
+                    string[] a = textBox17.Text.Split(',', '.');
+                    int[] networkSize = new int[a.Length];
+                    int layer = a.Length;
 
-                    // convert string array to int
-                    string[] a = maskedTextBox1.Text.Split(',');
-                    int[] networkSize = new int[4];
+
                     for (int i = 0; i < a.Length; i++)
                     {
                         networkSize[i] = Convert.ToInt32(a[i]);
                     }
 
-                    string[] b = maskedTextBox2.Text.Split(',');
-                    int[] inputsPerSample = new int[4];
-                    for (int i = 0; i < b.Length; i++)
-                    {
-                        inputsPerSample[i] = Convert.ToInt32(b[i]);
-                    }
+                    // parameters
+                    int numberofsectors = Convert.ToInt32(textBox13.Text);
+                    int step = Convert.ToInt32(textBox16.Text);
 
-                    
-
-                    byte[,] denoised;
+                    byte[,] denoised = null;
 
                     // Initiallization of progress bar elements
                     TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
                     int range_x;
                     int pSize = (int)Math.Sqrt(networkSize[3]);
 
-                    if (checkBox7.Checked == false)
-                    {                     
+                    // using old patch method
+                    if (comboBox4.SelectedIndex == 0)
+                    {
+
                         int range_y = (height - pSize) / step + 2;
                         range_x = (width - pSize) / step + 2;
                         progressBar1.Maximum = (range_x * range_y) + 4;// * ( 4 + range_y % 4) + 4; // range_x * (range into fourths + range_Y % 4) + 4
                     }
-                    else
+                    // using new patch method
+                    else if (comboBox4.SelectedIndex == 1)
                     {
                         int interval = pSize - (step * 2);
                         int range_y = (height - (pSize - step)) / interval + 2;
                         range_x = (width - (pSize - step)) / interval + 2;
                         progressBar1.Maximum = (range_x * range_y) + 4;
                     }
+                    else
+                    {
+                        MessageBox.Show("No patch method entered.", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        button10.Enabled = true;
+                        button11.Enabled = false;
+                        checkBox2.Enabled = false;
+                        radioButton3.Enabled = true;
+                        radioButton4.Enabled = true;
+                        button17.Enabled = true;
+                        this.Text = Title;
+                        return;
+                    }
+
+                    // Enable the resize event
+                    this.timer10.Enabled = true;
+
+
                     progressBar1.Step = range_x;
                     progressBar1.Value = 0;
                     TaskbarManager.Instance.SetProgressValue(0, progressBar1.Maximum);
                     NativeMethods.SetState(progressBar1, 1);
-                    progressBar1.Value += 2;                    
+                    progressBar1.Value += 2;
                     TaskbarManager.Instance.SetProgressValue(progressBar1.Value, progressBar1.Maximum);
-                    if (checkBox7.Checked == false)
+                    if (comboBox4.SelectedIndex == 0)
                     {
-                        denoised = await Task.Run(() => mlmvn.fdenoiseNeural(noisy, step, weights, layer, networkSize, inputsPerSample, numberofsectors, cTokenSource1.Token, pTokenSource1.Token, progressBar1.Value, progressBar1.Maximum));
+                        denoised = await Task.Run(() => mlmvn.fdenoiseNeural(noisy, step, weights, layer, networkSize, numberofsectors, cTokenSource1.Token, pTokenSource1.Token, progressBar1.Value, progressBar1.Maximum));
                     }
-                    else
+                    else if (comboBox4.SelectedIndex == 1)
                     {
                         denoised = await Task.Run(() => mlmvn.fdenoiseNeural2(noisy, step, weights, layer, networkSize, numberofsectors, cTokenSource1.Token, pTokenSource1.Token, progressBar1.Value, progressBar1.Maximum));
                     }
@@ -1578,7 +1744,7 @@ namespace Project_LENA
                     radioButton3.Enabled = true;
                     radioButton4.Enabled = true;
                     button17.Enabled = true;
-                    checkBox7.Enabled = true;
+                    this.Text = Title;
                     return;
                 }
             }
@@ -1587,7 +1753,7 @@ namespace Project_LENA
             // Set the CancellationTokenSource to null when the work is complete.
             cTokenSource1 = null;
 
-            this.Text = Title;         
+            this.Text = Title;
 
             button10.Enabled = true;
             button11.Enabled = false;
@@ -1595,7 +1761,6 @@ namespace Project_LENA
             radioButton3.Enabled = true;
             radioButton4.Enabled = true;
             button17.Enabled = true;
-            checkBox7.Enabled = true;
             progressBar1.Value = 0;
             TaskbarManager.Instance.SetProgressValue(progressBar1.Value, progressBar1.Maximum);
         }
@@ -1616,19 +1781,17 @@ namespace Project_LENA
         // Test Weights
         private async void button12_Click(object sender, EventArgs e)
         {
-            //this.button7.Enabled = false;
             this.button12.Enabled = false;
             #region Variable Initiallization
             string Weights = textBox6.Text;
 
             string Samples = textBox2.Text;
-            #endregion            
-            
+            #endregion
+
             #region Error checking
             // Error Windows when no image entered
             if (Samples == "")
             {
-                //button7.Enabled = true;
                 button12.Enabled = true;
                 MessageBox.Show("Samples file not entered.", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1636,7 +1799,6 @@ namespace Project_LENA
             }
             if (Weights == "")
             {
-                //button7.Enabled = true;
                 button12.Enabled = true;
                 MessageBox.Show("Please input existing weights for testing.", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1644,9 +1806,8 @@ namespace Project_LENA
             }
 
             // Error Windows when no radio button checked
-            if (!maskedTextBox4.MaskCompleted || !maskedTextBox3.MaskCompleted || string.IsNullOrEmpty(textBox8.Text) || string.IsNullOrEmpty(textBox7.Text))
+            if (string.IsNullOrEmpty(textBox20.Text) || string.IsNullOrEmpty(textBox8.Text) || string.IsNullOrEmpty(textBox7.Text))
             {
-                //button7.Enabled = true;
                 button12.Enabled = true;
                 MessageBox.Show("Check for empty parameters.", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1657,33 +1818,27 @@ namespace Project_LENA
             int NumberofSamples = Convert.ToInt32(textBox8.Text);
 
             // convert string array to int
-            string[] a = maskedTextBox3.Text.Split(',');
+            string[] a = textBox20.Text.Split(',', '.');
             int[] networkSize = new int[4];
             for (int i = 0; i < a.Length; i++)
             {
                 networkSize[i] = Convert.ToInt32(a[i]);
             }
 
-            string[] b = maskedTextBox4.Text.Split(',');
-            int[] inputsPerSample = new int[4];
-            for (int i = 0; i < b.Length; i++)
-            {
-                inputsPerSample[i] = Convert.ToInt32(b[i]);
-            }
+            // determine number of samples
+            int[] inputsPerSample = new int[a.Length];
+            inputsPerSample[0] = networkSize[a.Length - 1] + 1;
+            for (int i = 1; i < a.Length; i++)
+                inputsPerSample[i] = networkSize[0] + 1;
+            // end for
+
             int NumberofSectors = Convert.ToInt32(textBox7.Text);
-            
-            //this.button7.Enabled = false;
+
             this.button12.Enabled = false;
             this.timer16.Enabled = true;
 
-            //int[] networkSizez = new int[4] { 511, 511, 511, 169 };
-            //int[] inputsPerSamplez = new int[4] { 170, 512, 512, 512 };
+            int[,] output = await Task.Run(() => mlmvn.TEST(Samples, NumberofSamples, Weights, 4, networkSize, inputsPerSample, NumberofSectors));
 
-            //int[,] output = mlmvn.MLMVN_TEST("Lena_Y_gauss_0.1.tif_Kernel_13_LearnSet_Patch(corrected).txt", 200, "Lena_Y_gauss_0.1_rmse_3.0_session_1.wgt", 4, networkSizez, inputsPerSamplez, 384);
-
-            int[,] output = await Task.Run(() =>  mlmvn.TEST(Samples, NumberofSamples, Weights, 4, networkSize, inputsPerSample, NumberofSectors));
-
-            //this.button7.Enabled = true;
             this.button12.Enabled = true;
         }
 
@@ -1713,13 +1868,13 @@ namespace Project_LENA
             if (this.checkBox2.Checked == true)
             {
                 this.Text = Title + " (Paused)";
-                SetText1("Process is paused." + Environment.NewLine);
+                SetText1("\r\nProcess is paused." + Environment.NewLine);
                 this.checkBox2.Text = "Resume";
                 NativeMethods.SetState(progressBar1, 3);
                 TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error); // Fix to Windows 7 Progressbar bug
                 TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Paused);
                 button11.Enabled = false;
-                pTokenSource1.IsPaused = !pTokenSource1.IsPaused;              
+                pTokenSource1.IsPaused = !pTokenSource1.IsPaused;
             }
             if (this.checkBox2.Checked == false)
             {
@@ -1740,14 +1895,18 @@ namespace Project_LENA
                 textBox18.Size = new Size(365, 20);
                 textBox18.Location = new Point(88, 26);
                 label29.Text = "Color Image:";
+                toolTip1.SetToolTip(label29, "The color RGB Tiff image to be corrupted by Gaussian noise.\r\nDrag and drop function is supported.");
                 checkBox3.Text = "Add Gaussian noise to color image";
+                toolTip1.SetToolTip(button18, "Load the color image.");
             }
             if (this.checkBox4.Checked == false)
             {
                 textBox18.Size = new Size(342, 20);
                 textBox18.Location = new Point(111, 26);
                 label29.Text = "Grayscale Image:";
-                checkBox3.Text = "Add Gaussian noise to grayscale image";                         
+                toolTip1.SetToolTip(label29, "The grayscale Y Tiff image to be corrupted by Gaussian noise.\r\nDrag and drop function is supported.");
+                checkBox3.Text = "Add Gaussian noise to grayscale image";
+                toolTip1.SetToolTip(button18, "Load the grayscale image.");
             }
         }
 
@@ -1779,6 +1938,180 @@ namespace Project_LENA
                 textBox18.Text = openFileDialog1.FileName;
         }
 
+        private void checkBox6_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBox6.Checked == true)
+            {
+                this.Text = Title + " (Paused)";
+                SetText2("\r\nProcess is paused." + Environment.NewLine);
+                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+                this.checkBox6.Text = "Resume";
+                button15.Enabled = false;
+                pTokenSource2.IsPaused = !pTokenSource2.IsPaused;
+            }
+            if (this.checkBox6.Checked == false)
+            {
+                this.Text = Title + " (Working)";
+                SetText2("Process is resumed." + Environment.NewLine);
+                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate);
+                this.checkBox6.Text = "Pause";
+                button15.Enabled = true;
+                pTokenSource2.IsPaused = !pTokenSource2.IsPaused;
+            }
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            if (cTokenSource2 != null)
+            {
+                cTokenSource2.Cancel();
+            }
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog5.ShowDialog() == DialogResult.OK) // Load image parameters
+            {
+                xmlWeightParams(openFileDialog5.FileName);
+            }
+        }
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+            saveFileDialog3.FileName = "Weight_Parameters.xml";
+
+            if (saveFileDialog3.ShowDialog() == DialogResult.OK)
+            {
+                // defines the xml settings for the file
+                XmlWriterSettings settings = new XmlWriterSettings();
+                settings.Indent = true; // allows indentation
+
+                // xml name based on file dialogbox name
+                XmlWriter parameters = XmlWriter.Create(saveFileDialog3.FileName, settings);
+
+                // start the generation of the xml parameters
+                parameters.WriteStartDocument();
+
+                // xml parameters
+                parameters.WriteStartElement("Method");
+                parameters.WriteAttributeString("type", "Weight_Parameters");
+                parameters.WriteStartElement("Parameters");
+                parameters.WriteElementString("Sample_Directory", textBox2.Text);
+                parameters.WriteElementString("Initial_Weights", Convert.ToString(comboBox1.SelectedIndex));
+                parameters.WriteElementString("Weight_Directory", textBox6.Text);
+                parameters.WriteElementString("Size_Of_Network", textBox20.Text);
+                parameters.WriteElementString("Output", Convert.ToString(comboBox2.SelectedIndex));
+                parameters.WriteElementString("Samples_in_Learning", textBox8.Text);
+                parameters.WriteElementString("Number_Of_Sectors", textBox7.Text);
+                parameters.WriteElementString("Stopping_Criteria", Convert.ToString(comboBox3.SelectedIndex));
+                parameters.WriteElementString("Angular_RMSE", Convert.ToString(checkBox1.Checked));
+                parameters.WriteElementString("Local_Threshold", textBox5.Text);
+                parameters.WriteElementString("Global_Threshold", textBox4.Text);
+
+                // proper closure and disposing of the file and memory
+                parameters.Flush();
+                parameters.Close();
+                parameters.Dispose();
+            }
+        }
+
+        private void button22_Click(object sender, EventArgs e)
+        {
+            if (radioButton3.Checked) // Save pixel parameters
+            {
+                saveFileDialog3.FileName = "Pixel_Parameters.xml";
+
+                if (saveFileDialog3.ShowDialog() == DialogResult.OK)
+                {
+                    // defines the xml settings for the file
+                    XmlWriterSettings settings = new XmlWriterSettings();
+                    settings.Indent = true; // allows indentation
+
+                    // xml name based on file dialogbox name
+                    XmlWriter parameters = XmlWriter.Create(saveFileDialog3.FileName, settings);
+
+                    // start the generation of the xml parameters
+                    parameters.WriteStartDocument();
+
+                    // xml parameters
+                    parameters.WriteStartElement("Method");
+                    parameters.WriteAttributeString("type", "Pixel_Parameters");
+                    parameters.WriteStartElement("Parameters");
+                    parameters.WriteElementString("Number_of_Sectors", textBox13.Text);
+                    parameters.WriteElementString("Input_Layer_Size", textBox16.Text);
+                    parameters.WriteElementString("Hidden_Layer_Size", textBox17.Text);
+                    parameters.WriteElementString("Kernel", Convert.ToString(comboBox4.SelectedIndex));
+
+                    // proper closure and disposing of the file and memory
+                    parameters.Flush();
+                    parameters.Close();
+                    parameters.Dispose();
+                }
+            }
+            else if (radioButton4.Checked) // Save patch parameters
+            {
+                saveFileDialog3.FileName = "Patch_Parameters.xml";
+
+                if (saveFileDialog3.ShowDialog() == DialogResult.OK)
+                {
+                    // defines the xml settings for the file
+                    XmlWriterSettings settings = new XmlWriterSettings();
+                    settings.Indent = true; // allows indentation
+
+                    // xml name based on file dialogbox name
+                    XmlWriter parameters = XmlWriter.Create(saveFileDialog3.FileName, settings);
+
+                    // start the generation of the xml parameters
+                    parameters.WriteStartDocument();
+
+                    // xml parameters
+                    parameters.WriteStartElement("Method");
+                    parameters.WriteAttributeString("type", "Patch_Parameters");
+                    parameters.WriteStartElement("Parameters");
+                    parameters.WriteElementString("Number_of_Sectors", textBox13.Text);
+                    parameters.WriteElementString("Step", textBox16.Text);
+                    parameters.WriteElementString("Network_Size", textBox17.Text);
+                    parameters.WriteElementString("Patch_Method", Convert.ToString(comboBox4.SelectedIndex));
+
+                    // proper closure and disposing of the file and memory
+                    parameters.Flush();
+                    parameters.Close();
+                    parameters.Dispose();
+                }
+            }
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            string[] a = textBox20.Text.Split(',');
+            saveFileDialog3.FileName = "Patch_Parameters.xml";
+
+            if (saveFileDialog3.ShowDialog() == DialogResult.OK)
+            {
+                // defines the xml settings for the file
+                XmlWriterSettings settings = new XmlWriterSettings();
+                settings.Indent = true; // allows indentation
+
+                // xml name based on file dialogbox name
+                XmlWriter parameters = XmlWriter.Create(saveFileDialog3.FileName, settings);
+
+                // start the generation of the xml parameters
+                parameters.WriteStartDocument();
+
+                // xml parameters
+                parameters.WriteStartElement("Method");
+                parameters.WriteAttributeString("type", "Patch_Parameters");
+                parameters.WriteStartElement("Parameters");
+                parameters.WriteElementString("Number_of_Sectors", textBox7.Text);
+                parameters.WriteElementString("Step", "3");
+                parameters.WriteElementString("Network_Size", textBox20.Text);
+
+                // proper closure and disposing of the file and memory
+                parameters.Flush();
+                parameters.Close();
+                parameters.Dispose();
+            }
+        }
         #endregion
 
         #region drag and drop
@@ -1893,7 +2226,7 @@ namespace Project_LENA
             {
                 textBox18.Text = fileName;
             }
-        }       
+        }
 
         private void groupBox4_DragEnter(object sender, DragEventArgs e)
         {
@@ -1966,36 +2299,6 @@ namespace Project_LENA
                 xmlWeightParams(fileName);
             }
         }
-
-        private void checkBox6_CheckedChanged(object sender, EventArgs e)
-        {
-            if (this.checkBox6.Checked == true)
-            {
-                this.Text = Title + " (Paused)";
-                SetText2("Process is paused." + Environment.NewLine);
-                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
-                this.checkBox6.Text = "Resume";
-                button15.Enabled = false;
-                pTokenSource2.IsPaused = !pTokenSource2.IsPaused;
-            }
-            if (this.checkBox6.Checked == false)
-            {
-                this.Text = Title + " (Working)";
-                SetText2("Process is resumed." + Environment.NewLine);
-                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate);
-                this.checkBox6.Text = "Pause";
-                button15.Enabled = true;
-                pTokenSource2.IsPaused = !pTokenSource2.IsPaused;
-            }
-        }
-
-        private void button15_Click(object sender, EventArgs e)
-        {
-            if (cTokenSource2 != null)
-            {
-                cTokenSource2.Cancel();
-            }
-        }
         #endregion
 
         #region Form Functions
@@ -2066,7 +2369,7 @@ namespace Project_LENA
             {
                 if (Xml.NodeType == XmlNodeType.Element && Xml.Name == "Method")
                 {
-                    if (Xml.GetAttribute(0) == "Kernel")
+                    if (Xml.GetAttribute(0) == "Pixel_Parameters")
                     {
                         while (Xml.NodeType != XmlNodeType.EndElement)
                         {
@@ -2076,7 +2379,7 @@ namespace Project_LENA
                                 while (Xml.NodeType != XmlNodeType.EndElement)
                                 {
                                     Xml.Read();
-                                    if (Xml.Name == "numberofsectors")
+                                    if (Xml.Name == "Number_of_Sectors")
                                     {
                                         while (Xml.NodeType != XmlNodeType.EndElement)
                                         {
@@ -2088,7 +2391,7 @@ namespace Project_LENA
                                         }
                                         Xml.Read();
                                     }
-                                    if (Xml.Name == "inLayerSize")
+                                    if (Xml.Name == "Input_Layer_Size")
                                     {
                                         while (Xml.NodeType != XmlNodeType.EndElement)
                                         {
@@ -2100,7 +2403,7 @@ namespace Project_LENA
                                         }
                                         Xml.Read();
                                     }
-                                    if (Xml.Name == "hidLayerSize")
+                                    if (Xml.Name == "Hidden_Layer_Size")
                                     {
                                         while (Xml.NodeType != XmlNodeType.EndElement)
                                         {
@@ -2112,14 +2415,14 @@ namespace Project_LENA
                                         }
                                         Xml.Read();
                                     }
-                                    if (Xml.Name == "kernel")
+                                    if (Xml.Name == "Kernel")
                                     {
                                         while (Xml.NodeType != XmlNodeType.EndElement)
                                         {
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                comboBox4.SelectedIndex = Convert.ToInt32(Xml.Value); // Number of sectors
+                                                comboBox4.SelectedIndex = Convert.ToInt32(Xml.Value); // Kernel
                                             }
                                         }
                                         Xml.Read();
@@ -2128,7 +2431,7 @@ namespace Project_LENA
                             }
                         }
                     }
-                    else if (Xml.GetAttribute(0) == "Patch")
+                    else if (Xml.GetAttribute(0) == "Patch_Parameters")
                     {
                         while (Xml.NodeType != XmlNodeType.EndElement)
                         {
@@ -2138,7 +2441,7 @@ namespace Project_LENA
                                 while (Xml.NodeType != XmlNodeType.EndElement)
                                 {
                                     Xml.Read();
-                                    if (Xml.Name == "numberofsectors")
+                                    if (Xml.Name == "Number_of_Sectors")
                                     {
                                         while (Xml.NodeType != XmlNodeType.EndElement)
                                         {
@@ -2150,50 +2453,38 @@ namespace Project_LENA
                                         }
                                         Xml.Read();
                                     }
-                                    if (Xml.Name == "step")
+                                    if (Xml.Name == "Step")
                                     {
                                         while (Xml.NodeType != XmlNodeType.EndElement)
                                         {
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                textBox16.Text = Xml.Value; // Input layer size
+                                                textBox16.Text = Xml.Value; // Step
                                             }
                                         }
                                         Xml.Read();
                                     }
-                                    if (Xml.Name == "layer")
+                                    if (Xml.Name == "Network_Size")
                                     {
                                         while (Xml.NodeType != XmlNodeType.EndElement)
                                         {
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                textBox17.Text = Xml.Value; // Hidden layer size
+                                                textBox17.Text = Xml.Value; // Network size
                                             }
                                         }
                                         Xml.Read();
                                     }
-                                    if (Xml.Name == "networkSize")
+                                    if (Xml.Name == "Patch_Method")
                                     {
                                         while (Xml.NodeType != XmlNodeType.EndElement)
                                         {
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                maskedTextBox1.Text = Xml.Value; // Network size
-                                            }
-                                        }
-                                        Xml.Read();
-                                    }
-                                    if (Xml.Name == "inputsPerSample")
-                                    {
-                                        while (Xml.NodeType != XmlNodeType.EndElement)
-                                        {
-                                            Xml.Read();
-                                            if (Xml.NodeType == XmlNodeType.Text)
-                                            {
-                                                maskedTextBox2.Text = Xml.Value; // Inputs per sample
+                                                comboBox4.SelectedIndex = Convert.ToInt32(Xml.Value); // Patch method
                                             }
                                         }
                                         Xml.Read();
@@ -2204,6 +2495,9 @@ namespace Project_LENA
                     }
                 }
             }
+            // proper closure and disposing of the file and memory
+            Xml.Close();
+            Xml.Dispose();
         }
 
         public void xmlWeightParams(string FileName)
@@ -2232,7 +2526,7 @@ namespace Project_LENA
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                textBox2.Text = Xml.Value; // Number of sectors
+                                                textBox2.Text = Xml.Value; // Samples Directory
                                             }
                                         }
                                         Xml.Read();
@@ -2244,7 +2538,7 @@ namespace Project_LENA
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                comboBox1.SelectedIndex = Convert.ToInt32(Xml.Value); // Input layer size
+                                                comboBox1.SelectedIndex = Convert.ToInt32(Xml.Value); // Initial Weights
                                             }
                                         }
                                         Xml.Read();
@@ -2256,19 +2550,7 @@ namespace Project_LENA
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                textBox6.Text = Xml.Value; // Hidden layer size
-                                            }
-                                        }
-                                        Xml.Read();
-                                    }
-                                    if (Xml.Name == "Inputs_Per_Sample")
-                                    {
-                                        while (Xml.NodeType != XmlNodeType.EndElement)
-                                        {
-                                            Xml.Read();
-                                            if (Xml.NodeType == XmlNodeType.Text)
-                                            {
-                                                maskedTextBox4.Text = Xml.Value;
+                                                textBox6.Text = Xml.Value; // Weight Directory
                                             }
                                         }
                                         Xml.Read();
@@ -2280,7 +2562,7 @@ namespace Project_LENA
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                maskedTextBox3.Text = Xml.Value;
+                                                textBox20.Text = Xml.Value; // Size of Network
                                             }
                                         }
                                         Xml.Read();
@@ -2292,19 +2574,19 @@ namespace Project_LENA
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                comboBox2.SelectedIndex = Convert.ToInt32(Xml.Value); // Input layer size
+                                                comboBox2.SelectedIndex = Convert.ToInt32(Xml.Value); // Output
                                             }
                                         }
                                         Xml.Read();
                                     }
-                                    if (Xml.Name == "Samples_In_Learning")
+                                    if (Xml.Name == "Samples_in_Learning")
                                     {
                                         while (Xml.NodeType != XmlNodeType.EndElement)
                                         {
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                textBox8.Text = Xml.Value; // Hidden layer size
+                                                textBox8.Text = Xml.Value; // Samples in Learning
                                             }
                                         }
                                         Xml.Read();
@@ -2316,7 +2598,7 @@ namespace Project_LENA
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                textBox7.Text = Xml.Value; // Hidden layer size
+                                                textBox7.Text = Xml.Value; // Number of Sectors
                                             }
                                         }
                                         Xml.Read();
@@ -2328,7 +2610,19 @@ namespace Project_LENA
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                comboBox3.SelectedIndex = Convert.ToInt32(Xml.Value); // Input layer size
+                                                comboBox3.SelectedIndex = Convert.ToInt32(Xml.Value); // Stopping Criteria
+                                            }
+                                        }
+                                        Xml.Read();
+                                    }
+                                    if (Xml.Name == "Angular_RMSE")
+                                    {
+                                        while (Xml.NodeType != XmlNodeType.EndElement)
+                                        {
+                                            Xml.Read();
+                                            if (Xml.NodeType == XmlNodeType.Text)
+                                            {
+                                                checkBox1.Checked = Convert.ToBoolean(Xml.Value); // Angular RMSE
                                             }
                                         }
                                         Xml.Read();
@@ -2340,7 +2634,7 @@ namespace Project_LENA
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                textBox5.Text = Xml.Value; // Hidden layer size
+                                                textBox5.Text = Xml.Value; // Local Threshold
                                             }
                                         }
                                         Xml.Read();
@@ -2352,7 +2646,7 @@ namespace Project_LENA
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                textBox4.Text = Xml.Value; // Hidden layer size
+                                                textBox4.Text = Xml.Value; // Global Threshold
                                             }
                                         }
                                         Xml.Read();
@@ -2363,151 +2657,12 @@ namespace Project_LENA
                     }
                 }
             }
+            // proper closure and disposing of the file and memory
+            Xml.Close();
+            Xml.Dispose();
         }
-        #endregion                                                          
-
-        private void checkBox7_CheckedChanged(object sender, EventArgs e)
-        {
-            if (this.checkBox7.Checked == true)
-            {
-                label27.Visible = false;
-                maskedTextBox2.Visible = false;
-            }
-            if (this.checkBox7.Checked == false)
-            {
-                label27.Visible = true;
-                maskedTextBox2.Visible = true;
-            }
-        }
-
-        private void button20_Click(object sender, EventArgs e)
-        {          
-            saveFileDialog3.FileName = "Weight_Parameters.xml";
-
-            if (saveFileDialog3.ShowDialog() == DialogResult.OK)
-            {
-                // defines the xml settings for the file
-                XmlWriterSettings settings = new XmlWriterSettings();
-                settings.Indent = true; // allows indentation
-
-                // xml name based on file dialogbox name
-                XmlWriter parameters = XmlWriter.Create(saveFileDialog3.FileName, settings);
-
-                // start the generation of the xml parameters
-                parameters.WriteStartDocument();
-
-                // xml parameters
-                parameters.WriteStartElement("Method");
-                parameters.WriteAttributeString("type", "Weight_Parameters");
-                parameters.WriteStartElement("Parameters");
-                parameters.WriteElementString("Sample_Directory", textBox2.Text);
-                parameters.WriteElementString("Initial_Weights", Convert.ToString(comboBox1.SelectedIndex));
-                parameters.WriteElementString("Weight_Directory", textBox6.Text);
-                parameters.WriteElementString("Inputs_Per_Sample", maskedTextBox4.Text);
-                parameters.WriteElementString("Size_Of_Network", maskedTextBox3.Text);
-                parameters.WriteElementString("Output", Convert.ToString(comboBox2.SelectedIndex));
-                parameters.WriteElementString("Samples_In_Learning", textBox8.Text);
-                parameters.WriteElementString("Number_Of_Sectors", textBox7.Text);
-                parameters.WriteElementString("Stopping_Criteria", Convert.ToString(comboBox3.SelectedIndex));
-                parameters.WriteElementString("Angular_RMSE", "");
-                parameters.WriteElementString("Local_Threshold", textBox5.Text);
-                parameters.WriteElementString("Global_Threshold", textBox4.Text);
-
-                // proper closure and disposing of the file and memory
-                parameters.Flush();
-                parameters.Close();
-            }
-        }
-
-        private void button16_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog5.ShowDialog() == DialogResult.OK) // Load image parameters
-            {
-                xmlWeightParams(openFileDialog5.FileName);
-            }
-        }
-
-        private void button22_Click(object sender, EventArgs e)
-        {
-            // Open the TIFF image
-            using (Tiff image = Tiff.Open(textBox18.Text, "r"))
-            {
-                if (image == null)
-                {
-                    System.Console.Error.WriteLine("Could not open incoming image");
-                    return;
-                }
-
-                // Find the width and height of the image
-                FieldValue[] value = image.GetField(TiffTag.IMAGEWIDTH);
-                int width = value[0].ToInt();
-
-                value = image.GetField(TiffTag.IMAGELENGTH);
-                int height = value[0].ToInt();
-
-                int imageSize = height * width;
-                int[] raster = new int[imageSize];
-
-                // Read the image into the memory buffer
-                if (!image.ReadRGBAImage(width, height, raster))
-                {
-                    System.Console.Error.WriteLine("Could not read image");
-                    return;
-                }
-
-                // Here I fix the reversal of the image (vertically) and show you
-                // how to get the color values from each pixel
-                for (int w = height - 1; w != -1; w--)
-                {
-                    for (int c = 0; c < width; c++)
-                    {
-                        int red = Tiff.GetR(raster[w * width + c]);
-                        int green = Tiff.GetG(raster[w * width + c]);
-                        int blue = Tiff.GetB(raster[w * width + c]);
-                    }
-                }
-
-                if (saveFileDialog2.ShowDialog() == DialogResult.OK) // Test result.
-                {
-                    // Open the output image
-                    using (Tiff output = Tiff.Open(saveFileDialog2.FileName, "w"))
-                    {
-                        if (output == null)
-                        {
-                            System.Console.Error.WriteLine("Could not open outgoing image");
-                            return;
-                        }
-
-                        // We need to know the width and the height before we can malloc
-                        //int width = 42;
-                        //int height = 42;
-                        byte[] raster1 = new byte[width * height * 3];
-
-                        // Magical stuff for creating the image
-                        // ...
-
-                        // Write the tiff tags to the file
-                        output.SetField(TiffTag.IMAGEWIDTH, width);
-                        output.SetField(TiffTag.IMAGELENGTH, height);
-                        output.SetField(TiffTag.COMPRESSION, Compression.DEFLATE);
-                        output.SetField(TiffTag.PLANARCONFIG, PlanarConfig.CONTIG);
-                        output.SetField(TiffTag.PHOTOMETRIC, Photometric.RGB);
-                        output.SetField(TiffTag.BITSPERSAMPLE, 8);
-                        output.SetField(TiffTag.SAMPLESPERPIXEL, 3);
-
-                        // Actually write the image
-                        if (output.WriteEncodedStrip(0, raster1, width * height * 3) == 0)
-                        {
-                            System.Console.Error.WriteLine("Could not write image");
-                            return;
-                        }
-
-                        output.Close();
-                    }
-                }
-                image.Close();
-            }
-        }
+        #endregion
+                                                                 
     }
 
     public static class NativeMethods
@@ -2518,5 +2673,6 @@ namespace Project_LENA
         {
             SendMessage(pBar.Handle, 1040, (IntPtr)state, IntPtr.Zero);
         }
-    }
+    }   
 }
+

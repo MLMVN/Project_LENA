@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-/*---------------------- Added Libraries ----------------------*/
+/* ---------------------- Added Libraries ---------------------- */
 using BitMiracle.LibTiff.Classic; // Use Tiff images
 using System.Threading; // PauseToken
 
@@ -81,6 +81,7 @@ namespace Project_LENA
                 }
                 // write to file
                 output.WriteDirectory();
+                output.Dispose();
                 //System.Diagnostics.Process.Start(saveFileDialog2.FileName); // displays the result
             }// end inner using
         }
@@ -156,6 +157,7 @@ namespace Project_LENA
             return image;
         }
 
+        // create kernel window using patches as an array
         public static byte[] CreatePatchAsArray(byte[,] im, int row, int col, int kernel)
         {
             byte[] array = new byte[kernel * kernel];
@@ -211,6 +213,7 @@ namespace Project_LENA
                     file.Write(pixel);
                     file.WriteLine();
                 } // end for loop
+                file.Dispose();
             } // end using scope
 
         }
@@ -245,15 +248,15 @@ namespace Project_LENA
                     for (int col = 0; col < sSizeCol; col++)
                     {
                         //create patch from noisy image
-                        noisyVector = CreatePatchAsArray(noised, row*kernel, col*kernel, kernel);
-                        cleanVector = CreatePatchAsArray(clean, row*kernel, col*kernel, kernel);
+                        noisyVector = CreatePatchAsArray(noised, row * kernel, col * kernel, kernel);
+                        cleanVector = CreatePatchAsArray(clean, row * kernel, col * kernel, kernel);
                         // store in vectorMap
                         // noisy first
                         for (int v = 0; v < patchLength; v++)
                             vectorMAP[row * sSizeRow + col, v] = noisyVector[v];
                         // then clean
                         for (int v = patchLength; v < twoPatchLength; v++)
-                            vectorMAP[row * sSizeRow + col, v] = cleanVector[v-patchLength];
+                            vectorMAP[row * sSizeRow + col, v] = cleanVector[v - patchLength];
                     }
                 }
                 byte[] S = new byte[twoPatchLength];
@@ -274,6 +277,7 @@ namespace Project_LENA
                     }
                     file.WriteLine();
                 } // end for loop
+                file.Dispose();
             } // end using scope
         }
 
@@ -378,7 +382,7 @@ namespace Project_LENA
             //    output.WriteScanline(buf, i);
             //}
             #endregion
-        }
+        }      
     }
 
     #region PauseToken

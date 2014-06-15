@@ -1,31 +1,3 @@
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\bin\Release\Project LENA.exe.config
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\obj\Release\Project LENA.exe
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\obj\Release\Project LENA.pdb
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\bin\Release\Project LENA.exe
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\bin\Release\Project LENA.pdb
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\bin\Release\BitMiracle.LibTiff.NET.dll
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\bin\Release\Microsoft.WindowsAPICodePack.Shell.dll
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\bin\Release\Microsoft.WindowsAPICodePack.dll
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\bin\Release\BitMiracle.LibTiff.NET.xml
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\bin\Release\Microsoft.WindowsAPICodePack.Shell.pdb
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\bin\Release\Microsoft.WindowsAPICodePack.pdb
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\obj\Release\Project LENA.csprojResolveAssemblyReference.cache
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\obj\Release\Project_LENA.Form1.resources
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\obj\Release\Project_LENA.Properties.Resources.resources
-C:\Users\Gabriel\Desktop\Project LENA\Project LENA\obj\Release\Project LENA.csproj.GenerateResource.Cache
-C:\DropboxPortableAHK\Dropbox\Colaboration\Project LENA\Project LENA\bin\Release\Project LENA.exe.config
-C:\DropboxPortableAHK\Dropbox\Colaboration\Project LENA\Project LENA\obj\Release\Project LENA.exe
-C:\DropboxPortableAHK\Dropbox\Colaboration\Project LENA\Project LENA\obj\Release\Project LENA.pdb
-C:\DropboxPortableAHK\Dropbox\Colaboration\Project LENA\Project LENA\bin\Release\Project LENA.exe
-C:\DropboxPortableAHK\Dropbox\Colaboration\Project LENA\Project LENA\bin\Release\Project LENA.pdb
-C:\DropboxPortableAHK\Dropbox\Colaboration\Project LENA\Project LENA\bin\Release\Microsoft.WindowsAPICodePack.dll
-C:\DropboxPortableAHK\Dropbox\Colaboration\Project LENA\Project LENA\bin\Release\BitMiracle.LibTiff.NET.xml
-C:\DropboxPortableAHK\Dropbox\Colaboration\Project LENA\Project LENA\bin\Release\Microsoft.WindowsAPICodePack.Shell.pdb
-C:\DropboxPortableAHK\Dropbox\Colaboration\Project LENA\Project LENA\bin\Release\Microsoft.WindowsAPICodePack.pdb
-C:\DropboxPortableAHK\Dropbox\Colaboration\Project LENA\Project LENA\obj\Release\Project LENA.csprojResolveAssemblyReference.cache
-C:\DropboxPortableAHK\Dropbox\Colaboration\Project LENA\Project LENA\obj\Release\Project_LENA.Form1.resources
-C:\DropboxPortableAHK\Dropbox\Colaboration\Project LENA\Project LENA\obj\Release\Project_LENA.Properties.Resources.resources
-C:\DropboxPortableAHK\Dropbox\Colaboration\Project LENA\Project LENA\obj\Release\Project LENA.csproj.GenerateResource.Cache
 C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Release\Project LENA.exe.config
 C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Release\Project LENA.exe
 C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Release\Project LENA.pdb

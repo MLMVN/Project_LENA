@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-/*---------------------- Added Libraries ----------------------*/
+/* ---------------------- Added Libraries ---------------------- */
 using System.Numerics; // Complex numbers
 using System.Threading; // CancellationToken
 using System.IO; // BinaryReader, open and save files
@@ -22,7 +22,8 @@ namespace Project_LENA
             functions = new Functions(function);
         }
 
-        // -------------------------- Denoise by Pixels -----------------------------------------------------------------
+        /* -------------------------- Denoise by Pixels ----------------------------------------------------------------- */
+
         public async Task<byte[,]> Activation(byte[,] noisyImage, int kernel, string weights, int numberofsectors, int inLayerSize, int hidLayerSize, CancellationToken cancelToken, PauseToken pauseToken, int progressBar1, int progressBar1Max)
         {
             // get height and width
@@ -255,10 +256,11 @@ namespace Project_LENA
             // close file stream
             b.Close();
             return result;
-        }       
+        }
 
-        // -------------------------- Denoise by Patch -----------------------------------------------------------------
-        public async Task<byte[,]> fdenoiseNeural(byte[,] noisyIm, int step, string fileName, int layer, int[] networkSize, int[] inputsPerSample, int numberofsectors, CancellationToken cancelToken, PauseToken pauseToken, int progressBar1, int progressBar1Max)
+        /* -------------------------- Denoise by Patch ----------------------------------------------------------------- */
+
+        public async Task<byte[,]> fdenoiseNeural(byte[,] noisyIm, int step, string fileName, int layer, int[] networkSize, int numberofsectors, CancellationToken cancelToken, PauseToken pauseToken, int progressBar1, int progressBar1Max)
         {
             /*
                 noisyIm: an image corrupted by AWG noise
@@ -267,22 +269,32 @@ namespace Project_LENA
                 The pixels of the clean image are assumed to be approximately in 
                 the range 0..255.
             */
-            int testval = 0;
+
             #region Initialization
-            form1.SetText1("Initializing Components...\r\n" + Environment.NewLine);
+            // determine number of samples
+            int[] inputsPerSample = new int[layer];
+            inputsPerSample[0] = networkSize[layer - 1] + 1;
+            for (int i = 1; i < layer; i++)
+                inputsPerSample[i] = networkSize[0] + 1;
+            // end for
+
+            form1.SetText1("Initializing components...\r\n" + Environment.NewLine);
+            int testval = 0;
+            form1.SetProgress1(2);
+
             form1.SetText1("Loading weights... ");
             // load the weights
             Complex[][,] weights = loadMlmvnWeights(fileName, layer, networkSize, inputsPerSample);
             form1.SetText1("Done." + Environment.NewLine);
 
-            form1.SetText1("Configuring Patch Size... ");
+            form1.SetText1("Configuring patch size... ");
 
             // size of input / output patch
             int patchSz = (int)Math.Sqrt(weights[0].GetLength(1) - 1); // <-- Implement outside of function to determine type of weights
             int patchSzOut = (int)Math.Sqrt(weights[layer - 1].GetLength(0));
             // Size of each sector on unit circle
             form1.SetText1("Done.\r\n" + Environment.NewLine);
-            
+
             form1.SetText1("Input patch size is: " + patchSz + Environment.NewLine);
             form1.SetText1("Output patch size is: " + patchSzOut + Environment.NewLine);
 
@@ -366,9 +378,8 @@ namespace Project_LENA
             double bb = (2 * Math.PI) / numberofsectors;
 
             form1.SetText1("Done.\r\n" + Environment.NewLine);
-            form1.SetText1("Beginning Processing... \r\n" + Environment.NewLine);
+            form1.SetText1("Beginning the processing... \r\n" + Environment.NewLine);
             #endregion
-            form1.SetProgress1(2);
 
             //int increment = 0;
             //double test2 = range_x.GetLength(0)/2;
@@ -504,13 +515,6 @@ namespace Project_LENA
                     #endregion
                 }//); // end col for loop
 
-                
-
-                //if (test2 != test3)
-                //{
-                //    testval = form1.SetProgress1(range_x.GetLength(0)  increment);
-                //}
-
                 // Action when cancel button is clicked
                 if (cancelToken.IsCancellationRequested)
                     cancelToken.ThrowIfCancellationRequested();
@@ -521,6 +525,7 @@ namespace Project_LENA
                 // Increasing Progress bar values
                 TaskbarManager.Instance.SetProgressValue(testval, progressBar1Max);
                 form1.SetText1("Patches in row " + (row + 1) + " of " + range_y.Length + " done." + Environment.NewLine);
+
             }//); // end row for loop
             #region Average
             // Average
@@ -658,7 +663,7 @@ namespace Project_LENA
                 The pixels of the clean image are assumed to be approximately in 
                 the range 0..255.
             */
-            int testval = 0;
+
             #region Initialization
             // determine number of samples
             int[] inputsPerSample = new int[layer];
@@ -670,6 +675,9 @@ namespace Project_LENA
             form1.SetText1("Using the new patch method.\r\n" + Environment.NewLine);
 
             form1.SetText1("Initializing Components...\r\n" + Environment.NewLine);
+            int testval = 0;
+            form1.SetProgress1(2);
+
             form1.SetText1("Loading weights... ");
             // load the weights
             Complex[][,] weights = loadMlmvnWeights(fileName, layer, networkSize, inputsPerSample);
@@ -779,7 +787,6 @@ namespace Project_LENA
             form1.SetText1("Done.\r\n" + Environment.NewLine);
             form1.SetText1("Beginning Processing... \r\n" + Environment.NewLine);
             #endregion
-            form1.SetProgress1(2);
 
             // --------------- Processing Begins ------------------------------
             // process each samples
@@ -960,15 +967,15 @@ namespace Project_LENA
                 // Increasing Progress bar values
                 TaskbarManager.Instance.SetProgressValue(testval, progressBar1Max);
 
-                form1.SetText1("Patch " + (row + 1) + " of " + range_y.Length + " done." + Environment.NewLine);
+                form1.SetText1("Patches in row " + (row + 1) + " of " + range_y.Length + " done." + Environment.NewLine);
             } // end row for loop
 
             return cleanIm;
         } // end method
 
-        // -------------------------- Useful Functions ------------------------------------------------------------------
-        // exponential of complex numbers
+        /* -------------------------- Useful Functions ------------------------------------------------------------------ */
 
+        // exponential of complex numbers
         public static Complex Exp(Complex Exponent)
         {
             Complex X, P, Frac, L;
@@ -1000,7 +1007,7 @@ namespace Project_LENA
 
             // create jagged array to store weights
             Complex[][,] network = new Complex[layer][,];
-            for (int i=0;i<layer;i++)
+            for (int i = 0; i < layer; i++)
                 network[i] = new Complex[networkSize[i], inputsPerSample[i]];
             // end if
             // initialize the network to zeros
@@ -1009,7 +1016,7 @@ namespace Project_LENA
                 for (int i = 0; i < network[ii].GetLength(0); i++)
                 {
                     for (int j = 0; j < network[ii].GetLength(1); j++)
-                        network[ii][i,j] = new Complex(0,0);
+                        network[ii][i, j] = new Complex(0, 0);
                 } // end for
             } // end for
 
@@ -1026,7 +1033,7 @@ namespace Project_LENA
                     if (ii == 0)
                         nw = (inputsPerSample[ii]) * 2;
                     else
-                        nw = (networkSize[ii-1]+1) * 2;
+                        nw = (networkSize[ii - 1] + 1) * 2;
                     // end if
                     double[] aa = new double[nw];
                     if (b.BaseStream.Position != b.BaseStream.Length)
@@ -1055,6 +1062,40 @@ namespace Project_LENA
             b.Dispose();
             return network;
         } // end method
+
+        public static void saveMlmvnWeights(string fileName, Complex[][,] network, int[] networkSize)
+        {
+            int layer = network.Length;
+
+            int[] inputsPerSample = new int[layer];
+            inputsPerSample[0] = networkSize[layer - 1] + 1;
+            for (int i = 1; i < layer; i++)
+                inputsPerSample[i] = networkSize[0] + 1;
+            // end for
+
+            // create BinaryWriter object to write weights to file
+            using (BinaryWriter b = new BinaryWriter(File.OpenWrite(fileName)))
+            {
+                // write file.
+                // ii - layer
+                // jj - neuron
+                // kk - each element of the neuron
+                for (int ii = 0; ii < layer; ii++)
+                {
+                    for (int jj = 0; jj < networkSize[ii]; jj++)
+                    {
+                        for (int kk = 0; kk < inputsPerSample[ii]; kk++)
+                        {
+                            b.Write((double)network[ii][jj, kk].Real);
+                            b.Write((double)network[ii][jj, kk].Imaginary);
+                        }
+                    }
+                }
+                Console.WriteLine("Saved Successfully!");
+                // dispose binary writer
+                b.Dispose();
+            }
+        }
 
         public static Complex Neuron(Complex[] input, double[] weights)
         {
@@ -1090,17 +1131,17 @@ namespace Project_LENA
 
         public int[,] TEST(string fileNameSamples, int numberOfInputSamples, string fileNameWeights, int layer, int[] networkSize, int[] inputsPerSample, int numberofsectors)
         {
-            #region Initialization          
+            #region Initialization
             int twoInputsPerSample = networkSize[layer - 1] * 2;
-            form1.SetText2("Initializing Components... ");
+            //form1.SetText2("\r\nInitializing components... ");
             // load the samples
             byte[,] samples = loadLearningSamples(fileNameSamples, numberOfInputSamples, twoInputsPerSample);
-            form1.SetText2("Done." + Environment.NewLine);
-            form1.SetText2("Loading weights... ");
+            form1.SetText2("\r\nInitializing components... Done." + Environment.NewLine);
+            //form1.SetText2("Loading weights... ");
             // load the weights
             Complex[][,] weights = loadMlmvnWeights(fileNameWeights, layer, networkSize, inputsPerSample);
-            form1.SetText2("Done." + Environment.NewLine);
-            form1.SetText2("Loading Leraning Samples... ");
+            form1.SetText2("Loading weights... Done." + Environment.NewLine);
+            //form1.SetText2("Loading learning samples... ");
 
             double twoPi = Math.PI * 2;
             double sectorSize = twoPi / numberofsectors;
@@ -1144,8 +1185,9 @@ namespace Project_LENA
                     Cinputs[i, j] = Exp(complex1 * 2 * Math.PI * inputs[i, j] / numberofsectors);
             // end nested for loop
 
-            form1.SetText2("Done." + Environment.NewLine + "Beginning Processing... ");
+            form1.SetText2("Done." + Environment.NewLine + "Beginning the processing... ");
             #endregion
+
             // --------------- BEGIN OUTPUT CALCULATION ------------------------------
             // process each samples
             for (int aa = 0; aa < numberOfInputSamples; aa++) // for each row
@@ -1223,7 +1265,7 @@ namespace Project_LENA
                 } // end for
                 #endregion second to last layer
             } // end row for loop
-            form1.SetText2("Done." + Environment.NewLine + "Calculating Errors... " + Environment.NewLine);
+            form1.SetText2("Done." + Environment.NewLine + "Calculating errors... " + Environment.NewLine);
             // -------------- END OUTPUT CALCULATION -----------------------------
             double mse = 0;
             double rmse = 0;
@@ -1242,7 +1284,7 @@ namespace Project_LENA
             mse /= numberOfInputSamples;
             // calculate rmse
             rmse = Math.Sqrt(mse);
-            form1.SetText2("RMSE: " + rmse);
+            form1.SetText2("RMSE: " + rmse + Environment.NewLine + Environment.NewLine);
 
             return networkOutputs;
         }
@@ -1251,9 +1293,9 @@ namespace Project_LENA
         {
             #region Initialization
             int twoInputsPerSample = networkSize[layer - 1] * 2;
-            form1.SetText2("Initializing Components.." + Environment.NewLine);
+            form1.SetText2("Initializing components..." + Environment.NewLine);
             // load the samples
-            form1.SetText2("Loading Learning Samples... ");
+            form1.SetText2("Loading learning samples... ");
             byte[,] samples = loadLearningSamples(fileNameSamples, numberOfInputSamples, twoInputsPerSample);
             form1.SetText2("Done." + Environment.NewLine);
             // Initial Weights Initialization
@@ -1262,7 +1304,7 @@ namespace Project_LENA
             double real;
             double imag;
             Complex[][,] weights = new Complex[layer][,];
-            if (!randomWeights)
+            if (randomWeights)
             {
                 // generate random weights
                 // initialize weights matrix       
@@ -1360,7 +1402,7 @@ namespace Project_LENA
             Complex[,] e1;
             Complex[,] f1;
 
-            form1.SetText2("Beginning Processing..."+ Environment.NewLine);
+            form1.SetText2("Beginning the learning of the weights...\r\n" + Environment.NewLine);
             #endregion
 
             #region RMSE ALGORITHM
@@ -1469,7 +1511,7 @@ namespace Project_LENA
                 mse /= numberOfInputSamples;
                 // calculate rmse
                 rmse = Math.Sqrt(mse);
-                form1.SetText2("Iteration = " + iteration + "     RMSE = " + rmse + Environment.NewLine);
+                form1.SetText2("Iteration " + iteration + " done.          RMSE: " + rmse + Environment.NewLine);
                 // Check if learning has converged
                 TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate);
                 // Action when cancel button is clicked
@@ -1482,7 +1524,7 @@ namespace Project_LENA
                 if (rmse <= globalThreasholdValue)
                 {
                     finishedLearning = true;
-                    form1.SetText2("Learning Converged!!!");
+                    form1.SetText2("\r\nLearning Converged!!!" + Environment.NewLine);
                 }
                 // end if
                 #endregion
@@ -1811,6 +1853,7 @@ namespace Project_LENA
                 #endregion
             }// end ~finishedLearning while loop
             #endregion
+
             return weights;
         }
 

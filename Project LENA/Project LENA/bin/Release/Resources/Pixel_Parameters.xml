@@ -1,10 +1,9 @@
-<?xml version="1.0"?>
-<Method type="Kernel">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Method type="Pixel_Parameters">
   <Parameters>
-    <numberofsectors>384</numberofsectors>
-    <inLayerSize>3</inLayerSize>
-    <hidLayerSize>54</hidLayerSize>
-    <kernel>0</kernel>
+    <Number_of_Sectors>384</Number_of_Sectors>
+    <Input_Layer_Size>3</Input_Layer_Size>
+    <Hidden_Layer_Size>54</Hidden_Layer_Size>
+    <Kernel>0</Kernel>
   </Parameters>
 </Method>
-

@@ -38,7 +38,6 @@
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
-            this.button14 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
@@ -51,13 +50,9 @@
             this.label13 = new System.Windows.Forms.Label();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.maskedTextBox2 = new System.Windows.Forms.MaskedTextBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.textBox13 = new System.Windows.Forms.TextBox();
-            this.label27 = new System.Windows.Forms.Label();
             this.textBox16 = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
@@ -126,19 +121,17 @@
             this.label7 = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.textBox20 = new System.Windows.Forms.TextBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
-            this.maskedTextBox4 = new System.Windows.Forms.MaskedTextBox();
-            this.maskedTextBox3 = new System.Windows.Forms.MaskedTextBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
+            this.button22 = new System.Windows.Forms.Button();
             this.button17 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
             this.textBox12 = new System.Windows.Forms.TextBox();
@@ -163,6 +156,7 @@
             this.timer15 = new System.Windows.Forms.Timer(this.components);
             this.timer16 = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog3 = new System.Windows.Forms.SaveFileDialog();
+            this.saveFileDialog4 = new System.Windows.Forms.SaveFileDialog();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox7.SuspendLayout();
@@ -277,16 +271,6 @@
             this.button11.UseVisualStyleBackColor = true;
             this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
-            // button14
-            // 
-            this.button14.Enabled = false;
-            this.button14.Location = new System.Drawing.Point(15, 541);
-            this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(108, 22);
-            this.button14.TabIndex = 67;
-            this.button14.Text = "Save Weights, , ,";
-            this.button14.UseVisualStyleBackColor = true;
-            // 
             // button15
             // 
             this.button15.Enabled = false;
@@ -295,6 +279,7 @@
             this.button15.Size = new System.Drawing.Size(100, 22);
             this.button15.TabIndex = 69;
             this.button15.Text = "Cancel";
+            this.toolTip1.SetToolTip(this.button15, "Abort the learning of weights.");
             this.button15.UseVisualStyleBackColor = true;
             this.button15.Click += new System.EventHandler(this.button15_Click);
             // 
@@ -313,14 +298,9 @@
             // 
             // comboBox4
             // 
-            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox4.Items.AddRange(new object[] {
-            "3 x 3",
-            "5 x 5",
-            "7 x 7"});
-            this.comboBox4.Location = new System.Drawing.Point(87, 56);
+            this.comboBox4.Location = new System.Drawing.Point(82, 57);
             this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(129, 21);
+            this.comboBox4.Size = new System.Drawing.Size(121, 21);
             this.comboBox4.TabIndex = 62;
             this.toolTip1.SetToolTip(this.comboBox4, "Size of the kernel surrounding the pixel being processed.");
             this.comboBox4.Visible = false;
@@ -335,7 +315,7 @@
             "7 x 7"});
             this.comboBox6.Location = new System.Drawing.Point(15, 29);
             this.comboBox6.Name = "comboBox6";
-            this.comboBox6.Size = new System.Drawing.Size(129, 21);
+            this.comboBox6.Size = new System.Drawing.Size(112, 21);
             this.comboBox6.TabIndex = 29;
             this.toolTip1.SetToolTip(this.comboBox6, "Size of the kernel surrounding the pixel being sampled.");
             // 
@@ -343,28 +323,26 @@
             // 
             this.comboBox7.Enabled = false;
             this.comboBox7.Items.AddRange(new object[] {
-            "9 x 9",
             "11 x 11",
             "13 x 13",
-            "15 x 15",
-            "17 x 17"});
+            "15 x 15"});
             this.comboBox7.Location = new System.Drawing.Point(15, 59);
             this.comboBox7.Name = "comboBox7";
-            this.comboBox7.Size = new System.Drawing.Size(129, 21);
+            this.comboBox7.Size = new System.Drawing.Size(112, 21);
             this.comboBox7.TabIndex = 30;
             this.toolTip1.SetToolTip(this.comboBox7, "Size of the patch to be sampled.");
             // 
             // comboBox8
             // 
             this.comboBox8.Items.AddRange(new object[] {
-            "100",
             "200",
-            "300"});
-            this.comboBox8.Location = new System.Drawing.Point(137, 26);
+            "300",
+            "400"});
+            this.comboBox8.Location = new System.Drawing.Point(147, 26);
             this.comboBox8.Name = "comboBox8";
-            this.comboBox8.Size = new System.Drawing.Size(113, 21);
+            this.comboBox8.Size = new System.Drawing.Size(112, 21);
             this.comboBox8.TabIndex = 32;
-            this.toolTip1.SetToolTip(this.comboBox8, "The number of pixels or patches to be gathered.");
+            this.toolTip1.SetToolTip(this.comboBox8, "The number of pixels or patches to be sampled.");
             // 
             // groupBox1
             // 
@@ -376,7 +354,7 @@
             this.groupBox1.Controls.Add(this.textBox9);
             this.groupBox1.Location = new System.Drawing.Point(15, 40);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(586, 98);
+            this.groupBox1.Size = new System.Drawing.Size(586, 100);
             this.groupBox1.TabIndex = 48;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Open Files";
@@ -430,74 +408,39 @@
             // groupBox4
             // 
             this.groupBox4.AllowDrop = true;
-            this.groupBox4.Controls.Add(this.maskedTextBox2);
-            this.groupBox4.Controls.Add(this.label28);
-            this.groupBox4.Controls.Add(this.maskedTextBox1);
             this.groupBox4.Controls.Add(this.comboBox4);
             this.groupBox4.Controls.Add(this.label23);
             this.groupBox4.Controls.Add(this.label24);
             this.groupBox4.Controls.Add(this.textBox13);
-            this.groupBox4.Controls.Add(this.label27);
             this.groupBox4.Controls.Add(this.textBox16);
             this.groupBox4.Controls.Add(this.label25);
             this.groupBox4.Controls.Add(this.label26);
             this.groupBox4.Controls.Add(this.textBox17);
             this.groupBox4.Location = new System.Drawing.Point(15, 175);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(586, 98);
+            this.groupBox4.Size = new System.Drawing.Size(586, 100);
             this.groupBox4.TabIndex = 64;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Parameters";
             this.groupBox4.DragDrop += new System.Windows.Forms.DragEventHandler(this.groupBox4_DragDrop);
             this.groupBox4.DragEnter += new System.Windows.Forms.DragEventHandler(this.groupBox4_DragEnter);
             // 
-            // maskedTextBox2
-            // 
-            this.maskedTextBox2.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.IncludePromptAndLiterals;
-            this.maskedTextBox2.Location = new System.Drawing.Point(330, 56);
-            this.maskedTextBox2.Mask = "000, 000, 000, 000";
-            this.maskedTextBox2.Name = "maskedTextBox2";
-            this.maskedTextBox2.Size = new System.Drawing.Size(106, 20);
-            this.maskedTextBox2.SkipLiterals = false;
-            this.maskedTextBox2.TabIndex = 71;
-            this.toolTip1.SetToolTip(this.maskedTextBox2, "Inputs for each sample as array values.");
-            this.maskedTextBox2.Visible = false;
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(16, 72);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(0, 13);
-            this.label28.TabIndex = 60;
-            this.toolTip1.SetToolTip(this.label28, "The grayscale image with noise. \nDrag and drop function is supported.");
-            this.label28.Visible = false;
-            // 
-            // maskedTextBox1
-            // 
-            this.maskedTextBox1.Location = new System.Drawing.Point(95, 56);
-            this.maskedTextBox1.Mask = "000, 000, 000, 000";
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(104, 20);
-            this.maskedTextBox1.TabIndex = 70;
-            this.toolTip1.SetToolTip(this.maskedTextBox1, "The array values for the network size.");
-            this.maskedTextBox1.Visible = false;
-            // 
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(16, 30);
+            this.label23.Location = new System.Drawing.Point(15, 30);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(96, 13);
             this.label23.TabIndex = 50;
             this.label23.Text = "Number of sectors:";
-            this.toolTip1.SetToolTip(this.label23, "The sectors to be processed.");
+            this.toolTip1.SetToolTip(this.label23, "The number of sectors to be processed from the unit circle.\r\nUsed for classificat" +
+        "ion in the learning algorithm.");
             this.label23.Visible = false;
             // 
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(224, 30);
+            this.label24.Location = new System.Drawing.Point(210, 30);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(80, 13);
             this.label24.TabIndex = 51;
@@ -507,38 +450,26 @@
             // 
             // textBox13
             // 
-            this.textBox13.Location = new System.Drawing.Point(125, 26);
+            this.textBox13.Location = new System.Drawing.Point(117, 26);
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(58, 20);
             this.textBox13.TabIndex = 52;
             this.textBox13.Tag = "";
-            this.toolTip1.SetToolTip(this.textBox13, "Enter integer value here.");
             this.textBox13.Visible = false;
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(224, 59);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(93, 13);
-            this.label27.TabIndex = 58;
-            this.label27.Text = "Inputs per sample:";
-            this.label27.Visible = false;
             // 
             // textBox16
             // 
-            this.textBox16.Location = new System.Drawing.Point(316, 26);
+            this.textBox16.Location = new System.Drawing.Point(296, 26);
             this.textBox16.Name = "textBox16";
             this.textBox16.Size = new System.Drawing.Size(58, 20);
             this.textBox16.TabIndex = 53;
             this.textBox16.Tag = "";
-            this.toolTip1.SetToolTip(this.textBox16, "Enter integer value.");
             this.textBox16.Visible = false;
             // 
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(410, 30);
+            this.label25.Location = new System.Drawing.Point(390, 30);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(90, 13);
             this.label25.TabIndex = 54;
@@ -549,22 +480,24 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(16, 59);
+            this.label26.Location = new System.Drawing.Point(15, 60);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(71, 13);
+            this.label26.Size = new System.Drawing.Size(61, 13);
             this.label26.TabIndex = 56;
-            this.label26.Text = "Network size:";
+            this.label26.Text = "Kernel size:";
             this.label26.Visible = false;
             // 
             // textBox17
             // 
-            this.textBox17.Location = new System.Drawing.Point(513, 26);
+            this.textBox17.Location = new System.Drawing.Point(486, 26);
+            this.textBox17.MaximumSize = new System.Drawing.Size(154, 20);
+            this.textBox17.MinimumSize = new System.Drawing.Size(106, 20);
             this.textBox17.Name = "textBox17";
-            this.textBox17.Size = new System.Drawing.Size(58, 20);
+            this.textBox17.Size = new System.Drawing.Size(106, 20);
             this.textBox17.TabIndex = 55;
             this.textBox17.Tag = "";
-            this.toolTip1.SetToolTip(this.textBox17, "Integer value goes here.");
             this.textBox17.Visible = false;
+            this.textBox17.TextChanged += new System.EventHandler(this.textBox17_TextChanged);
             // 
             // radioButton3
             // 
@@ -636,7 +569,7 @@
             this.groupBox8.Controls.Add(this.comboBox7);
             this.groupBox8.Location = new System.Drawing.Point(15, 150);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(310, 100);
+            this.groupBox8.Size = new System.Drawing.Size(286, 100);
             this.groupBox8.TabIndex = 19;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Kernel Size";
@@ -644,7 +577,7 @@
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(156, 60);
+            this.radioButton2.Location = new System.Drawing.Point(142, 59);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(132, 17);
             this.radioButton2.TabIndex = 28;
@@ -657,7 +590,7 @@
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(156, 30);
+            this.radioButton1.Location = new System.Drawing.Point(142, 29);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(120, 17);
             this.radioButton1.TabIndex = 27;
@@ -731,9 +664,9 @@
             // 
             this.groupBox10.Controls.Add(this.comboBox8);
             this.groupBox10.Controls.Add(this.label21);
-            this.groupBox10.Location = new System.Drawing.Point(336, 150);
+            this.groupBox10.Location = new System.Drawing.Point(314, 150);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(265, 65);
+            this.groupBox10.Size = new System.Drawing.Size(287, 65);
             this.groupBox10.TabIndex = 20;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Samples";
@@ -741,12 +674,12 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(15, 30);
+            this.label21.Location = new System.Drawing.Point(25, 30);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(100, 13);
             this.label21.TabIndex = 31;
             this.label21.Text = "Number of samples:";
-            this.toolTip1.SetToolTip(this.label21, "The number of pixels or patches to be gathered.");
+            this.toolTip1.SetToolTip(this.label21, "The number of pixels or patches to be sampled.");
             // 
             // label3
             // 
@@ -874,6 +807,7 @@
             this.checkBox5.Size = new System.Drawing.Size(136, 17);
             this.checkBox5.TabIndex = 11;
             this.checkBox5.Text = "Create grayscale image";
+            this.toolTip1.SetToolTip(this.checkBox5, "Convert a color image to a grayscale version of the image.");
             this.checkBox5.UseVisualStyleBackColor = true;
             this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
             // 
@@ -913,6 +847,8 @@
             this.checkBox4.Size = new System.Drawing.Size(121, 17);
             this.checkBox4.TabIndex = 9;
             this.checkBox4.Text = "Process color image";
+            this.toolTip1.SetToolTip(this.checkBox4, "Check to use a color image and add color Gaussian noise.\r\nUncheck to use a graysc" +
+        "ale image and Gaussian noise.");
             this.checkBox4.UseVisualStyleBackColor = true;
             this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
@@ -926,6 +862,8 @@
             this.checkBox3.Size = new System.Drawing.Size(189, 17);
             this.checkBox3.TabIndex = 10;
             this.checkBox3.Text = "Add Gaussian noise to color image";
+            this.toolTip1.SetToolTip(this.checkBox3, "Check to add the Gaussian noise to the image.\r\nUncheck to just generate the Gauss" +
+        "ian noise.");
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
             // button18
@@ -936,7 +874,7 @@
             this.button18.TabIndex = 6;
             this.button18.Tag = "";
             this.button18.Text = "Load Image, , ,";
-            this.toolTip1.SetToolTip(this.button18, "Load a color TIFF image to be processed to a grayscale image.");
+            this.toolTip1.SetToolTip(this.button18, "Load the grayscale image.");
             this.button18.UseVisualStyleBackColor = true;
             this.button18.Click += new System.EventHandler(this.button18_Click);
             // 
@@ -948,8 +886,8 @@
             this.label29.Size = new System.Drawing.Size(89, 13);
             this.label29.TabIndex = 4;
             this.label29.Text = "Grayscale Image:";
-            this.toolTip1.SetToolTip(this.label29, "The color RGB Tiff image to be reduced to grayscale.\r\nDrag and drop function is s" +
-        "upported.");
+            this.toolTip1.SetToolTip(this.label29, "The grayscale Y Tiff image to be corrupted by Gaussian noise.\r\nDrag and drop func" +
+        "tion is supported.");
             // 
             // textBox18
             // 
@@ -959,8 +897,8 @@
             this.textBox18.Size = new System.Drawing.Size(342, 20);
             this.textBox18.TabIndex = 5;
             this.textBox18.Tag = "";
-            this.toolTip1.SetToolTip(this.textBox18, "The file directory for color TIFF image to be processed to a grayscale image.\nDra" +
-        "g and drop function supported.");
+            this.toolTip1.SetToolTip(this.textBox18, "The file directory for color TIFF image to be corrupted by Gaussian noise.\nDrag a" +
+        "nd drop function supported.");
             this.textBox18.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox18_DragDrop);
             this.textBox18.DragEnter += new System.Windows.Forms.DragEventHandler(this.textBox18_DragEnter);
             // 
@@ -971,7 +909,7 @@
             this.textBox1.Size = new System.Drawing.Size(50, 20);
             this.textBox1.TabIndex = 8;
             this.textBox1.Tag = "";
-            this.toolTip1.SetToolTip(this.textBox1, "The width in pixels of the noise to be generated.");
+            this.toolTip1.SetToolTip(this.textBox1, "The percentage of Gaussian noise to be applied to the image.");
             // 
             // label1
             // 
@@ -1013,7 +951,6 @@
             this.tabPage3.Controls.Add(this.groupBox6);
             this.tabPage3.Controls.Add(this.textBox3);
             this.tabPage3.Controls.Add(this.button15);
-            this.tabPage3.Controls.Add(this.button14);
             this.tabPage3.Controls.Add(this.label20);
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
@@ -1026,12 +963,14 @@
             // button21
             // 
             this.button21.Enabled = false;
-            this.button21.Location = new System.Drawing.Point(129, 541);
+            this.button21.Location = new System.Drawing.Point(15, 541);
             this.button21.Name = "button21";
             this.button21.Size = new System.Drawing.Size(169, 22);
             this.button21.TabIndex = 73;
             this.button21.Text = "Generate Image Parameters, , ,";
+            this.toolTip1.SetToolTip(this.button21, "Create the parameters to be used for the processing of image.");
             this.button21.UseVisualStyleBackColor = true;
+            this.button21.Click += new System.EventHandler(this.button21_Click);
             // 
             // button16
             // 
@@ -1041,7 +980,7 @@
             this.button16.TabIndex = 72;
             this.button16.Tag = "";
             this.button16.Text = "Load parameters, , ,";
-            this.toolTip1.SetToolTip(this.button16, "Start the processing of the image.");
+            this.toolTip1.SetToolTip(this.button16, "Load existing parameter onto the program.");
             this.button16.UseVisualStyleBackColor = true;
             this.button16.Click += new System.EventHandler(this.button16_Click);
             // 
@@ -1054,7 +993,7 @@
             this.checkBox6.TabIndex = 71;
             this.checkBox6.Text = "Pause";
             this.checkBox6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip1.SetToolTip(this.checkBox6, "Pause the current opperation.");
+            this.toolTip1.SetToolTip(this.checkBox6, "Pause the learning of weights.");
             this.checkBox6.UseVisualStyleBackColor = true;
             this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
             // 
@@ -1065,6 +1004,7 @@
             this.button20.Size = new System.Drawing.Size(148, 22);
             this.button20.TabIndex = 70;
             this.button20.Text = "Save Parameters, , ,";
+            this.toolTip1.SetToolTip(this.button20, "Save the parameters as a file.");
             this.button20.UseVisualStyleBackColor = true;
             this.button20.Click += new System.EventHandler(this.button20_Click);
             // 
@@ -1092,6 +1032,7 @@
             this.button19.Size = new System.Drawing.Size(103, 22);
             this.button19.TabIndex = 45;
             this.button19.Text = "Load Weights, , ,";
+            this.toolTip1.SetToolTip(this.button19, "Load existing weights .");
             this.button19.UseVisualStyleBackColor = true;
             this.button19.Click += new System.EventHandler(this.button19_Click);
             // 
@@ -1117,7 +1058,8 @@
             this.label2.Size = new System.Drawing.Size(50, 13);
             this.label2.TabIndex = 39;
             this.label2.Text = "Samples:";
-            this.toolTip1.SetToolTip(this.label2, "The grayscale image with noise. \nDrag and drop function is supported.");
+            this.toolTip1.SetToolTip(this.label2, "The samples generated to be used to create weights. \nDrag and drop function is su" +
+        "pported.");
             // 
             // textBox2
             // 
@@ -1127,8 +1069,8 @@
             this.textBox2.Size = new System.Drawing.Size(382, 20);
             this.textBox2.TabIndex = 40;
             this.textBox2.Tag = "";
-            this.toolTip1.SetToolTip(this.textBox2, "The file directory for the noisy image to be processed. \nDrag and drop function i" +
-        "s supported.");
+            this.toolTip1.SetToolTip(this.textBox2, "The file directory for the samples to be processed. \nDrag and drop function is su" +
+        "pported.");
             this.textBox2.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox2_DragDrop);
             this.textBox2.DragEnter += new System.Windows.Forms.DragEventHandler(this.textBox2_DragEnter);
             // 
@@ -1139,6 +1081,7 @@
             this.button13.Size = new System.Drawing.Size(103, 22);
             this.button13.TabIndex = 41;
             this.button13.Text = "Load Samples, , ,";
+            this.toolTip1.SetToolTip(this.button13, "Load the samples to be used.");
             this.button13.UseVisualStyleBackColor = true;
             this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
@@ -1153,6 +1096,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(89, 21);
             this.comboBox1.TabIndex = 43;
+            this.toolTip1.SetToolTip(this.comboBox1, "Use weights that have already been created, or generate random weights.");
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label17
@@ -1163,6 +1107,8 @@
             this.label17.Size = new System.Drawing.Size(76, 13);
             this.label17.TabIndex = 42;
             this.label17.Text = "Initial Weights:";
+            this.toolTip1.SetToolTip(this.label17, "Use weights that have already been created, or generate random weights. \nDrag and" +
+        " drop function is supported if using existing weights.");
             // 
             // groupBox3
             // 
@@ -1183,7 +1129,6 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(54, 20);
             this.textBox5.TabIndex = 60;
-            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // textBox4
             // 
@@ -1191,7 +1136,6 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(54, 20);
             this.textBox4.TabIndex = 62;
-            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label9
             // 
@@ -1201,6 +1145,8 @@
             this.label9.Size = new System.Drawing.Size(90, 13);
             this.label9.TabIndex = 61;
             this.label9.Text = "Global Threshold:";
+            this.toolTip1.SetToolTip(this.label9, "The threshold value to be used to calculate the stopping point\r\n to a given crite" +
+        "ria througout the entire algorithm.");
             // 
             // label8
             // 
@@ -1210,6 +1156,8 @@
             this.label8.Size = new System.Drawing.Size(86, 13);
             this.label8.TabIndex = 59;
             this.label8.Text = "Local Threshold:";
+            this.toolTip1.SetToolTip(this.label8, "The threshold value to be used to calculate the stopping point\r\n to a given crite" +
+        "ria in a local scope.");
             // 
             // button12
             // 
@@ -1218,6 +1166,7 @@
             this.button12.Size = new System.Drawing.Size(99, 22);
             this.button12.TabIndex = 64;
             this.button12.Text = "Test";
+            this.toolTip1.SetToolTip(this.button12, "Test existing weights by checking their RMSE.");
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
@@ -1229,7 +1178,7 @@
             this.button7.TabIndex = 63;
             this.button7.Tag = "";
             this.button7.Text = "Learn";
-            this.toolTip1.SetToolTip(this.button7, "Begin the Learning of samples.");
+            this.toolTip1.SetToolTip(this.button7, "Begin the learning of weights.");
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
@@ -1278,18 +1227,17 @@
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(113, 21);
             this.comboBox3.TabIndex = 57;
+            this.toolTip1.SetToolTip(this.comboBox3, "The method to be used to reach a final result.");
             this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             // 
             // groupBox6
             // 
             this.groupBox6.AllowDrop = true;
+            this.groupBox6.Controls.Add(this.textBox20);
             this.groupBox6.Controls.Add(this.textBox8);
             this.groupBox6.Controls.Add(this.label30);
-            this.groupBox6.Controls.Add(this.maskedTextBox4);
-            this.groupBox6.Controls.Add(this.maskedTextBox3);
             this.groupBox6.Controls.Add(this.textBox7);
             this.groupBox6.Controls.Add(this.label15);
-            this.groupBox6.Controls.Add(this.label5);
             this.groupBox6.Controls.Add(this.label18);
             this.groupBox6.Controls.Add(this.comboBox2);
             this.groupBox6.Controls.Add(this.label16);
@@ -1302,75 +1250,61 @@
             this.groupBox6.DragDrop += new System.Windows.Forms.DragEventHandler(this.groupBox6_DragDrop);
             this.groupBox6.DragEnter += new System.Windows.Forms.DragEventHandler(this.groupBox6_DragEnter);
             // 
+            // textBox20
+            // 
+            this.textBox20.Location = new System.Drawing.Point(92, 26);
+            this.textBox20.MaximumSize = new System.Drawing.Size(265, 20);
+            this.textBox20.MinimumSize = new System.Drawing.Size(100, 20);
+            this.textBox20.Name = "textBox20";
+            this.textBox20.Size = new System.Drawing.Size(100, 20);
+            this.textBox20.TabIndex = 50;
+            this.textBox20.TextChanged += new System.EventHandler(this.textBox20_TextChanged);
+            // 
             // textBox8
             // 
-            this.textBox8.Location = new System.Drawing.Point(187, 61);
+            this.textBox8.Location = new System.Drawing.Point(187, 57);
             this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(80, 20);
-            this.textBox8.TabIndex = 53;
-            this.textBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox8.Size = new System.Drawing.Size(58, 20);
+            this.textBox8.TabIndex = 54;
             // 
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(15, 64);
+            this.label30.Location = new System.Drawing.Point(15, 60);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(166, 13);
-            this.label30.TabIndex = 52;
+            this.label30.TabIndex = 53;
             this.label30.Text = "Samples Participating in Learning:";
-            // 
-            // maskedTextBox4
-            // 
-            this.maskedTextBox4.Location = new System.Drawing.Point(114, 27);
-            this.maskedTextBox4.Mask = "000, 000, 000, 000";
-            this.maskedTextBox4.Name = "maskedTextBox4";
-            this.maskedTextBox4.Size = new System.Drawing.Size(100, 20);
-            this.maskedTextBox4.TabIndex = 47;
-            this.toolTip1.SetToolTip(this.maskedTextBox4, "The array values for the network size.");
-            // 
-            // maskedTextBox3
-            // 
-            this.maskedTextBox3.Location = new System.Drawing.Point(311, 27);
-            this.maskedTextBox3.Mask = "000, 000, 000, 000";
-            this.maskedTextBox3.Name = "maskedTextBox3";
-            this.maskedTextBox3.Size = new System.Drawing.Size(100, 20);
-            this.maskedTextBox3.TabIndex = 49;
-            this.toolTip1.SetToolTip(this.maskedTextBox3, "The array values for the network size.");
+            this.toolTip1.SetToolTip(this.label30, "The number of samples to be used to generate the weights.\r\n User may input a lowe" +
+        "r number of samples than the number existing. ");
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(396, 61);
+            this.textBox7.Location = new System.Drawing.Point(396, 57);
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(80, 20);
-            this.textBox7.TabIndex = 55;
-            this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox7.Size = new System.Drawing.Size(58, 20);
+            this.textBox7.TabIndex = 56;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(222, 30);
+            this.label15.Location = new System.Drawing.Point(15, 30);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(83, 13);
-            this.label15.TabIndex = 48;
-            this.label15.Text = "Size of network:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(15, 30);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(93, 13);
-            this.label5.TabIndex = 46;
-            this.label5.Text = "Inputs per sample:";
+            this.label15.Size = new System.Drawing.Size(71, 13);
+            this.label15.TabIndex = 49;
+            this.label15.Text = "Network size:";
+            this.toolTip1.SetToolTip(this.label15, "The network array to be used to generate the weights.");
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(294, 64);
+            this.label18.Location = new System.Drawing.Point(294, 60);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(96, 13);
-            this.label18.TabIndex = 54;
+            this.label18.TabIndex = 55;
             this.label18.Text = "Number of sectors:";
+            this.toolTip1.SetToolTip(this.label18, "The number of sectors to be processed from the unit circle.\r\nUsed for classificat" +
+        "ion in the learning algorithm.");
             // 
             // comboBox2
             // 
@@ -1379,19 +1313,21 @@
             this.comboBox2.Items.AddRange(new object[] {
             "Discrete",
             "Continuous"});
-            this.comboBox2.Location = new System.Drawing.Point(467, 27);
+            this.comboBox2.Location = new System.Drawing.Point(298, 26);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(107, 21);
-            this.comboBox2.TabIndex = 51;
+            this.comboBox2.TabIndex = 52;
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(419, 30);
+            this.label16.Location = new System.Drawing.Point(250, 30);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(42, 13);
-            this.label16.TabIndex = 50;
+            this.label16.TabIndex = 51;
             this.label16.Text = "Output:";
+            this.toolTip1.SetToolTip(this.label16, "Used to determine wether the output will result in a discrete or continuous form." +
+        "");
             // 
             // textBox3
             // 
@@ -1406,7 +1342,7 @@
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.checkBox7);
+            this.tabPage4.Controls.Add(this.button22);
             this.tabPage4.Controls.Add(this.button17);
             this.tabPage4.Controls.Add(this.radioButton4);
             this.tabPage4.Controls.Add(this.radioButton3);
@@ -1426,17 +1362,16 @@
             this.tabPage4.Text = "Processing Image";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // checkBox7
+            // button22
             // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Location = new System.Drawing.Point(486, 154);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(116, 17);
-            this.checkBox7.TabIndex = 71;
-            this.checkBox7.Text = "New patch method";
-            this.checkBox7.UseVisualStyleBackColor = true;
-            this.checkBox7.Visible = false;
-            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged);
+            this.button22.Location = new System.Drawing.Point(149, 286);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(148, 22);
+            this.button22.TabIndex = 72;
+            this.button22.Text = "Save Parameters, , ,";
+            this.toolTip1.SetToolTip(this.button22, "Save the parameters as a file.");
+            this.button22.UseVisualStyleBackColor = true;
+            this.button22.Click += new System.EventHandler(this.button22_Click);
             // 
             // button17
             // 
@@ -1446,7 +1381,7 @@
             this.button17.TabIndex = 70;
             this.button17.Tag = "";
             this.button17.Text = "Load parameters, , ,";
-            this.toolTip1.SetToolTip(this.button17, "Start the processing of the image.");
+            this.toolTip1.SetToolTip(this.button17, "Load existing parameter onto the program.");
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
@@ -1575,6 +1510,10 @@
             this.saveFileDialog3.DefaultExt = "xml";
             this.saveFileDialog3.Filter = "XML Documents (*.xml)|*.xml|All files (*.*)|*.*";
             // 
+            // saveFileDialog4
+            // 
+            this.saveFileDialog4.Filter = "Weights (*.wgt)|*.wgt|All files (*.*)|*.*";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1629,59 +1568,117 @@
 
         #endregion
 
+        #region Windows Form Elements
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.Button button20;
+        private System.Windows.Forms.Button button21;
+        private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.CheckBox checkBox6;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.ComboBox comboBox4;
         private System.Windows.Forms.ComboBox comboBox6;
         private System.Windows.Forms.ComboBox comboBox7;
         private System.Windows.Forms.ComboBox comboBox8;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
         private System.Windows.Forms.OpenFileDialog openFileDialog3;
         private System.Windows.Forms.OpenFileDialog openFileDialog4;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog5;
+        private System.Windows.Forms.OpenFileDialog openFileDialog6;
+        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog2;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog3;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog4;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.TextBox textBox13;
         private System.Windows.Forms.TextBox textBox14;
         private System.Windows.Forms.TextBox textBox15;
+        private System.Windows.Forms.TextBox textBox16;
+        private System.Windows.Forms.TextBox textBox17;
+        private System.Windows.Forms.TextBox textBox18;
+        private System.Windows.Forms.TextBox textBox20;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Timer timer3;
@@ -1692,76 +1689,14 @@
         private System.Windows.Forms.Timer timer8;
         private System.Windows.Forms.Timer timer9;
         private System.Windows.Forms.Timer timer10;
-        private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.TextBox textBox17;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.TextBox textBox16;
-        private System.Windows.Forms.TextBox textBox13;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.OpenFileDialog openFileDialog5;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Timer timer11;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
-        private System.Windows.Forms.Button button17;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.Button button18;
-        private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.TextBox textBox18;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.Timer timer12;
         private System.Windows.Forms.Timer timer13;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.GroupBox groupBox11;
-        private System.Windows.Forms.Button button19;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button13;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox3;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.OpenFileDialog openFileDialog6;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox4;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.Timer timer14;
         private System.Windows.Forms.Timer timer15;
         private System.Windows.Forms.Timer timer16;
-        private System.Windows.Forms.Button button20;
-        private System.Windows.Forms.CheckBox checkBox6;
-        private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.Button button21;
-        private System.Windows.Forms.Button button16;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog3;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox2;
+        private System.Windows.Forms.ToolTip toolTip1;
+        #endregion
     }
 }
 

@@ -1,10 +1,9 @@
-<?xml version="1.0"?>
-<Method type="Patch">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Method type="Patch_Parameters">
   <Parameters>
-    <numberofsectors>384</numberofsectors>
-    <step>3</step>
-    <layer>4</layer>
-    <networkSize>511511511169</networkSize>
-    <inputsPerSample>170512512512</inputsPerSample>
+    <Number_of_Sectors>384</Number_of_Sectors>
+    <Step>3</Step>
+    <Network_Size>511, 511, 511, 169</Network_Size>
+    <Patch_Method>1</Patch_Method>
   </Parameters>
 </Method>

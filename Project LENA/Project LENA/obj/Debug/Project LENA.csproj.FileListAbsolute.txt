@@ -1,5 +1,5 @@
 C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Debug\Project LENA.exe.config
-C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\obj\Debug\Project LENA.csprojResolveAssemblyReference.cache
+C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\obj\Debug\Project_LENA.Form1.resources
 C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\obj\Debug\Project_LENA.Properties.Resources.resources
 C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\obj\Debug\Project LENA.csproj.GenerateResource.Cache
 C:\Users\Gabriel\Documents\Visual Studio 2012\Projects\Project LENA\Project LENA\bin\Debug\Project LENA.exe

@@ -304,6 +304,7 @@
             this.comboBox4.TabIndex = 62;
             this.toolTip1.SetToolTip(this.comboBox4, "Size of the kernel surrounding the pixel being processed.");
             this.comboBox4.Visible = false;
+            this.comboBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox4_KeyPress);
             // 
             // comboBox6
             // 
@@ -318,6 +319,7 @@
             this.comboBox6.Size = new System.Drawing.Size(112, 21);
             this.comboBox6.TabIndex = 29;
             this.toolTip1.SetToolTip(this.comboBox6, "Size of the kernel surrounding the pixel being sampled.");
+            this.comboBox6.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox6_KeyPress);
             // 
             // comboBox7
             // 
@@ -331,6 +333,7 @@
             this.comboBox7.Size = new System.Drawing.Size(112, 21);
             this.comboBox7.TabIndex = 30;
             this.toolTip1.SetToolTip(this.comboBox7, "Size of the patch to be sampled.");
+            this.comboBox7.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox7_KeyPress);
             // 
             // comboBox8
             // 
@@ -343,6 +346,7 @@
             this.comboBox8.Size = new System.Drawing.Size(112, 21);
             this.comboBox8.TabIndex = 32;
             this.toolTip1.SetToolTip(this.comboBox8, "The number of pixels or patches to be sampled.");
+            this.comboBox8.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox8_KeyPress);
             // 
             // groupBox1
             // 
@@ -456,6 +460,7 @@
             this.textBox13.TabIndex = 52;
             this.textBox13.Tag = "";
             this.textBox13.Visible = false;
+            this.textBox13.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox13_KeyPress);
             // 
             // textBox16
             // 
@@ -465,6 +470,7 @@
             this.textBox16.TabIndex = 53;
             this.textBox16.Tag = "";
             this.textBox16.Visible = false;
+            this.textBox16.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox16_KeyPress);
             // 
             // label25
             // 
@@ -498,6 +504,7 @@
             this.textBox17.Tag = "";
             this.textBox17.Visible = false;
             this.textBox17.TextChanged += new System.EventHandler(this.textBox17_TextChanged);
+            this.textBox17.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox17_KeyPress);
             // 
             // radioButton3
             // 
@@ -733,12 +740,12 @@
             // openFileDialog2
             // 
             this.openFileDialog2.FileName = "Lena_Y.tif";
-            this.openFileDialog2.Filter = "Clean TIFF image (*.tif;*.tiff)|*.tif;.tiff|All files (*.*)|*.*";
+            this.openFileDialog2.Filter = "Clean TIFF Image (*.tif;*.tiff)|*.tif;.tiff|All files (*.*)|*.*";
             // 
             // openFileDialog3
             // 
             this.openFileDialog3.FileName = "Lena_Y_gauss_0.1.tif";
-            this.openFileDialog3.Filter = "Noisy TIFF image (*.tif;*.tiff)|*.tif;.tiff|All files (*.*)|*.*";
+            this.openFileDialog3.Filter = "Noisy TIFF Image (*.tif;*.tiff)|*.tif;.tiff|All files (*.*)|*.*";
             // 
             // openFileDialog4
             // 
@@ -748,7 +755,7 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "Lena.tif";
-            this.openFileDialog1.Filter = "Color TIFF image (*.tif;*.tiff)|*.tif;.tiff|All files (*.*)|*.*";
+            this.openFileDialog1.Filter = "Color TIFF Image (*.tif;*.tiff)|*.tif;.tiff|All files (*.*)|*.*";
             // 
             // progressBar1
             // 
@@ -762,12 +769,12 @@
             // 
             this.saveFileDialog1.DefaultExt = "txt";
             this.saveFileDialog1.FileName = "Sample_1.txt";
-            this.saveFileDialog1.Filter = "Text Files (*.txt)|*.txt|All files (*.*)|*.*";
+            this.saveFileDialog1.Filter = "Text Documents (*.txt)|*.txt|All files (*.*)|*.*";
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
@@ -842,26 +849,25 @@
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(180, 58);
+            this.checkBox4.Location = new System.Drawing.Point(309, 61);
             this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(121, 17);
-            this.checkBox4.TabIndex = 9;
-            this.checkBox4.Text = "Process color image";
-            this.toolTip1.SetToolTip(this.checkBox4, "Check to use a color image and add color Gaussian noise.\r\nUncheck to use a graysc" +
-        "ale image and Gaussian noise.");
+            this.checkBox4.Size = new System.Drawing.Size(209, 17);
+            this.checkBox4.TabIndex = 11;
+            this.checkBox4.Text = "Generate grayscale noise (color image)";
+            this.toolTip1.SetToolTip(this.checkBox4, "Check to apply a grayscale only Gausian noise to a color image.\r\nUncheck to apply" +
+        " a color Gaussian noise to the color image.");
             this.checkBox4.UseVisualStyleBackColor = true;
-            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
             this.checkBox3.Checked = true;
             this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.Location = new System.Drawing.Point(311, 58);
+            this.checkBox3.Location = new System.Drawing.Point(120, 61);
             this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(189, 17);
+            this.checkBox3.Size = new System.Drawing.Size(163, 17);
             this.checkBox3.TabIndex = 10;
-            this.checkBox3.Text = "Add Gaussian noise to color image";
+            this.checkBox3.Text = "Add Gaussian noise to image";
             this.toolTip1.SetToolTip(this.checkBox3, "Check to add the Gaussian noise to the image.\r\nUncheck to just generate the Gauss" +
         "ian noise.");
             this.checkBox3.UseVisualStyleBackColor = true;
@@ -883,18 +889,18 @@
             this.label29.AutoSize = true;
             this.label29.Location = new System.Drawing.Point(15, 30);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(89, 13);
+            this.label29.Size = new System.Drawing.Size(39, 13);
             this.label29.TabIndex = 4;
-            this.label29.Text = "Grayscale Image:";
-            this.toolTip1.SetToolTip(this.label29, "The grayscale Y Tiff image to be corrupted by Gaussian noise.\r\nDrag and drop func" +
-        "tion is supported.");
+            this.label29.Text = "Image:";
+            this.toolTip1.SetToolTip(this.label29, "The color or grayscale Y Tiff image to be corrupted by Gaussian noise.\r\nDrag and " +
+        "drop function is supported.");
             // 
             // textBox18
             // 
             this.textBox18.AllowDrop = true;
-            this.textBox18.Location = new System.Drawing.Point(111, 26);
+            this.textBox18.Location = new System.Drawing.Point(60, 26);
             this.textBox18.Name = "textBox18";
-            this.textBox18.Size = new System.Drawing.Size(342, 20);
+            this.textBox18.Size = new System.Drawing.Size(393, 20);
             this.textBox18.TabIndex = 5;
             this.textBox18.Tag = "";
             this.toolTip1.SetToolTip(this.textBox18, "The file directory for color TIFF image to be corrupted by Gaussian noise.\nDrag a" +
@@ -904,22 +910,23 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(111, 57);
+            this.textBox1.Location = new System.Drawing.Point(58, 58);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(50, 20);
             this.textBox1.TabIndex = 8;
             this.textBox1.Tag = "";
             this.toolTip1.SetToolTip(this.textBox1, "The percentage of Gaussian noise to be applied to the image.");
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(15, 60);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 13);
+            this.label1.Size = new System.Drawing.Size(37, 13);
             this.label1.TabIndex = 7;
             this.label1.Tag = "";
-            this.label1.Text = "Noise (In decimal):";
+            this.label1.Text = "Noise:";
             this.toolTip1.SetToolTip(this.label1, "The percentage of Gaussian noise to be applied to the image in decimal.");
             // 
             // tabPage2
@@ -1129,6 +1136,7 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(54, 20);
             this.textBox5.TabIndex = 60;
+            this.textBox5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox5_KeyPress);
             // 
             // textBox4
             // 
@@ -1136,6 +1144,7 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(54, 20);
             this.textBox4.TabIndex = 62;
+            this.textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox4_KeyPress);
             // 
             // label9
             // 
@@ -1259,6 +1268,7 @@
             this.textBox20.Size = new System.Drawing.Size(100, 20);
             this.textBox20.TabIndex = 50;
             this.textBox20.TextChanged += new System.EventHandler(this.textBox20_TextChanged);
+            this.textBox20.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox20_KeyPress);
             // 
             // textBox8
             // 
@@ -1266,6 +1276,7 @@
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(58, 20);
             this.textBox8.TabIndex = 54;
+            this.textBox8.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox8_KeyPress);
             // 
             // label30
             // 
@@ -1284,6 +1295,7 @@
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(58, 20);
             this.textBox7.TabIndex = 56;
+            this.textBox7.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label15
             // 
@@ -1472,7 +1484,7 @@
             // 
             this.saveFileDialog2.DefaultExt = "tif";
             this.saveFileDialog2.FileName = "processed.tif";
-            this.saveFileDialog2.Filter = "TIFF image (*.tif;*.tiff)|*.tif;.tiff|All files (*.*)|*.*";
+            this.saveFileDialog2.Filter = "TIFF Image (*.tif;*.tiff)|*.tif;.tiff|All files (*.*)|*.*";
             // 
             // timer12
             // 
@@ -1488,7 +1500,7 @@
             // 
             this.openFileDialog6.DefaultExt = "txt";
             this.openFileDialog6.FileName = "Sample_1.txt";
-            this.openFileDialog6.Filter = "Text Files (*.txt)|*.txt|All files (*.*)|*.*";
+            this.openFileDialog6.Filter = "Text Documents (*.txt)|*.txt|All files (*.*)|*.*";
             // 
             // timer14
             // 
@@ -1593,7 +1605,6 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.CheckBox checkBox6;
         private System.Windows.Forms.ComboBox comboBox1;
@@ -1697,6 +1708,7 @@
         private System.Windows.Forms.Timer timer16;
         private System.Windows.Forms.ToolTip toolTip1;
         #endregion
+        private System.Windows.Forms.CheckBox checkBox4;
     }
 }
 

@@ -68,7 +68,7 @@ namespace Project_LENA
                 "\n\nThis program can create and generate an image suitable to be filtered, generate samples " +
                 "used to create weights used to process images, generate the weights learned from this process," +
                 "and filter a noisy image from the weights created. \n\nAdditional help can be provided by " +
-                "hovering the cursor over an element of interest.",
+                "hovering the cursor over a label of an element of interest.",
                 "About Project LENA", MessageBoxButtons.OK, MessageBoxIcon.Information);
             e.Cancel = true; // does not display question mark on cursor after message
         }
@@ -320,16 +320,6 @@ namespace Project_LENA
         {
             if (this.Height <= 390) this.timer11.Enabled = true;
 
-
-            //this.comboBox4.Items.Add(new object[] {
-            //"3 x 3",
-            //"5 x 5",
-            //"7 x 7"});
-            comboBox4.Items.Clear();
-            comboBox4.Items.Add("3 x 3");
-            comboBox4.Items.Add("5 x 5");
-            comboBox4.Items.Add("7 x 7");
-
             label23.Visible = true;
             label23.Text = "Number of sectors:";
             toolTip1.SetToolTip(label23, "The number of sectors to be processed from the unit circle.\r\nUsed for classification in the learning algorithm.");
@@ -351,6 +341,7 @@ namespace Project_LENA
             toolTip1.SetToolTip(label25, "The size of the hidden layers used in the weights.");
 
             textBox17.Visible = true;
+            textBox17.Clear();
             textBox17.MinimumSize = new Size(58, 20);
             textBox17.MaximumSize = new Size(58, 20);
             textBox17.Size = new Size(58, 20);
@@ -363,13 +354,11 @@ namespace Project_LENA
             comboBox4.Visible = true;
             comboBox4.DropDownStyle = ComboBoxStyle.DropDown;
             comboBox4.Location = new Point(82, 57);
+            comboBox4.Items.Clear();
+            comboBox4.Items.Add("3 x 3");
+            comboBox4.Items.Add("5 x 5");
+            comboBox4.Items.Add("7 x 7");
             toolTip1.SetToolTip(comboBox4, "Size of the kernel surrounding the pixel being processed.");
-
-
-
-
-
-            comboBox4.Visible = true;
         }
 
         // process using patches, tab 4
@@ -377,23 +366,16 @@ namespace Project_LENA
         {
             if (this.Height <= 390) this.timer11.Enabled = true;
 
-
-
-            //this.comboBox4.Items.Add(new object[] {
-            //"New patch method",
-            //"Old patch method"});
-
-            comboBox4.Items.Clear();
-            comboBox4.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox4.Items.Add("Legacy method");
-            comboBox4.Items.Add("New patch method");
-
             label23.Visible = true;
             label23.Text = "Method:";
             toolTip1.SetToolTip(label23, "The patch function to be used.");
 
             comboBox4.Visible = true;
             comboBox4.Location = new Point(67, 26);
+            comboBox4.Items.Clear();
+            comboBox4.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox4.Items.Add("Legacy method");
+            comboBox4.Items.Add("New patch method");
             toolTip1.SetToolTip(comboBox4, "The patch function to be used.");
 
             label24.Visible = true;
@@ -418,7 +400,7 @@ namespace Project_LENA
             toolTip1.SetToolTip(label26, "The network array to be used to generate the weights.");
 
             textBox17.Visible = true;
-            textBox17.MinimumSize = new Size(106, 20);
+            textBox17.MinimumSize = new Size(100, 20);
             textBox17.MaximumSize = new Size(154, 20);
             Size size = TextRenderer.MeasureText(textBox17.Text, textBox17.Font);
             textBox17.Width = size.Width;
@@ -461,20 +443,18 @@ namespace Project_LENA
 
             else
             {
-                Tiff colorimage = Tiff.Open(textBox11.Text, "r");
+                Tiff image = Tiff.Open(textBox11.Text, "r");
                 // Obtain basic tag information of the image
                 #region GetTagInfo
-                int width = colorimage.GetField(TiffTag.IMAGEWIDTH)[0].ToInt();
-                int height = colorimage.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
-                byte bits = colorimage.GetField(TiffTag.BITSPERSAMPLE)[0].ToByte();
-                double dpiX = colorimage.GetField(TiffTag.XRESOLUTION)[0].ToDouble();
-                double dpiY = colorimage.GetField(TiffTag.YRESOLUTION)[0].ToDouble();
+                int width = image.GetField(TiffTag.IMAGEWIDTH)[0].ToInt();
+                int height = image.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
+                byte bits = image.GetField(TiffTag.BITSPERSAMPLE)[0].ToByte();
                 #endregion
 
                 int imageSize = height * width * 3;
                 int[] raster = new int[imageSize];
 
-                byte[] scanline = new byte[colorimage.ScanlineSize()];
+                byte[] scanline = new byte[image.ScanlineSize()];
 
                 // Initiallization of RGB values
                 int[,] red = new int[height, width];
@@ -489,7 +469,7 @@ namespace Project_LENA
                 // I want the closest result to VEGA
                 for (int i = height - 1; i != -1; i--)
                 {
-                    colorimage.ReadScanline(scanline, i);
+                    image.ReadScanline(scanline, i);
                     for (int j = 0; j < width; j++)
                     {
                         red[i, j] = scanline[3 * j]; // PSNR: INFINITY, Channel is correct
@@ -520,7 +500,7 @@ namespace Project_LENA
 
                 #region Merge YUV - (for debugging purposes)
 
-                //byte[,] YUV = new byte[height, colorimage.ScanlineSize()];
+                //byte[,] YUV = new byte[height, image.ScanlineSize()];
 
                 //for (int i = 0; i < height; i++)
                 //{
@@ -604,23 +584,23 @@ namespace Project_LENA
                         //  //  output.YCBCRSUBSAMPLING
                         //    //    output.YCBCRPOSITIONING = 
 
-                        //byte[] im = new byte[colorimage.ScanlineSize() * sizeof(byte /*can be changed depending on the format of the image*/)];
+                        //byte[] im = new byte[image.ScanlineSize() * sizeof(byte /*can be changed depending on the format of the image*/)];
 
                         //for (int i = 0; i < height; i++)
                         //{
 
-                        //    for (int j = 0; j < colorimage.ScanlineSize(); j++)
+                        //    for (int j = 0; j < image.ScanlineSize(); j++)
                         //    {
                         //        im[j] = YUV[i, j];
                         //    }
-                        //    output.WriteEncodedStrip(i, im, colorimage.ScanlineSize());
+                        //    output.WriteEncodedStrip(i, im, image.ScanlineSize());
                         //}
                         #endregion
                     }
                     //System.Diagnostics.Process.Start(FileName);                   
                 }
                 textBox18.Text = saveFileDialog2.FileName;
-                colorimage.Dispose();
+                image.Dispose();
             }
         }
 
@@ -643,19 +623,30 @@ namespace Project_LENA
             }
             #endregion
 
+            Tiff image = Tiff.Open(textBox18.Text, "r");
+
+            // Obtain basic tag information of the image
+            #region GetTagInfo
+            int width = image.GetField(TiffTag.IMAGEWIDTH)[0].ToInt();
+            int height = image.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
+            byte bits = image.GetField(TiffTag.BITSPERSAMPLE)[0].ToByte();
+            byte pixel = image.GetField(TiffTag.SAMPLESPERPIXEL)[0].ToByte();
+            #endregion
+
             #region Grayscale Image
-            if (checkBox4.Checked == false)
+            //if (checkBox4.Checked == false)
+            // Attempt to do the grayscale image check via pixel
+            if (pixel == 1)
             {
-                Tiff greyimage = Tiff.Open(textBox18.Text, "r");
                 double noise = Convert.ToDouble(textBox1.Text);
 
                 // Obtain basic tag information of the image
-                #region GetTagInfo
-                int width = greyimage.GetField(TiffTag.IMAGEWIDTH)[0].ToInt();
-                int height = greyimage.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
-                byte bits = greyimage.GetField(TiffTag.BITSPERSAMPLE)[0].ToByte();
-                byte pixel = greyimage.GetField(TiffTag.SAMPLESPERPIXEL)[0].ToByte();
-                #endregion
+                //#region GetTagInfo
+                //int width = image.GetField(TiffTag.IMAGEWIDTH)[0].ToInt();
+                //int height = image.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
+                //byte bits = image.GetField(TiffTag.BITSPERSAMPLE)[0].ToByte();
+                //byte pixel = image.GetField(TiffTag.SAMPLESPERPIXEL)[0].ToByte();
+                //#endregion
 
                 if (string.IsNullOrEmpty(textBox18.Text))
                 {
@@ -670,15 +661,8 @@ namespace Project_LENA
                     return;
                 }
 
-                if (pixel > 1)
-                {
-                    MessageBox.Show("Grayscale image not entered. Check 'Process color image' for color images.", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
                 byte[,] grey = new byte[height, width];
-                grey = Functions.Tiff2Array(greyimage, height, width);
+                grey = Functions.Tiff2Array(image, height, width);
 
                 double greysum = 0;
                 for (int i = 0; i < height; i++)
@@ -753,23 +737,22 @@ namespace Project_LENA
                         output.Dispose();
                     }
                 }
-                greyimage.Dispose();
+                image.Dispose();
             }
             #endregion
 
             #region Color Image
-            if (checkBox4.Checked == true)
+            if (pixel == 3)
             {
-                Tiff colorimage = Tiff.Open(textBox18.Text, "r");
                 double noise = Convert.ToDouble(textBox1.Text);
 
-                // Obtain basic tag information of the image
-                #region GetTagInfo
-                int width = colorimage.GetField(TiffTag.IMAGEWIDTH)[0].ToInt();
-                int height = colorimage.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
-                byte bits = colorimage.GetField(TiffTag.BITSPERSAMPLE)[0].ToByte();
-                byte pixel = colorimage.GetField(TiffTag.SAMPLESPERPIXEL)[0].ToByte();
-                #endregion
+                //// Obtain basic tag information of the image
+                //#region GetTagInfo
+                //int width = image.GetField(TiffTag.IMAGEWIDTH)[0].ToInt();
+                //int height = image.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
+                //byte bits = image.GetField(TiffTag.BITSPERSAMPLE)[0].ToByte();
+                //byte pixel = image.GetField(TiffTag.SAMPLESPERPIXEL)[0].ToByte();
+                //#endregion
 
                 int test = (int)bits;
 
@@ -786,23 +769,10 @@ namespace Project_LENA
                     return;
                 }
 
-                if (pixel == 1)
-                {
-                    MessageBox.Show("Color image not entered. Uncheck 'Process color image' for color images.", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
                 int imageSize = height * width * 3;
                 byte[] raster = new byte[imageSize];
 
-                byte[] scanline = new byte[colorimage.ScanlineSize()];
-
-
-                int test2 = scanline.Length;// (0);
-
-                //(int[])scanline;
-                //for (int i =0);
+                byte[] scanline = new byte[image.ScanlineSize()];
 
                 // Read the image into the memory buffer
                 byte[,] red = new byte[height, width];
@@ -812,7 +782,7 @@ namespace Project_LENA
                 //for (int i = height - 1; i != -1; i--)
                 for (int i = 0; height > i; i++)
                 {
-                    colorimage.ReadScanline(scanline, i); // EVIL BUG HERE
+                    image.ReadScanline(scanline, i); // EVIL BUG HERE
                     for (int j = 0; j < width; j++)
                     {
                         red[i, j] = scanline[3 * j]; // PSNR: INFINITY, Channel is correct
@@ -821,144 +791,432 @@ namespace Project_LENA
                     }
                 }
 
-                #region Red
+                byte[,] RGB = new byte[height, image.ScanlineSize()];
 
-                double redsum = 0;
-                for (int i = 0; i < height; i++)
+                #region Grayscale Gaussian noise
+                if (checkBox4.Checked)
                 {
-                    for (int j = 0; j < width; j++)
+                    #region Y
+                    double[,] y = new double[height, width];
+                    byte[,] Y = new byte[height, width];
+                    for (int i = 0; i < height; i++)
                     {
-                        redsum += red[i, j];
+                        for (int j = 0; j < width; j++)
+                        {
+                            y[i, j] = (0.299 * red[i, j]) + (0.587 * green[i, j]) + (0.114 * blue[i, j]);
+
+                            Y[i, j] = Convert.ToByte(y[i, j]);
+                        }
+
                     }
-                }
 
-                double mean_R = redsum / (height * width); // image mean
-
-                double variancesum_R = 0;
-                for (int i = 0; i < height; i++)
-                {
-                    for (int j = 0; j < width; j++)
+                    double ysum = 0;
+                    for (int i = 0; i < height; i++)
                     {
-                        variancesum_R += Math.Pow((red[i, j] - mean_R), 2);
+                        for (int j = 0; j < width; j++)
+                        {
+                            ysum += Y[i, j];
+                        }
                     }
+
+                    double mean_Y = ysum / (height * width); // image mean
+
+                    double variancesum_Y = 0;
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            variancesum_Y += Math.Pow((Y[i, j] - mean_Y), 2);
+                        }
+                    }
+                    double dispersion_Y;
+                    dispersion_Y = variancesum_Y / (height * width); // image dispersion
+
+                    double standarddev_Y;
+                    standarddev_Y = Math.Sqrt(dispersion_Y);
+
+                    Random φ = new Random(); // Greek letter phi
+                    Random Γ = new Random();// Greek letter gamma
+
+                    // sine and cosine variables for the Box-Muller algorithm
+                    double[,] z1 = new double[height, width];
+                    double[,] z2 = new double[height, width];
+
+                    // normally distributed variables gathered from Box-Muller algorithm with added image mean and sigma
+                    double[,] x1 = new double[height, width];
+                    double[,] x2 = new double[height, width];
+
+                    double number; // used to fix bug
+
+                    // applying Gaussian noise to each pixel
+                    for (int i = 0; i < height; ++i)
+                    {
+                        for (int j = 0; j < width; ++j)
+                        {
+                            // the Box-Muller algorithm
+                            z1[i, j] = Math.Cos(2 * Math.PI * φ.NextDouble()) * Math.Sqrt(-2 * Math.Log(Γ.NextDouble()));
+                            z2[i, j] = Math.Sin(2 * Math.PI * φ.NextDouble()) * Math.Sqrt(-2 * Math.Log(Γ.NextDouble()));
+
+                            number = φ.NextDouble(); // fixes bug (for some reason)
+
+                            x1[i, j] = mean_Y + z1[i, j] * noise * standarddev_Y;
+                            x2[i, j] = mean_Y + z2[i, j] * noise * standarddev_Y;
+
+                            #region Polar form of the Box-Muller algorithm
+                            //do
+                            //{
+                            //    x3[i, j] = 2 * φ.NextDouble() - 1;
+                            //    x4[i, j] = 2 * Γ.NextDouble() - 1;
+                            //    w[i, j] = x3[i, j] * x3[i, j] + x4[i, j] * x4[i, j];
+                            //} while (w[i, j] >= 1);
+
+                            //w[i, j] = Math.Sqrt((-2 * Math.Log(w[i, j])) / w[i, j]);
+                            //z1[i, j] = x3[i, j] * w[i, j];
+                            //z2[i, j] = x4[i, j] * w[i, j];
+
+                            //x1[i, j] = m + z1[i, j] * noise * σ;
+                            //x2[i, j] = m + z2[i, j] * noise * σ;
+                            #endregion
+                        }
+                    }
+
+                    #endregion
+
+                    #region Red
+
+                    double redsum = 0;
+                    double[,] r = new double[height, width];
+
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            redsum += red[i, j];
+                        }
+                    }
+
+                    double mean_R = redsum / (height * width); // image mean
+
+                    // Applies the Y Gaussian noise to red
+                    #region Checkbox status
+                    if (checkBox3.Checked == true)
+                    {
+                        for (int i = 0; i < height; ++i)
+                        {
+                            for (int j = 0; j < width; ++j)
+                            {
+                                if (j % 2 != 0)
+                                    r[i, j] = red[i, j] + x1[i, j] - mean_Y;
+                                if (j % 2 == 0)
+                                    r[i, j] = red[i, j] + x2[i, j] - mean_Y;
+
+                                if (r[i, j] > 255) r[i, j] = 255; // Whenever processed value of pixel is above 255, cap it at 255
+                                if (r[i, j] < 0) r[i, j] = 0; // Whenever processed value of pixel is below 0, cap it at 0
+                            }
+                        }
+                    }
+
+                    else if (checkBox3.Checked == false)
+                    {
+                        for (int i = 0; i < height; ++i)
+                        {
+                            for (int j = 0; j < width; ++j)
+                            {
+                                if (j % 2 != 0)
+                                    r[i, j] = x1[i, j];
+                                if (j % 2 == 0)
+                                    r[i, j] = x2[i, j];
+
+                                if (r[i, j] > 255) r[i, j] = 255; // Whenever processed value of pixel is above 255, cap it at 255
+                                if (r[i, j] < 0) r[i, j] = 0; // Whenever processed value of pixel is below 0, cap it at 0
+                            }
+                        }
+                    }
+                    #endregion
+
+                    #endregion
+
+                    #region Green
+                    double[,] g = new double[height, width];
+                    double greensum = 0;
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            greensum += green[i, j];
+                        }
+                    }
+
+                    double mean_G = greensum / (height * width); // image mean
+
+                    // Applies the Y Gaussian noise to green
+                    #region Checkbox status
+                    if (checkBox3.Checked == true)
+                    {
+                        for (int i = 0; i < height; ++i)
+                        {
+                            for (int j = 0; j < width; ++j)
+                            {
+                                if (j % 2 != 0)
+                                    g[i, j] = green[i, j] + x1[i, j] - mean_Y;
+                                if (j % 2 == 0)
+                                    g[i, j] = green[i, j] + x2[i, j] - mean_Y;
+
+                                if (g[i, j] > 255) g[i, j] = 255; // Whenever processed value of pixel is above 255, cap it at 255
+                                if (g[i, j] < 0) g[i, j] = 0; // Whenever processed value of pixel is below 0, cap it at 0
+                            }
+                        }
+                    }
+
+                    else if (checkBox3.Checked == false)
+                    {
+                        for (int i = 0; i < height; ++i)
+                        {
+                            for (int j = 0; j < width; ++j)
+                            {
+                                if (j % 2 != 0)
+                                    g[i, j] = x1[i, j];
+                                if (j % 2 == 0)
+                                    g[i, j] = x2[i, j];
+
+                                if (g[i, j] > 255) g[i, j] = 255; // Whenever processed value of pixel is above 255, cap it at 255
+                                if (g[i, j] < 0) g[i, j] = 0; // Whenever processed value of pixel is below 0, cap it at 0
+                            }
+                        }
+                    }
+                    #endregion
+
+                    #endregion
+
+                    #region Blue
+                    double[,] b = new double[height, width];
+                    double bluesum = 0;
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            bluesum += blue[i, j];
+                        }
+                    }
+
+                    double mean_B = bluesum / (height * width); // image mean
+
+                    // Applies the Y Gaussian noise to blue
+                    #region Checkbox status
+                    if (checkBox3.Checked == true)
+                    {
+                        for (int i = 0; i < height; ++i)
+                        {
+                            for (int j = 0; j < width; ++j)
+                            {
+                                if (j % 2 != 0)
+                                    b[i, j] = blue[i, j] + x1[i, j] - mean_Y;
+                                if (j % 2 == 0)
+                                    b[i, j] = blue[i, j] + x2[i, j] - mean_Y;
+
+                                if (b[i, j] > 255) b[i, j] = 255; // Whenever processed value of pixel is above 255, cap it at 255
+                                if (b[i, j] < 0) b[i, j] = 0; // Whenever processed value of pixel is below 0, cap it at 0
+                            }
+                        }
+                    }
+
+                    else if (checkBox3.Checked == false)
+                    {
+                        for (int i = 0; i < height; ++i)
+                        {
+                            for (int j = 0; j < width; ++j)
+                            {
+                                if (j % 2 != 0)
+                                    b[i, j] = x1[i, j];
+                                if (j % 2 == 0)
+                                    b[i, j] = x2[i, j];
+
+                                if (b[i, j] > 255) b[i, j] = 255; // Whenever processed value of pixel is above 255, cap it at 255
+                                if (b[i, j] < 0) b[i, j] = 0; // Whenever processed value of pixel is below 0, cap it at 0
+                            }
+                        }
+                    }
+                    #endregion
+
+                    #endregion
+
+                    #region Merge RGB
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            RGB[i, 3 * j] = Convert.ToByte(r[i, j]);
+                        }
+                    }
+
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            RGB[i, 3 * j + 1] = Convert.ToByte(g[i, j]);
+                        }
+                    }
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            RGB[i, 3 * j + 2] = Convert.ToByte(b[i, j]);
+                        }
+                    }
+                    #endregion
                 }
-                double dispersion_R;
-                dispersion_R = variancesum_R / (height * width); // image dispersion
-
-                double standarddev_R;
-                standarddev_R = Math.Sqrt(dispersion_R);
-
-                // int width = Convert.ToInt32(textBox1.Text);
-                // int height = Convert.ToInt32(textBox2.Text);
-
-                // calls the "createRandomTiff" method
-
-                double[,] r = Functions.createRandomTiff(width, height, mean_R, standarddev_R, noise, red, checkBox3.Checked);
                 #endregion
 
-                #region Green
-                double greensum = 0;
-                for (int i = 0; i < height; i++)
+                #region Color Gaussian noise
+                if (!checkBox4.Checked)
                 {
-                    for (int j = 0; j < width; j++)
+                    #region Red
+
+                    double redsum = 0;
+                    for (int i = 0; i < height; i++)
                     {
-                        greensum += green[i, j];
+                        for (int j = 0; j < width; j++)
+                        {
+                            redsum += red[i, j];
+                        }
                     }
-                }
 
-                double mean_G = greensum / (height * width); // image mean
+                    double mean_R = redsum / (height * width); // image mean
 
-                double variancesum_G = 0;
-                for (int i = 0; i < height; i++)
-                {
-                    for (int j = 0; j < width; j++)
+                    double variancesum_R = 0;
+                    for (int i = 0; i < height; i++)
                     {
-                        variancesum_G += Math.Pow((green[i, j] - mean_G), 2);
+                        for (int j = 0; j < width; j++)
+                        {
+                            variancesum_R += Math.Pow((red[i, j] - mean_R), 2);
+                        }
                     }
+                    double dispersion_R;
+                    dispersion_R = variancesum_R / (height * width); // image dispersion
+
+                    double standarddev_R;
+                    standarddev_R = Math.Sqrt(dispersion_R);
+
+                    // int width = Convert.ToInt32(textBox1.Text);
+                    // int height = Convert.ToInt32(textBox2.Text);
+
+                    // calls the "createRandomTiff" method
+
+                    double[,] r = Functions.createRandomTiff(width, height, mean_R, standarddev_R, noise, red, checkBox3.Checked);
+                    #endregion
+
+                    #region Green
+                    double greensum = 0;
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            greensum += green[i, j];
+                        }
+                    }
+
+                    double mean_G = greensum / (height * width); // image mean
+
+                    double variancesum_G = 0;
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            variancesum_G += Math.Pow((green[i, j] - mean_G), 2);
+                        }
+                    }
+                    double dispersion_G;
+                    dispersion_G = variancesum_G / (height * width); // image dispersion
+
+                    double standarddev_G;
+                    standarddev_G = Math.Sqrt(dispersion_G);
+
+                    // int width = Convert.ToInt32(textBox1.Text);
+                    // int height = Convert.ToInt32(textBox2.Text);
+
+                    // calls the "createRandomTiff" method
+
+                    double[,] g = Functions.createRandomTiff(width, height, mean_G, standarddev_G, noise, green, checkBox3.Checked);
+                    #endregion
+
+                    #region Blue
+                    double bluesum = 0;
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            bluesum += blue[i, j];
+                        }
+                    }
+
+                    double mean_B = bluesum / (height * width); // image mean
+
+                    double variancesum_B = 0;
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            variancesum_B += Math.Pow((blue[i, j] - mean_B), 2);
+                        }
+                    }
+                    double dispersion_B;
+                    dispersion_B = variancesum_B / (height * width); // image dispersion
+
+                    double standarddev_B;
+                    standarddev_B = Math.Sqrt(dispersion_B);
+
+                    // int width = Convert.ToInt32(textBox1.Text);
+                    // int height = Convert.ToInt32(textBox2.Text);
+
+                    // calls the "createRandomTiff" method
+
+                    double[,] b = Functions.createRandomTiff(width, height, mean_B, standarddev_B, noise, blue, checkBox3.Checked);
+                    #endregion
+
+                    #region Merge RGB
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            RGB[i, 3 * j] = Convert.ToByte(r[i, j]);
+                        }
+                    }
+
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            RGB[i, 3 * j + 1] = Convert.ToByte(g[i, j]);
+                        }
+                    }
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            RGB[i, 3 * j + 2] = Convert.ToByte(b[i, j]);
+                        }
+                    }
+                    #endregion
                 }
-                double dispersion_G;
-                dispersion_G = variancesum_G / (height * width); // image dispersion
-
-                double standarddev_G;
-                standarddev_G = Math.Sqrt(dispersion_G);
-
-                // int width = Convert.ToInt32(textBox1.Text);
-                // int height = Convert.ToInt32(textBox2.Text);
-
-                // calls the "createRandomTiff" method
-
-                double[,] g = Functions.createRandomTiff(width, height, mean_G, standarddev_G, noise, green, checkBox3.Checked);
                 #endregion
 
-                #region Blue
-                double bluesum = 0;
-                for (int i = 0; i < height; i++)
-                {
-                    for (int j = 0; j < width; j++)
-                    {
-                        bluesum += blue[i, j];
-                    }
-                }
 
-                double mean_B = bluesum / (height * width); // image mean
-
-                double variancesum_B = 0;
-                for (int i = 0; i < height; i++)
-                {
-                    for (int j = 0; j < width; j++)
-                    {
-                        variancesum_B += Math.Pow((blue[i, j] - mean_B), 2);
-                    }
-                }
-                double dispersion_B;
-                dispersion_B = variancesum_B / (height * width); // image dispersion
-
-                double standarddev_B;
-                standarddev_B = Math.Sqrt(dispersion_B);
-
-                // int width = Convert.ToInt32(textBox1.Text);
-                // int height = Convert.ToInt32(textBox2.Text);
-
-                // calls the "createRandomTiff" method
-
-                double[,] b = Functions.createRandomTiff(width, height, mean_B, standarddev_B, noise, blue, checkBox3.Checked);
-                #endregion
-
-                #region Merge RGB
-
-                byte[,] RGB = new byte[height, colorimage.ScanlineSize()];
-
-                for (int i = 0; i < height; i++)
-                {
-                    for (int j = 0; j < width; j++)
-                    {
-                        RGB[i, 3 * j] = Convert.ToByte(r[i, j]);
-                    }
-                }
-
-                for (int i = 0; i < height; i++)
-                {
-                    for (int j = 0; j < width; j++)
-                    {
-                        RGB[i, 3 * j + 1] = Convert.ToByte(g[i, j]);
-                    }
-                }
-                for (int i = 0; i < height; i++)
-                {
-                    for (int j = 0; j < width; j++)
-                    {
-                        RGB[i, 3 * j + 2] = Convert.ToByte(b[i, j]);
-                    }
-                }
-                #endregion
 
                 string fileName = textBox18.Text;
-
-                if (checkBox3.Checked == true)
-                    fileName = Path.GetFileNameWithoutExtension(textBox18.Text) + "_Gauss_" + Convert.ToString(noise) + ".tif";
-                if (checkBox3.Checked == false)
-                    fileName = Path.GetFileNameWithoutExtension(textBox18.Text) + "_Gauss_" + Convert.ToString(noise) + "_Noise" + ".tif";
-
+                if (checkBox4.Checked)
+                {
+                    if (checkBox3.Checked == true)
+                        fileName = Path.GetFileNameWithoutExtension(textBox18.Text) + "_Gauss_Y_" + Convert.ToString(noise) + ".tif";
+                    if (checkBox3.Checked == false)
+                        fileName = Path.GetFileNameWithoutExtension(textBox18.Text) + "_Gauss_Y_" + Convert.ToString(noise) + "_Noise" + ".tif";
+                }
+                if (!checkBox4.Checked)
+                {
+                    if (checkBox3.Checked == true)
+                        fileName = Path.GetFileNameWithoutExtension(textBox18.Text) + "_Gauss_" + Convert.ToString(noise) + ".tif";
+                    if (checkBox3.Checked == false)
+                        fileName = Path.GetFileNameWithoutExtension(textBox18.Text) + "_Gauss_" + Convert.ToString(noise) + "_Noise" + ".tif";
+                }
                 saveFileDialog2.FileName = fileName;
 
                 if (saveFileDialog2.ShowDialog() == DialogResult.OK) // Test result.
@@ -1003,27 +1261,27 @@ namespace Project_LENA
                         //output.SetField(TiffTag.BITSPERSAMPLE, 8);
                         //output.SetField(TiffTag.SAMPLESPERPIXEL, 3);
 
-                        //int width = colorimage.GetField(TiffTag.IMAGEWIDTH)[0].ToInt();
-                        //int height = colorimage.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
-                        //byte bits = colorimage.GetField(TiffTag.BITSPERSAMPLE)[0].ToByte();
-                        //byte pixel = colorimage.GetField(TiffTag.SAMPLESPERPIXEL)[0].ToByte();
+                        //int width = image.GetField(TiffTag.IMAGEWIDTH)[0].ToInt();
+                        //int height = image.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
+                        //byte bits = image.GetField(TiffTag.BITSPERSAMPLE)[0].ToByte();
+                        //byte pixel = image.GetField(TiffTag.SAMPLESPERPIXEL)[0].ToByte();
 
-                        byte[] im = new byte[colorimage.ScanlineSize() * sizeof(byte /*can be changed depending on the format of the image*/)];
+                        byte[] im = new byte[image.ScanlineSize() * sizeof(byte /*can be changed depending on the format of the image*/)];
 
                         for (int i = 0; i < height; i++)
                         {
 
-                            for (int j = 0; j < colorimage.ScanlineSize(); j++)
+                            for (int j = 0; j < image.ScanlineSize(); j++)
                             {
                                 im[j] = RGB[i, j];
                             }
-                            output.WriteEncodedStrip(i, im, colorimage.ScanlineSize());
+                            output.WriteEncodedStrip(i, im, image.ScanlineSize());
                         }
                         output.WriteDirectory();
                         output.Dispose();
                     }
                 }
-                colorimage.Dispose();
+                image.Dispose();
             }
             #endregion
         }
@@ -1409,6 +1667,7 @@ namespace Project_LENA
             radioButton3.Enabled = false; // process using pixels button
             radioButton4.Enabled = false; // process using patches button
             button17.Enabled = false; // load parameters button
+            button22.Enabled = false; // save parameters button
 
             // open the noisy image
             Tiff noisyimage = Tiff.Open(textBox9.Text, "r");
@@ -1426,6 +1685,7 @@ namespace Project_LENA
                 radioButton3.Enabled = true;
                 radioButton4.Enabled = true;
                 button17.Enabled = true;
+                button22.Enabled = true;
                 MessageBox.Show("Invalid or no image entered.", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -1438,6 +1698,7 @@ namespace Project_LENA
                 radioButton3.Enabled = true;
                 radioButton4.Enabled = true;
                 button17.Enabled = true;
+                button22.Enabled = true;
                 MessageBox.Show("No weights entered.", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -1452,6 +1713,7 @@ namespace Project_LENA
                 radioButton3.Enabled = true;
                 radioButton4.Enabled = true;
                 button17.Enabled = true;
+                button22.Enabled = true;
                 MessageBox.Show("No inplementation checked.", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -1515,6 +1777,7 @@ namespace Project_LENA
                         radioButton3.Enabled = true;
                         radioButton4.Enabled = true;
                         button17.Enabled = true;
+                        button22.Enabled = true;
                         MessageBox.Show("Please load or enter parameters.", "Error",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -1559,6 +1822,7 @@ namespace Project_LENA
                             radioButton3.Enabled = true;
                             radioButton4.Enabled = true;
                             button17.Enabled = true;
+                            button22.Enabled = true;
                             this.Text = Title;
                             return;
                         }
@@ -1614,6 +1878,7 @@ namespace Project_LENA
                     radioButton3.Enabled = true;
                     radioButton4.Enabled = true;
                     button17.Enabled = true;
+                    button22.Enabled = true;
                     return;
                 }
             }
@@ -1635,6 +1900,7 @@ namespace Project_LENA
                         radioButton3.Enabled = true;
                         radioButton4.Enabled = true;
                         button17.Enabled = true;
+                        button22.Enabled = true;
                         this.Text = Title;
                         return;
                     }
@@ -1688,6 +1954,7 @@ namespace Project_LENA
                         radioButton3.Enabled = true;
                         radioButton4.Enabled = true;
                         button17.Enabled = true;
+                        button22.Enabled = true;
                         this.Text = Title;
                         return;
                     }
@@ -1744,6 +2011,7 @@ namespace Project_LENA
                     radioButton3.Enabled = true;
                     radioButton4.Enabled = true;
                     button17.Enabled = true;
+                    button22.Enabled = true;
                     this.Text = Title;
                     return;
                 }
@@ -1761,6 +2029,7 @@ namespace Project_LENA
             radioButton3.Enabled = true;
             radioButton4.Enabled = true;
             button17.Enabled = true;
+            button22.Enabled = true;
             progressBar1.Value = 0;
             TaskbarManager.Instance.SetProgressValue(progressBar1.Value, progressBar1.Maximum);
         }
@@ -1888,27 +2157,27 @@ namespace Project_LENA
             }
         }
 
-        private void checkBox4_CheckedChanged(object sender, EventArgs e)
-        {
-            if (this.checkBox4.Checked == true)
-            {
-                textBox18.Size = new Size(365, 20);
-                textBox18.Location = new Point(88, 26);
-                label29.Text = "Color Image:";
-                toolTip1.SetToolTip(label29, "The color RGB Tiff image to be corrupted by Gaussian noise.\r\nDrag and drop function is supported.");
-                checkBox3.Text = "Add Gaussian noise to color image";
-                toolTip1.SetToolTip(button18, "Load the color image.");
-            }
-            if (this.checkBox4.Checked == false)
-            {
-                textBox18.Size = new Size(342, 20);
-                textBox18.Location = new Point(111, 26);
-                label29.Text = "Grayscale Image:";
-                toolTip1.SetToolTip(label29, "The grayscale Y Tiff image to be corrupted by Gaussian noise.\r\nDrag and drop function is supported.");
-                checkBox3.Text = "Add Gaussian noise to grayscale image";
-                toolTip1.SetToolTip(button18, "Load the grayscale image.");
-            }
-        }
+        //private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (this.checkBox4.Checked == true)
+        //    {
+        //        textBox18.Size = new Size(365, 20);
+        //        textBox18.Location = new Point(88, 26);
+        //        label29.Text = "Color Image:";
+        //        toolTip1.SetToolTip(label29, "The color RGB Tiff image to be corrupted by Gaussian noise.\r\nDrag and drop function is supported.");
+        //        checkBox3.Text = "Add Gaussian noise to color image";
+        //        toolTip1.SetToolTip(button18, "Load the color image.");
+        //    }
+        //    if (this.checkBox4.Checked == false)
+        //    {
+        //        textBox18.Size = new Size(342, 20);
+        //        textBox18.Location = new Point(111, 26);
+        //        label29.Text = "Grayscale Image:";
+        //        toolTip1.SetToolTip(label29, "The grayscale Y Tiff image to be corrupted by Gaussian noise.\r\nDrag and drop function is supported.");
+        //        checkBox3.Text = "Add Gaussian noise to grayscale image";
+        //        toolTip1.SetToolTip(button18, "Load the grayscale image.");
+        //    }
+        //}
 
         private void checkBox5_CheckedChanged(object sender, EventArgs e)
         {
@@ -1935,7 +2204,8 @@ namespace Project_LENA
         private void button18_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK) // Test result.
-                textBox18.Text = openFileDialog1.FileName;
+                openFileDialog1.Filter = "TIFF Image (*.tif;*.tiff)|*.tif;.tiff|All files (*.*)|*.*";
+            textBox18.Text = openFileDialog1.FileName;
         }
 
         private void checkBox6_CheckedChanged(object sender, EventArgs e)
@@ -1996,9 +2266,6 @@ namespace Project_LENA
                 parameters.WriteStartElement("Method");
                 parameters.WriteAttributeString("type", "Weight_Parameters");
                 parameters.WriteStartElement("Parameters");
-                parameters.WriteElementString("Sample_Directory", textBox2.Text);
-                parameters.WriteElementString("Initial_Weights", Convert.ToString(comboBox1.SelectedIndex));
-                parameters.WriteElementString("Weight_Directory", textBox6.Text);
                 parameters.WriteElementString("Size_Of_Network", textBox20.Text);
                 parameters.WriteElementString("Output", Convert.ToString(comboBox2.SelectedIndex));
                 parameters.WriteElementString("Samples_in_Learning", textBox8.Text);
@@ -2114,8 +2381,9 @@ namespace Project_LENA
         }
         #endregion
 
-        #region drag and drop
+        #region Control Features
 
+        #region Drag and drop
         /* Consists of 2 parts:
          *      Entering the region within an object
          *      Dragging and dropping an element onto the object
@@ -2299,6 +2567,178 @@ namespace Project_LENA
                 xmlWeightParams(fileName);
             }
         }
+        #endregion
+
+        #region Keypress Events
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar)
+        && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if (e.KeyChar == '.'
+                && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox20_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar)
+        && e.KeyChar != ',')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox8_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox7_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox5_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar)
+        && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if (e.KeyChar == '.'
+                && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox4_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar)
+        && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if (e.KeyChar == '.'
+                && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox13_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox16_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox17_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (radioButton3.Checked) // Process using pixels
+            {
+                if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar))
+                {
+                    e.Handled = true;
+                }
+            }
+            else if (radioButton4.Checked) // Process using patches
+            {
+                if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar)
+        && e.KeyChar != ',')
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void comboBox8_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void comboBox6_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar)
+        && e.KeyChar != 'x' && e.KeyChar != 'X'
+        && e.KeyChar != ' ')
+            {
+                e.Handled = true;
+
+            }
+        }
+
+        private void comboBox4_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (radioButton3.Checked) // Process using pixels
+            {
+                if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar)
+        && e.KeyChar != 'x' && e.KeyChar != 'X'
+        && e.KeyChar != ' ')
+                {
+                    e.Handled = true;
+
+                }
+            }
+        }
+
+        private void comboBox7_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar)
+        && e.KeyChar != 'x' && e.KeyChar != 'X'
+        && e.KeyChar != ' ')
+            {
+                e.Handled = true;
+
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Form Functions
@@ -2519,42 +2959,6 @@ namespace Project_LENA
                                 while (Xml.NodeType != XmlNodeType.EndElement)
                                 {
                                     Xml.Read();
-                                    if (Xml.Name == "Sample_Directory")
-                                    {
-                                        while (Xml.NodeType != XmlNodeType.EndElement)
-                                        {
-                                            Xml.Read();
-                                            if (Xml.NodeType == XmlNodeType.Text)
-                                            {
-                                                textBox2.Text = Xml.Value; // Samples Directory
-                                            }
-                                        }
-                                        Xml.Read();
-                                    }
-                                    if (Xml.Name == "Initial_Weights")
-                                    {
-                                        while (Xml.NodeType != XmlNodeType.EndElement)
-                                        {
-                                            Xml.Read();
-                                            if (Xml.NodeType == XmlNodeType.Text)
-                                            {
-                                                comboBox1.SelectedIndex = Convert.ToInt32(Xml.Value); // Initial Weights
-                                            }
-                                        }
-                                        Xml.Read();
-                                    }
-                                    if (Xml.Name == "Weight_Directory")
-                                    {
-                                        while (Xml.NodeType != XmlNodeType.EndElement)
-                                        {
-                                            Xml.Read();
-                                            if (Xml.NodeType == XmlNodeType.Text)
-                                            {
-                                                textBox6.Text = Xml.Value; // Weight Directory
-                                            }
-                                        }
-                                        Xml.Read();
-                                    }
                                     if (Xml.Name == "Size_Of_Network")
                                     {
                                         while (Xml.NodeType != XmlNodeType.EndElement)
@@ -2662,7 +3066,6 @@ namespace Project_LENA
             Xml.Dispose();
         }
         #endregion
-                                                                 
     }
 
     public static class NativeMethods
@@ -2673,6 +3076,6 @@ namespace Project_LENA
         {
             SendMessage(pBar.Handle, 1040, (IntPtr)state, IntPtr.Zero);
         }
-    }   
+    }
 }
 

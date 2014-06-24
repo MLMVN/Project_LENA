@@ -260,7 +260,7 @@ namespace Project_LENA
 
         /* -------------------------- Denoise by Patch ----------------------------------------------------------------- */
 
-        public async Task<byte[,]> fdenoiseNeural(byte[,] noisyIm, int step, string fileName, int layer, int[] networkSize, int numberofsectors, CancellationToken cancelToken, PauseToken pauseToken, int progressBar1, int progressBar1Max)
+        public async Task<byte[,]> fdenoiseNeural(byte[,] noisyIm, int step, string fileName, int layer, int[] networkSize, int[] inputsPerSample, int numberofsectors, CancellationToken cancelToken, PauseToken pauseToken, int progressBar1, int progressBar1Max)
         {
             /*
                 noisyIm: an image corrupted by AWG noise
@@ -270,13 +270,7 @@ namespace Project_LENA
                 the range 0..255.
             */
 
-            #region Initialization
-            // determine number of samples
-            int[] inputsPerSample = new int[layer];
-            inputsPerSample[0] = networkSize[layer - 1] + 1;
-            for (int i = 1; i < layer; i++)
-                inputsPerSample[i] = networkSize[0] + 1;
-            // end for
+            #region Initialization           
 
             form1.SetText1("Initializing components...\r\n" + Environment.NewLine);
             int testval = 0;
@@ -654,7 +648,7 @@ namespace Project_LENA
             return counter;
         } // end method
 
-        public async Task<byte[,]> fdenoiseNeural2(byte[,] noisyIm, int step, string fileName, int layer, int[] networkSize, int numberofsectors, CancellationToken cancelToken, PauseToken pauseToken, int progressBar1, int progressBar1Max)
+        public async Task<byte[,]> fdenoiseNeural2(byte[,] noisyIm, int step, string fileName, int layer, int[] networkSize,int[] inputsPerSample, int numberofsectors, CancellationToken cancelToken, PauseToken pauseToken, int progressBar1, int progressBar1Max)
         {
             /*
             *   noisyIm: an image corrupted by AWG noise
@@ -665,12 +659,6 @@ namespace Project_LENA
             */
 
             #region Initialization
-            // determine number of samples
-            int[] inputsPerSample = new int[layer];
-            inputsPerSample[0] = networkSize[layer - 1] + 1;
-            for (int i = 1; i < layer; i++)
-                inputsPerSample[i] = networkSize[0] + 1;
-            // end for
 
             form1.SetText1("Using the new patch method.\r\n" + Environment.NewLine);
 

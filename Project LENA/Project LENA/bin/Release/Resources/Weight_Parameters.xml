@@ -3,6 +3,7 @@
   <Parameters>
     <Size_Of_Network>511, 511, 511, 169</Size_Of_Network>
     <Output>0</Output>
+    <Output_Neurons>1</Output_Neurons>
     <Samples_in_Learning>300</Samples_in_Learning>
     <Number_Of_Sectors>384</Number_Of_Sectors>
     <Stopping_Criteria>2</Stopping_Criteria>

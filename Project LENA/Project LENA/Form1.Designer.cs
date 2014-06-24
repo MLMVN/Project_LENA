@@ -50,6 +50,8 @@
             this.label13 = new System.Windows.Forms.Label();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox19 = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.textBox13 = new System.Windows.Forms.TextBox();
@@ -121,6 +123,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox21 = new System.Windows.Forms.TextBox();
             this.textBox20 = new System.Windows.Forms.TextBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
@@ -412,6 +416,8 @@
             // groupBox4
             // 
             this.groupBox4.AllowDrop = true;
+            this.groupBox4.Controls.Add(this.label5);
+            this.groupBox4.Controls.Add(this.textBox19);
             this.groupBox4.Controls.Add(this.comboBox4);
             this.groupBox4.Controls.Add(this.label23);
             this.groupBox4.Controls.Add(this.label24);
@@ -428,6 +434,27 @@
             this.groupBox4.Text = "Parameters";
             this.groupBox4.DragDrop += new System.Windows.Forms.DragEventHandler(this.groupBox4_DragDrop);
             this.groupBox4.DragEnter += new System.Windows.Forms.DragEventHandler(this.groupBox4_DragEnter);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(222, 60);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(83, 13);
+            this.label5.TabIndex = 63;
+            this.label5.Text = "Output neurons:";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label5.Visible = false;
+            // 
+            // textBox19
+            // 
+            this.textBox19.Location = new System.Drawing.Point(311, 57);
+            this.textBox19.Name = "textBox19";
+            this.textBox19.Size = new System.Drawing.Size(58, 20);
+            this.textBox19.TabIndex = 64;
+            this.textBox19.Tag = "";
+            this.textBox19.Visible = false;
+            this.textBox19.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox19_KeyPress);
             // 
             // label23
             // 
@@ -496,10 +523,10 @@
             // textBox17
             // 
             this.textBox17.Location = new System.Drawing.Point(486, 26);
-            this.textBox17.MaximumSize = new System.Drawing.Size(154, 20);
-            this.textBox17.MinimumSize = new System.Drawing.Size(106, 20);
+            this.textBox17.MaximumSize = new System.Drawing.Size(125, 20);
+            this.textBox17.MinimumSize = new System.Drawing.Size(100, 20);
             this.textBox17.Name = "textBox17";
-            this.textBox17.Size = new System.Drawing.Size(106, 20);
+            this.textBox17.Size = new System.Drawing.Size(100, 20);
             this.textBox17.TabIndex = 55;
             this.textBox17.Tag = "";
             this.textBox17.Visible = false;
@@ -586,9 +613,9 @@
             this.radioButton2.AutoSize = true;
             this.radioButton2.Location = new System.Drawing.Point(142, 59);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(132, 17);
+            this.radioButton2.Size = new System.Drawing.Size(135, 17);
             this.radioButton2.TabIndex = 28;
-            this.radioButton2.Text = "Process using patches";
+            this.radioButton2.Text = "Process Using Patches";
             this.toolTip1.SetToolTip(this.radioButton2, "Create the samples based on a patch size.  \r\nIf explicitly defined, only one dime" +
         "nsion needs to be entered.");
             this.radioButton2.UseVisualStyleBackColor = true;
@@ -599,9 +626,9 @@
             this.radioButton1.AutoSize = true;
             this.radioButton1.Location = new System.Drawing.Point(142, 29);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(120, 17);
+            this.radioButton1.Size = new System.Drawing.Size(123, 17);
             this.radioButton1.TabIndex = 27;
-            this.radioButton1.Text = "Process using pixels";
+            this.radioButton1.Text = "Process Using Pixels";
             this.toolTip1.SetToolTip(this.radioButton1, "Create the samples based on a pixel and surrounding kernel.");
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
@@ -683,9 +710,9 @@
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(25, 30);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(100, 13);
+            this.label21.Size = new System.Drawing.Size(102, 13);
             this.label21.TabIndex = 31;
-            this.label21.Text = "Number of samples:";
+            this.label21.Text = "Number of Samples:";
             this.toolTip1.SetToolTip(this.label21, "The number of pixels or patches to be sampled.");
             // 
             // label3
@@ -773,8 +800,8 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
@@ -1242,6 +1269,8 @@
             // groupBox6
             // 
             this.groupBox6.AllowDrop = true;
+            this.groupBox6.Controls.Add(this.label6);
+            this.groupBox6.Controls.Add(this.textBox21);
             this.groupBox6.Controls.Add(this.textBox20);
             this.groupBox6.Controls.Add(this.textBox8);
             this.groupBox6.Controls.Add(this.label30);
@@ -1259,10 +1288,29 @@
             this.groupBox6.DragDrop += new System.Windows.Forms.DragEventHandler(this.groupBox6_DragDrop);
             this.groupBox6.DragEnter += new System.Windows.Forms.DragEventHandler(this.groupBox6_DragEnter);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(422, 29);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(85, 13);
+            this.label6.TabIndex = 74;
+            this.label6.Text = "Output Neurons:";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // textBox21
+            // 
+            this.textBox21.Location = new System.Drawing.Point(513, 26);
+            this.textBox21.Name = "textBox21";
+            this.textBox21.Size = new System.Drawing.Size(58, 20);
+            this.textBox21.TabIndex = 75;
+            this.textBox21.Tag = "";
+            this.textBox21.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox21_KeyPress);
+            // 
             // textBox20
             // 
             this.textBox20.Location = new System.Drawing.Point(92, 26);
-            this.textBox20.MaximumSize = new System.Drawing.Size(265, 20);
+            this.textBox20.MaximumSize = new System.Drawing.Size(125, 20);
             this.textBox20.MinimumSize = new System.Drawing.Size(100, 20);
             this.textBox20.Name = "textBox20";
             this.textBox20.Size = new System.Drawing.Size(100, 20);
@@ -1325,7 +1373,7 @@
             this.comboBox2.Items.AddRange(new object[] {
             "Discrete",
             "Continuous"});
-            this.comboBox2.Location = new System.Drawing.Point(298, 26);
+            this.comboBox2.Location = new System.Drawing.Point(278, 26);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(107, 21);
             this.comboBox2.TabIndex = 52;
@@ -1333,7 +1381,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(250, 30);
+            this.label16.Location = new System.Drawing.Point(230, 30);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(42, 13);
             this.label16.TabIndex = 51;
@@ -1709,6 +1757,10 @@
         private System.Windows.Forms.ToolTip toolTip1;
         #endregion
         private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox19;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBox21;
     }
 }
 

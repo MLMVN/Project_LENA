@@ -266,7 +266,6 @@ namespace Project_LENA
                 {
                     //generate random coordinate
                     int randomRow = random.Next(0, sSize);
-                    //Create custome code for GUI version to save it under specified user directory with preferred name
                     //write to file
                     for (int i = 0; i < twoPatchLength; i++)
                         S[i] = vectorMAP[randomRow, i];

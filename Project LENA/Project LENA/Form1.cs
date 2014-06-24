@@ -359,6 +359,10 @@ namespace Project_LENA
             comboBox4.Items.Add("5 x 5");
             comboBox4.Items.Add("7 x 7");
             toolTip1.SetToolTip(comboBox4, "Size of the kernel surrounding the pixel being processed.");
+
+            label5.Visible = false;
+
+            textBox19.Visible = false;
         }
 
         // process using patches, tab 4
@@ -406,6 +410,11 @@ namespace Project_LENA
             textBox17.Width = size.Width;
             textBox17.Height = size.Height;
             textBox17.Location = new Point(92, 57);
+
+            label5.Visible = true;
+            toolTip1.SetToolTip(label26, "The number of hidden layers in the output.");
+
+            textBox19.Visible = true;
         }
 
         private void textBox17_TextChanged(object sender, EventArgs e)
@@ -413,6 +422,11 @@ namespace Project_LENA
             Size size = TextRenderer.MeasureText(textBox17.Text, textBox17.Font);
             textBox17.Width = size.Width;
             textBox17.Height = size.Height;
+            //if (textBox17.Width >= 115)
+            //{
+                label5.Location = new Point(textBox17.Location.X + textBox17.Width + 30, 60);
+                textBox19.Location = new Point(label5.Location.X + label5.Width + 6, 57);
+            //}
         }
 
         private void textBox20_TextChanged(object sender, EventArgs e)
@@ -420,8 +434,11 @@ namespace Project_LENA
             Size size = TextRenderer.MeasureText(textBox20.Text, textBox20.Font);
             textBox20.Width = size.Width;
             textBox20.Height = size.Height;
-            label16.Location = new Point(textBox20.Location.X + textBox20.Width + 58, 30);
-            comboBox2.Location = new Point(label16.Location.X + label16.Width + 6, 26);
+            if (textBox20.Width >= 115)
+            {
+                label16.Location = new Point(textBox20.Location.X + textBox20.Width + 23, 30);
+                comboBox2.Location = new Point(label16.Location.X + label16.Width + 6, 26);
+            }
         }
 
         // Load color image
@@ -1562,9 +1579,9 @@ namespace Project_LENA
 
             // determine number of samples
             int[] inputsPerSample = new int[a.Length];
-            inputsPerSample[0] = networkSize[a.Length - 1] + 1;
+            inputsPerSample[0] = networkSize[a.Length - 1] + Convert.ToInt32(textBox21.Text);
             for (int i = 1; i < a.Length; i++)
-                inputsPerSample[i] = networkSize[0] + 1;
+                inputsPerSample[i] = networkSize[0] + Convert.ToInt32(textBox21.Text);
             // end for
 
             int NumberofSectors = Convert.ToInt32(textBox7.Text);
@@ -1917,6 +1934,13 @@ namespace Project_LENA
                         networkSize[i] = Convert.ToInt32(a[i]);
                     }
 
+                    // determine number of samples
+                    int[] inputsPerSample = new int[layer];
+                    inputsPerSample[0] = networkSize[layer - 1] + Convert.ToInt32(textBox19.Text);
+                    for (int i = 1; i < layer; i++)
+                        inputsPerSample[i] = networkSize[0] + Convert.ToInt32(textBox19.Text);
+                    // end for
+
                     // parameters
                     int numberofsectors = Convert.ToInt32(textBox13.Text);
                     int step = Convert.ToInt32(textBox16.Text);
@@ -1971,11 +1995,11 @@ namespace Project_LENA
                     TaskbarManager.Instance.SetProgressValue(progressBar1.Value, progressBar1.Maximum);
                     if (comboBox4.SelectedIndex == 0)
                     {
-                        denoised = await Task.Run(() => mlmvn.fdenoiseNeural(noisy, step, weights, layer, networkSize, numberofsectors, cTokenSource1.Token, pTokenSource1.Token, progressBar1.Value, progressBar1.Maximum));
+                        denoised = await Task.Run(() => mlmvn.fdenoiseNeural(noisy, step, weights, layer, networkSize, inputsPerSample, numberofsectors, cTokenSource1.Token, pTokenSource1.Token, progressBar1.Value, progressBar1.Maximum));
                     }
                     else if (comboBox4.SelectedIndex == 1)
                     {
-                        denoised = await Task.Run(() => mlmvn.fdenoiseNeural2(noisy, step, weights, layer, networkSize, numberofsectors, cTokenSource1.Token, pTokenSource1.Token, progressBar1.Value, progressBar1.Maximum));
+                        denoised = await Task.Run(() => mlmvn.fdenoiseNeural2(noisy, step, weights, layer, networkSize, inputsPerSample, numberofsectors, cTokenSource1.Token, pTokenSource1.Token, progressBar1.Value, progressBar1.Maximum));
                     }
                     string fileName = Path.GetFileNameWithoutExtension(textBox9.Text) + "_Patches_" + pSize + "_Network_[" +
                         networkSize[0] + "," + networkSize[1] + "," + networkSize[2] + "," + networkSize[3] + "]" + ".tif";
@@ -2096,9 +2120,9 @@ namespace Project_LENA
 
             // determine number of samples
             int[] inputsPerSample = new int[a.Length];
-            inputsPerSample[0] = networkSize[a.Length - 1] + 1;
+            inputsPerSample[0] = networkSize[a.Length - 1] + Convert.ToInt32(textBox21.Text);
             for (int i = 1; i < a.Length; i++)
-                inputsPerSample[i] = networkSize[0] + 1;
+                inputsPerSample[i] = networkSize[0] + Convert.ToInt32(textBox21.Text);
             // end for
 
             int NumberofSectors = Convert.ToInt32(textBox7.Text);
@@ -2268,6 +2292,7 @@ namespace Project_LENA
                 parameters.WriteStartElement("Parameters");
                 parameters.WriteElementString("Size_Of_Network", textBox20.Text);
                 parameters.WriteElementString("Output", Convert.ToString(comboBox2.SelectedIndex));
+                parameters.WriteElementString("Output_Neurons", textBox21.Text);
                 parameters.WriteElementString("Samples_in_Learning", textBox8.Text);
                 parameters.WriteElementString("Number_Of_Sectors", textBox7.Text);
                 parameters.WriteElementString("Stopping_Criteria", Convert.ToString(comboBox3.SelectedIndex));
@@ -2335,10 +2360,12 @@ namespace Project_LENA
                     parameters.WriteStartElement("Method");
                     parameters.WriteAttributeString("type", "Patch_Parameters");
                     parameters.WriteStartElement("Parameters");
+                    parameters.WriteElementString("Patch_Method", Convert.ToString(comboBox4.SelectedIndex));
                     parameters.WriteElementString("Number_of_Sectors", textBox13.Text);
                     parameters.WriteElementString("Step", textBox16.Text);
                     parameters.WriteElementString("Network_Size", textBox17.Text);
-                    parameters.WriteElementString("Patch_Method", Convert.ToString(comboBox4.SelectedIndex));
+                    parameters.WriteElementString("Output_Neurons", textBox19.Text);
+                    
 
                     // proper closure and disposing of the file and memory
                     parameters.Flush();
@@ -2369,9 +2396,11 @@ namespace Project_LENA
                 parameters.WriteStartElement("Method");
                 parameters.WriteAttributeString("type", "Patch_Parameters");
                 parameters.WriteStartElement("Parameters");
-                parameters.WriteElementString("Number_of_Sectors", textBox7.Text);
-                parameters.WriteElementString("Step", "3");
-                parameters.WriteElementString("Network_Size", textBox20.Text);
+                parameters.WriteElementString("Patch_Method", Convert.ToString(comboBox4.SelectedIndex));
+                parameters.WriteElementString("Number_of_Sectors", textBox13.Text);
+                parameters.WriteElementString("Step", textBox16.Text);
+                parameters.WriteElementString("Network_Size", textBox17.Text);
+                parameters.WriteElementString("Output_Neurons", textBox19.Text);
 
                 // proper closure and disposing of the file and memory
                 parameters.Flush();
@@ -2592,7 +2621,7 @@ namespace Project_LENA
         {
             if (!char.IsControl(e.KeyChar)
         && !char.IsDigit(e.KeyChar)
-        && e.KeyChar != ',')
+        && e.KeyChar != ',' && e.KeyChar != ' ')
             {
                 e.Handled = true;
             }
@@ -2682,7 +2711,7 @@ namespace Project_LENA
             {
                 if (!char.IsControl(e.KeyChar)
         && !char.IsDigit(e.KeyChar)
-        && e.KeyChar != ',')
+        && e.KeyChar != ',' && e.KeyChar != ' ')
                 {
                     e.Handled = true;
                 }
@@ -2881,6 +2910,18 @@ namespace Project_LENA
                                 while (Xml.NodeType != XmlNodeType.EndElement)
                                 {
                                     Xml.Read();
+                                    if (Xml.Name == "Patch_Method")
+                                    {
+                                        while (Xml.NodeType != XmlNodeType.EndElement)
+                                        {
+                                            Xml.Read();
+                                            if (Xml.NodeType == XmlNodeType.Text)
+                                            {
+                                                comboBox4.SelectedIndex = Convert.ToInt32(Xml.Value); // Patch method
+                                            }
+                                        }
+                                        Xml.Read();
+                                    }
                                     if (Xml.Name == "Number_of_Sectors")
                                     {
                                         while (Xml.NodeType != XmlNodeType.EndElement)
@@ -2917,14 +2958,14 @@ namespace Project_LENA
                                         }
                                         Xml.Read();
                                     }
-                                    if (Xml.Name == "Patch_Method")
+                                    if (Xml.Name == "Output_Neurons")
                                     {
                                         while (Xml.NodeType != XmlNodeType.EndElement)
                                         {
                                             Xml.Read();
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
-                                                comboBox4.SelectedIndex = Convert.ToInt32(Xml.Value); // Patch method
+                                                textBox19.Text = Xml.Value; // Output neurons
                                             }
                                         }
                                         Xml.Read();
@@ -2979,6 +3020,18 @@ namespace Project_LENA
                                             if (Xml.NodeType == XmlNodeType.Text)
                                             {
                                                 comboBox2.SelectedIndex = Convert.ToInt32(Xml.Value); // Output
+                                            }
+                                        }
+                                        Xml.Read();
+                                    }
+                                    if (Xml.Name == "Output_Neurons")
+                                    {
+                                        while (Xml.NodeType != XmlNodeType.EndElement)
+                                        {
+                                            Xml.Read();
+                                            if (Xml.NodeType == XmlNodeType.Text)
+                                            {
+                                                textBox21.Text = Xml.Value; // Output Neurons
                                             }
                                         }
                                         Xml.Read();
@@ -3066,6 +3119,25 @@ namespace Project_LENA
             Xml.Dispose();
         }
         #endregion
+
+        private void textBox21_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox19_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
     }
 
     public static class NativeMethods

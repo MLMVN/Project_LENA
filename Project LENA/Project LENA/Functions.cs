@@ -253,10 +253,10 @@ namespace Project_LENA
                         // store in vectorMap
                         // noisy first
                         for (int v = 0; v < patchLength; v++)
-                            vectorMAP[row * sSizeRow + col, v] = noisyVector[v];
+                            vectorMAP[row * sSizeCol + col, v] = noisyVector[v];
                         // then clean
                         for (int v = patchLength; v < twoPatchLength; v++)
-                            vectorMAP[row * sSizeRow + col, v] = cleanVector[v - patchLength];
+                            vectorMAP[row * sSizeCol + col, v] = cleanVector[v - patchLength];
                     }
                 }
                 byte[] S = new byte[twoPatchLength];

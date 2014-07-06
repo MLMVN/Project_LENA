@@ -86,6 +86,8 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button14 = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -97,7 +99,6 @@
             this.textBox18 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button21 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
@@ -168,9 +169,9 @@
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -193,7 +194,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(463, 265);
+            this.button2.Location = new System.Drawing.Point(461, 265);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(140, 22);
             this.button2.TabIndex = 16;
@@ -230,7 +231,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(461, 228);
+            this.button6.Location = new System.Drawing.Point(461, 265);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(140, 22);
             this.button6.TabIndex = 33;
@@ -444,6 +445,8 @@
             this.label5.TabIndex = 63;
             this.label5.Text = "Output neurons:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.toolTip1.SetToolTip(this.label5, "The number of neurons in the output layer.\r\nUsed to calculate the inputs per samp" +
+        "le.");
             this.label5.Visible = false;
             // 
             // textBox19
@@ -601,7 +604,7 @@
             this.groupBox8.Controls.Add(this.radioButton1);
             this.groupBox8.Controls.Add(this.comboBox6);
             this.groupBox8.Controls.Add(this.comboBox7);
-            this.groupBox8.Location = new System.Drawing.Point(15, 150);
+            this.groupBox8.Location = new System.Drawing.Point(15, 185);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(286, 100);
             this.groupBox8.TabIndex = 19;
@@ -698,7 +701,7 @@
             // 
             this.groupBox10.Controls.Add(this.comboBox8);
             this.groupBox10.Controls.Add(this.label21);
-            this.groupBox10.Location = new System.Drawing.Point(314, 150);
+            this.groupBox10.Location = new System.Drawing.Point(314, 185);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(287, 65);
             this.groupBox10.TabIndex = 20;
@@ -817,6 +820,35 @@
             this.tabControl1.TabStop = false;
             this.tabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl1_Selected);
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.button14);
+            this.tabPage2.Controls.Add(this.groupBox10);
+            this.tabPage2.Controls.Add(this.button6);
+            this.tabPage2.Controls.Add(this.groupBox8);
+            this.tabPage2.Controls.Add(this.groupBox9);
+            this.tabPage2.Controls.Add(this.label4);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(619, 577);
+            this.tabPage2.TabIndex = 3;
+            this.tabPage2.Text = "Sample Generation";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button14
+            // 
+            this.button14.Location = new System.Drawing.Point(423, 151);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(178, 22);
+            this.button14.TabIndex = 34;
+            this.button14.Tag = "";
+            this.button14.Text = "Create Fragment From Images, , ,";
+            this.toolTip1.SetToolTip(this.button14, "Crop the clean and noisy image inputed to gather samples from specific region of " +
+        "image.");
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
+            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.checkBox5);
@@ -847,7 +879,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(463, 151);
+            this.button3.Location = new System.Drawing.Point(461, 151);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(140, 22);
             this.button3.TabIndex = 12;
@@ -955,21 +987,6 @@
             this.label1.Tag = "";
             this.label1.Text = "Noise:";
             this.toolTip1.SetToolTip(this.label1, "The percentage of Gaussian noise to be applied to the image in decimal.");
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.groupBox10);
-            this.tabPage2.Controls.Add(this.button6);
-            this.tabPage2.Controls.Add(this.groupBox8);
-            this.tabPage2.Controls.Add(this.groupBox9);
-            this.tabPage2.Controls.Add(this.label4);
-            this.tabPage2.Location = new System.Drawing.Point(4, 24);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(619, 577);
-            this.tabPage2.TabIndex = 3;
-            this.tabPage2.Text = "Sample Generation";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
@@ -1297,6 +1314,8 @@
             this.label6.TabIndex = 74;
             this.label6.Text = "Output Neurons:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.toolTip1.SetToolTip(this.label6, "The number of neurons in the output layer.\r\nUsed to calculate the inputs per samp" +
+        "le.");
             // 
             // textBox21
             // 
@@ -1604,12 +1623,12 @@
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.groupBox11.ResumeLayout(false);
@@ -1761,6 +1780,7 @@
         private System.Windows.Forms.TextBox textBox19;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox21;
+        private System.Windows.Forms.Button button14;
     }
 }
 

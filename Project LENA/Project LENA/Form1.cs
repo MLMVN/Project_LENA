@@ -38,18 +38,18 @@ namespace Project_LENA
             this.Location = new Point(0, 0);
             InitializeComponent(); // begins the initialization of the form     
             this.Text = "Project LENA " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            openFileDialog1.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath), @"Resources");
-            openFileDialog2.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath), @"Resources");
-            openFileDialog3.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath), @"Resources");
-            openFileDialog4.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath), @"Resources");
-            openFileDialog5.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath), @"Resources");
-            openFileDialog6.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath), @"Resources");
+            openFileDialog1.InitialDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), @"Resources");
+            openFileDialog2.InitialDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), @"Resources");
+            openFileDialog3.InitialDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), @"Resources");
+            openFileDialog4.InitialDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), @"Resources");
+            openFileDialog5.InitialDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), @"Resources");
+            openFileDialog6.InitialDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), @"Resources");
             this.AutoSize = false;
             this.Height = 250; // inintiallizes the height of the form
 
         }
 
-        // Avoids flickering
+        // Avoids flickering by double buffering components
         protected override CreateParams CreateParams
         {
             get
@@ -65,10 +65,12 @@ namespace Project_LENA
         {
             MessageBox.Show("This program uses an intelligent approach to image processing using MLMVN, " +
                 "otherwise known as Multilayer feedforward neural network based on multi-valued neurons." +
-                "\n\nThis program can create and generate an image suitable to be filtered, generate samples " +
+                "\n\nThe user may create and generate an image suitable to be filtered, generate samples " +
                 "used to create weights used to process images, generate the weights learned from this process," +
                 "and filter a noisy image from the weights created. \n\nAdditional help can be provided by " +
-                "hovering the cursor over a label of an element of interest.",
+                "hovering the cursor over a label of an element of interest.\n\nDeveloped by Mr. Plumlee and " +
+                "Mr. Del Pino. We would like to thank Dr. Aizenberg and Dr. Laddomada for their support" +
+                " to help us make this program a reality.",
                 "About Project LENA", MessageBoxButtons.OK, MessageBoxIcon.Information);
             e.Cancel = true; // does not display question mark on cursor after message
         }
@@ -114,7 +116,7 @@ namespace Project_LENA
                 this.timer14.Enabled = false;
                 this.timer15.Enabled = false;
                 this.timer16.Enabled = false;
-                if (this.Height >= 330) this.timer3.Enabled = true;
+                if (this.Height >= 370) this.timer3.Enabled = true;
                 else this.timer4.Enabled = true;
             }
 
@@ -178,14 +180,14 @@ namespace Project_LENA
         // When user clicks tab 2 from a larger tab
         private void timer3_Tick(object sender, EventArgs e)
         {
-            if (this.Height <= 330) this.timer3.Enabled = false;
+            if (this.Height <= 370) this.timer3.Enabled = false;
             else this.Height -= 20;
         }
 
         // When user clicks tab 2 from a smaller tab
         private void timer4_Tick(object sender, EventArgs e)
         {
-            if (this.Height >= 330) this.timer4.Enabled = false;
+            if (this.Height >= 370) this.timer4.Enabled = false;
             else this.Height += 20;
         }
 
@@ -508,7 +510,8 @@ namespace Project_LENA
                         // Conversion from RGB to YUV, as written here:
                         // http://www.eagle.tamut.edu/faculty/igor/MY%20CLASSES/CS-467/Lecture-12.pdf on slide 18
                         // Also part of the CCIR Recommendation 601-1 - PSNR 27.8757 to VEGA
-                        Y[i, j] = (0.299 * red[i, j]) + (0.587 * green[i, j]) + (0.114 * blue[i, j]);
+                        //Y[i, j] = (0.299 * red[i, j]) + (0.587 * green[i, j]) + (0.114 * blue[i, j]);
+                        Y[i, j] = (0.3 * red[i, j]) + (0.59 * green[i, j]) + (0.11 * blue[i, j]);
                         U[i, j] = -(0.14713 * red[i, j]) - (0.28886 * green[i, j]) + (0.436 * blue[i, j]);
                         V[i, j] = (0.615 * red[i, j]) - (0.51499 * green[i, j]) - (0.10001 * blue[i, j]);
 
@@ -1324,7 +1327,7 @@ namespace Project_LENA
 
             // open the images
             Tiff cleanimage = Tiff.Open(textBox15.Text, "r");
-            Tiff noisedimage = Tiff.Open(textBox14.Text, "r"); ;
+            Tiff noisedimage = Tiff.Open(textBox14.Text, "r");
 
             #region Error Checking
             // Error Windows when no image entered
@@ -2396,11 +2399,11 @@ namespace Project_LENA
                 parameters.WriteStartElement("Method");
                 parameters.WriteAttributeString("type", "Patch_Parameters");
                 parameters.WriteStartElement("Parameters");
-                parameters.WriteElementString("Patch_Method", Convert.ToString(comboBox4.SelectedIndex));
-                parameters.WriteElementString("Number_of_Sectors", textBox13.Text);
-                parameters.WriteElementString("Step", textBox16.Text);
-                parameters.WriteElementString("Network_Size", textBox17.Text);
-                parameters.WriteElementString("Output_Neurons", textBox19.Text);
+                parameters.WriteElementString("Patch_Method", "-1");
+                parameters.WriteElementString("Number_of_Sectors", textBox7.Text);
+                parameters.WriteElementString("Step", "3");
+                parameters.WriteElementString("Network_Size", textBox20.Text);
+                parameters.WriteElementString("Output_Neurons", textBox21.Text);
 
                 // proper closure and disposing of the file and memory
                 parameters.Flush();
@@ -2766,6 +2769,24 @@ namespace Project_LENA
             }
         }
 
+        private void textBox21_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox19_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+        && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
         #endregion
 
         #endregion
@@ -3120,24 +3141,48 @@ namespace Project_LENA
         }
         #endregion
 
-        private void textBox21_KeyPress(object sender, KeyPressEventArgs e)
+        private void button14_Click(object sender, EventArgs e)
         {
-            if (!char.IsControl(e.KeyChar)
-        && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
+            // open the images
+            Tiff cleanimage = Tiff.Open(textBox15.Text, "r");
+            Tiff noisyimage = Tiff.Open(textBox14.Text, "r");
 
-        private void textBox19_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar)
-        && !char.IsDigit(e.KeyChar))
+            // Error Windows when no image entered
+            if (cleanimage == null || noisyimage == null)
             {
-                e.Handled = true;
+                MessageBox.Show("Invalid or no image entered.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-        }
 
+            // Obtain basic tag information of the images
+            #region GetTagInfo
+            int cleanwidth = cleanimage.GetField(TiffTag.IMAGEWIDTH)[0].ToInt();
+            int cleanheight = cleanimage.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
+            byte cleanpixel = cleanimage.GetField(TiffTag.SAMPLESPERPIXEL)[0].ToByte();
+
+            int noisywidth = noisyimage.GetField(TiffTag.IMAGEWIDTH)[0].ToInt();
+            int noisyheight = noisyimage.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
+            byte noisypixel = noisyimage.GetField(TiffTag.SAMPLESPERPIXEL)[0].ToByte();
+            #endregion
+
+            if (cleanheight != noisyheight || cleanwidth != noisywidth)
+            {
+                MessageBox.Show("Images must have the same height and width.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (cleanpixel != noisypixel)
+            {
+                MessageBox.Show("Images must either be both grayscale or color images.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            Form2 form2 = new Form2(textBox15.Text, textBox14.Text);
+            form2.ShowDialog();
+        }
     }
 
     public static class NativeMethods

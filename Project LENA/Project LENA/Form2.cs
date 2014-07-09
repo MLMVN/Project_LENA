@@ -48,10 +48,12 @@ namespace Project_LENA
 
             label2.Text = Path.GetFileName(noisy);
 
-            int maxwidth = pictureBox1.Width + pictureBox2.Width + 40;
-            int maxheight = pictureBox1.Height + 138;
+            int formwidth = pictureBox1.Width + pictureBox2.Width + 40;
+            int formheight = pictureBox1.Height + 138;
 
-            this.MaximumSize = new Size(maxwidth, maxheight);
+            //if (this.MinimumSize.Width < maxwidth && this.MinimumSize.Height < maxheight)
+            this.Size = new Size(formwidth, formheight);
+            //else this.MaximumSize = this.MinimumSize;
 
             panel1.Width = (this.Width) / 2 - 20;
             panel2.Width = (this.Width) / 2 - 20;
@@ -110,48 +112,91 @@ namespace Project_LENA
         private void pictureBox1_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             toolStripStatusLabel1.Text = String.Format(label1.Text + "  X: {0}; Y: {1}", e.X, e.Y);
+            Control c = (Control)sender;
+
+            #region Right Click Panning
             if (e.Button == MouseButtons.Right)
             {
-                Cursor = Cursors.SizeAll;
-                Control c = (Control)sender;
+                Cursor = Cursors.SizeAll;              
+                // Panel is wider than image
+                if (panel1.Width >= pictureBox1.Width)
+                {
+                    if (c.Left + (e.X - PanStartPoint.X) >= 0 && c.Left + (e.X - PanStartPoint.X) <= panel1.Width - pictureBox1.Width)
+                    {
+                        c.Left = c.Left + (e.X - PanStartPoint.X);
+                    }
+                    else if (c.Left + (e.X - PanStartPoint.X) < 0)
+                    {
+                        c.Left = 0;
+                    }
+                    else if (c.Left + (e.X - PanStartPoint.X) > panel1.Width - pictureBox1.Width)
+                    {
+                        c.Left = panel1.Width - pictureBox1.Width;
+                    }
+                }
+                // Panel is taller than image
+                if (panel1.Height >= pictureBox1.Height)
+                {
 
-                if (c.Left + (e.X - PanStartPoint.X) < 0 && c.Left + (e.X - PanStartPoint.X) > panel1.Width - pictureBox1.Width)
-                {
-                    c.Left = c.Left + (e.X - PanStartPoint.X);
+                    if (c.Top + (e.Y - PanStartPoint.Y) >= 0 && c.Top + (e.Y - PanStartPoint.Y) <= panel1.Height - pictureBox1.Height)
+                    {
+                        c.Top = (c.Top + e.Y) - PanStartPoint.Y;
+                    }
+                    else if (c.Top + (e.Y - PanStartPoint.Y) < 0)
+                    {
+                        c.Top = 0;
+                    }
+                    else if (c.Top + (e.Y - PanStartPoint.Y) > panel1.Height - pictureBox1.Height)
+                    {
+                        c.Top = panel1.Height - pictureBox1.Height;
+                    }
                 }
-                else if (c.Left + (e.X - PanStartPoint.X) > 0)
+                // Panel is narrower than image
+                if (panel1.Width < pictureBox1.Width)
                 {
-                    c.Left = 0;
+                    if (c.Left + (e.X - PanStartPoint.X) < 0 && c.Left + (e.X - PanStartPoint.X) > panel1.Width - pictureBox1.Width)
+                    {
+                        c.Left = c.Left + (e.X - PanStartPoint.X);
+                    }
+                    else if (c.Left + (e.X - PanStartPoint.X) > 0)
+                    {
+                        c.Left = 0;
+                    }
+                    else if (c.Left + (e.X - PanStartPoint.X) < panel1.Width - pictureBox1.Width)
+                    {
+                        c.Left = panel1.Width - pictureBox1.Width;
+                    }
                 }
-                else if (c.Left + (e.X - PanStartPoint.X) < panel1.Width - pictureBox1.Width)
+                // Panel is shorter than image
+                if (panel1.Height < pictureBox1.Height)
                 {
-                    c.Left = panel1.Width - pictureBox1.Width;
-                }
-
-                if (c.Top + (e.Y - PanStartPoint.Y) <= 0 && c.Top + (e.Y - PanStartPoint.Y) > panel1.Height - pictureBox1.Height)
-                {
-                    c.Top = (c.Top + e.Y) - PanStartPoint.Y;
-                }
-                else if (c.Top + (e.Y - PanStartPoint.Y) > 0)
-                {
-                    c.Top = 0;
-                }
-                else if (c.Top + (e.Y - PanStartPoint.Y) < panel1.Height - pictureBox1.Height)
-                {
-                    c.Top = panel1.Height - pictureBox1.Height;
+                    if (c.Top + (e.Y - PanStartPoint.Y) < 0 && c.Top + (e.Y - PanStartPoint.Y) > panel1.Height - pictureBox1.Height)
+                    {
+                        c.Top = (c.Top + e.Y) - PanStartPoint.Y;
+                    }
+                    else if (c.Top + (e.Y - PanStartPoint.Y) > 0)
+                    {
+                        c.Top = 0;
+                    }
+                    else if (c.Top + (e.Y - PanStartPoint.Y) < panel1.Height - pictureBox1.Height)
+                    {
+                        c.Top = panel1.Height - pictureBox1.Height;
+                    }
                 }
                 c.BringToFront();
 
             }
+            #endregion
+
+            #region Left Click Rectangle
             if (e.Button == MouseButtons.Left)
             {
                 Cursor = Cursors.Cross;
-                Point tempEndPoint = e.Location;
+                Point tempEndPoint = e.Location;               
 
                 Rect.Location = new Point(
                     Math.Min(RectStartPoint.X, Math.Max(tempEndPoint.X, 0)),
                     Math.Min(RectStartPoint.Y, Math.Max(tempEndPoint.Y, 0)));
-
 
                 if (tempEndPoint.X <= pictureBox1.Width && tempEndPoint.X >= 0)
                 {
@@ -182,7 +227,47 @@ namespace Project_LENA
                 pictureBox1.Invalidate();
                 pictureBox2.Invalidate();
                 toolStripStatusLabel2.Text = String.Format("Selection size: {0} by {1} pixels", Rect.Width, Rect.Height);
+
+                //if (panel1.Width < pictureBox1.Width && pictureBox1.Left + tempEndPoint.X > panel1.Width)
+                //{
+                //    if (pictureBox1.Left + (RectStartPoint.X - tempEndPoint.X) < 0 && pictureBox1.Left + (tempEndPoint.X - RectStartPoint.X) > panel1.Width - pictureBox1.Width)
+                //    {
+                //        pictureBox1.Left = pictureBox1.Left + (panel1.Width - tempEndPoint.X);
+                //    }
+                //    else if (pictureBox1.Left + (tempEndPoint.X - RectStartPoint.X) < 0)
+                //    {
+                //        pictureBox1.Left = 0;
+                //    }
+                //    else if (pictureBox1.Left + (tempEndPoint.X - RectStartPoint.X) < panel1.Width - pictureBox1.Width)
+                //    {
+                //        pictureBox1.Left = panel1.Width - pictureBox1.Width;
+                //    }
+                //    //pictureBox1.Left = pictureBox1.Left + (tempEndPoint.X - RectStartPoint.X);
+                //    //pictureBox1.Left = pictureBox1.Left + (panel1.Width - tempEndPoint.X);
+                //    pictureBox1.BringToFront();
+                //}
+
+                //if (panel1.Width < pictureBox1.Width)
+                //{
+                //    if (Math.Abs(pictureBox1.Left) - tempEndPoint.X > Math.Abs(pictureBox1.Left) || tempEndPoint.X  > panel1.Width + Math.Abs(pictureBox1.Left))
+                //    {
+                //        if (panel1.Width +
+                //        pictureBox1.Left = pictureBox1.Left + (panel1.Width - tempEndPoint.X);
+                //    }
+                //    else if (Math.Abs(pictureBox1.Left) - (tempEndPoint.X) < 0)
+                //    {
+                //        pictureBox1.Left = 0;
+                //    }
+                //    else if (pictureBox1.Left + (tempEndPoint.X - RectStartPoint.X) < panel1.Width - pictureBox1.Width)
+                //    {
+                //        pictureBox1.Left = panel1.Width - pictureBox1.Width;
+                //    }
+                //    //pictureBox1.Left = pictureBox1.Left + (tempEndPoint.X - RectStartPoint.X);
+                //    //pictureBox1.Left = pictureBox1.Left + (panel1.Width - tempEndPoint.X);
+                //    pictureBox1.BringToFront();
+                //}
             }
+            #endregion
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
@@ -308,30 +393,66 @@ namespace Project_LENA
                 Cursor = Cursors.SizeAll;
                 Control c = (Control)sender;
 
-                if (c.Left + (e.X - PanStartPoint.X) <= 0 && c.Left + (e.X - PanStartPoint.X) >= panel2.Width - pictureBox2.Width)
+                if (panel2.Width >= pictureBox2.Width)
                 {
-                    c.Left = c.Left + (e.X - PanStartPoint.X);
+                    if (c.Left + (e.X - PanStartPoint.X) >= 0 && c.Left + (e.X - PanStartPoint.X) <= panel2.Width - pictureBox2.Width)
+                    {
+                        c.Left = c.Left + (e.X - PanStartPoint.X);
+                    }
+                    else if (c.Left + (e.X - PanStartPoint.X) < 0)
+                    {
+                        c.Left = 0;
+                    }
+                    else if (c.Left + (e.X - PanStartPoint.X) > panel2.Width - pictureBox2.Width)
+                    {
+                        c.Left = panel2.Width - pictureBox2.Width;
+                    }
                 }
-                else if (c.Left + (e.X - PanStartPoint.X) > 0)
+                if (panel2.Height >= pictureBox2.Height)
                 {
-                    c.Left = 0;
-                }
-                else if (c.Left + (e.X - PanStartPoint.X) < panel2.Width - pictureBox2.Width)
-                {
-                    c.Left = panel1.Width - pictureBox1.Width;
-                }
 
-                if (c.Top + (e.Y - PanStartPoint.Y) <= 0 && c.Top + (e.Y - PanStartPoint.Y) >= panel2.Height - pictureBox2.Height)
-                {
-                    c.Top = (c.Top + e.Y) - PanStartPoint.Y;
+                    if (c.Top + (e.Y - PanStartPoint.Y) >= 0 && c.Top + (e.Y - PanStartPoint.Y) <= panel2.Height - pictureBox2.Height)
+                    {
+                        c.Top = (c.Top + e.Y) - PanStartPoint.Y;
+                    }
+                    else if (c.Top + (e.Y - PanStartPoint.Y) < 0)
+                    {
+                        c.Top = 0;
+                    }
+                    else if (c.Top + (e.Y - PanStartPoint.Y) > panel2.Height - pictureBox2.Height)
+                    {
+                        c.Top = panel2.Height - pictureBox2.Height;
+                    }
                 }
-                else if (c.Top + (e.Y - PanStartPoint.Y) > 0)
+                if (panel2.Width < pictureBox2.Width)
                 {
-                    c.Top = 0;
+                    if (c.Left + (e.X - PanStartPoint.X) < 0 && c.Left + (e.X - PanStartPoint.X) > panel2.Width - pictureBox2.Width)
+                    {
+                        c.Left = c.Left + (e.X - PanStartPoint.X);
+                    }
+                    else if (c.Left + (e.X - PanStartPoint.X) > 0)
+                    {
+                        c.Left = 0;
+                    }
+                    else if (c.Left + (e.X - PanStartPoint.X) < panel2.Width - pictureBox2.Width)
+                    {
+                        c.Left = panel2.Width - pictureBox2.Width;
+                    }
                 }
-                else if (c.Top + (e.Y - PanStartPoint.Y) < panel2.Height - pictureBox2.Height)
+                if (panel2.Height < pictureBox2.Height)
                 {
-                    c.Top = panel2.Height - pictureBox2.Height;
+                    if (c.Top + (e.Y - PanStartPoint.Y) < 0 && c.Top + (e.Y - PanStartPoint.Y) > panel2.Height - pictureBox2.Height)
+                    {
+                        c.Top = (c.Top + e.Y) - PanStartPoint.Y;
+                    }
+                    else if (c.Top + (e.Y - PanStartPoint.Y) > 0)
+                    {
+                        c.Top = 0;
+                    }
+                    else if (c.Top + (e.Y - PanStartPoint.Y) < panel2.Height - pictureBox2.Height)
+                    {
+                        c.Top = panel2.Height - pictureBox2.Height;
+                    }
                 }
                 c.BringToFront();
             }
@@ -339,10 +460,10 @@ namespace Project_LENA
             {
                 Cursor = Cursors.Cross;
                 Point tempEndPoint = e.Location;
+
                 Rect.Location = new Point(
                     Math.Min(RectStartPoint.X, Math.Max(tempEndPoint.X, 0)),
                     Math.Min(RectStartPoint.Y, Math.Max(tempEndPoint.Y, 0)));
-
 
                 if (tempEndPoint.X <= pictureBox2.Width && tempEndPoint.X >= 0)
                 {
@@ -369,9 +490,29 @@ namespace Project_LENA
                 {
                     Rect.Height = Math.Abs(RectStartPoint.Y - 0);
                 }
-                pictureBox1.Invalidate();
+
+                pictureBox2.Invalidate();
                 pictureBox2.Invalidate();
                 toolStripStatusLabel2.Text = String.Format("Selection size: {0} by {1} pixels", Rect.Width, Rect.Height);
+
+                //if (panel2.Width < pictureBox2.Width && pictureBox2.Left + tempEndPoint.X > panel2.Width)
+                //{
+                //    if (pictureBox2.Left + (tempEndPoint.X - RectStartPoint.X) > 0 && pictureBox2.Left + (tempEndPoint.X - RectStartPoint.X) > panel2.Width - pictureBox2.Width)
+                //    {
+                //        pictureBox2.Left = pictureBox2.Left + (panel2.Width - tempEndPoint.X);
+                //    }
+                //    else if (pictureBox2.Left + (tempEndPoint.X - RectStartPoint.X) < 0)
+                //    {
+                //        pictureBox2.Left = 0;
+                //    }
+                //    else if (pictureBox2.Left + (tempEndPoint.X - RectStartPoint.X) < panel2.Width - pictureBox2.Width)
+                //    {
+                //        pictureBox2.Left = panel2.Width - pictureBox2.Width;
+                //    }
+                //    //pictureBox2.Left = pictureBox2.Left + (tempEndPoint.X - RectStartPoint.X);
+                //    //pictureBox2.Left = pictureBox2.Left + (panel2.Width - tempEndPoint.X);
+                //    pictureBox2.BringToFront();
+                //}
             }
         }
 
@@ -629,6 +770,88 @@ namespace Project_LENA
             catch (InvalidOperationException)
             {
                 Console.Write("Images must be the same resolution and color depth in order to crop images.");
+            }
+        }
+
+
+        // (c.Left + (e.X - PanStartPoint.X) >= 0 && c.Left + (e.X - PanStartPoint.X) <= panel1.Width - pictureBox1.Width)
+        //else if (c.Left + (e.X - PanStartPoint.X) < 0)
+        //(c.Left + (e.X - PanStartPoint.X) > panel1.Width - pictureBox1.Width)
+        private void panel1_SizeChanged(object sender, EventArgs e)
+        {
+            if (panel1.Width <= pictureBox1.Left + pictureBox1.Width && pictureBox1.Left > 0)
+            {
+                pictureBox1.Left = panel1.Width - pictureBox1.Width;
+                if (pictureBox1.Left < 0)
+                {
+                    pictureBox1.Left = 0;
+                }
+            }
+
+            if (pictureBox1.Top + pictureBox1.Height > panel1.Height && pictureBox1.Top > 0)
+            {
+                pictureBox1.Top = panel1.Height - pictureBox1.Height;
+                if (pictureBox1.Top < 0)
+                {
+                    pictureBox1.Top = 0;
+                }
+            }
+
+
+            if (pictureBox1.Left < 0 && panel1.Width > pictureBox1.Left + pictureBox1.Width)
+            {
+                pictureBox1.Left = panel1.Width - pictureBox1.Width;
+                if (pictureBox1.Left > 0)
+                {
+                    pictureBox1.Left = 0;
+                }
+            }
+            if (pictureBox1.Top < 0 && panel1.Height > pictureBox1.Top + pictureBox1.Height)
+            {
+                pictureBox1.Top = panel1.Height - pictureBox1.Height;
+                if (pictureBox1.Top > 0)
+                {
+                    pictureBox1.Top = 0;
+                }
+            }
+        }
+
+        private void panel2_SizeChanged(object sender, EventArgs e)
+        {
+            if (panel2.Width <= pictureBox2.Left + pictureBox2.Width && pictureBox2.Left > 0)
+            {
+                pictureBox2.Left = panel2.Width - pictureBox2.Width;
+                if (pictureBox2.Left < 0)
+                {
+                    pictureBox2.Left = 0;
+                }
+            }
+
+            if (pictureBox2.Top + pictureBox2.Height > panel2.Height && pictureBox2.Top > 0)
+            {
+                pictureBox2.Top = panel2.Height - pictureBox2.Height;
+                if (pictureBox2.Top < 0)
+                {
+                    pictureBox2.Top = 0;
+                }
+            }
+
+
+            if (pictureBox2.Left < 0 && panel2.Width > pictureBox2.Left + pictureBox2.Width)
+            {
+                pictureBox2.Left = panel2.Width - pictureBox2.Width;
+                if (pictureBox2.Left > 0)
+                {
+                    pictureBox2.Left = 0;
+                }
+            }
+            if (pictureBox2.Top < 0 && panel2.Height > pictureBox2.Top + pictureBox2.Height)
+            {
+                pictureBox2.Top = panel2.Height - pictureBox2.Height;
+                if (pictureBox2.Top > 0)
+                {
+                    pictureBox2.Top = 0;
+                }
             }
         }
     }

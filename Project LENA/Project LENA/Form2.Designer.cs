@@ -131,6 +131,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(512, 512);
             this.panel1.TabIndex = 6;
+            this.panel1.SizeChanged += new System.EventHandler(this.panel1_SizeChanged);
             // 
             // pictureBox1
             // 
@@ -181,6 +182,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(512, 512);
             this.panel2.TabIndex = 7;
+            this.panel2.SizeChanged += new System.EventHandler(this.panel2_SizeChanged);
             // 
             // label4
             // 

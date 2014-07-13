@@ -56,7 +56,9 @@ namespace Project_LENA
             //else this.MaximumSize = this.MinimumSize;
 
             panel1.Width = (this.Width) / 2 - 20;
+            panel1.Height = this.Height - 12 - 126;
             panel2.Width = (this.Width) / 2 - 20;
+            panel2.Height = this.Height - 12 - 126;
             panel2.Left = (panel1.Width + 12);
             label2.Left = panel2.Left;
         }
@@ -74,7 +76,9 @@ namespace Project_LENA
         private void Form2_Resize(object sender, EventArgs e)
         {
             panel1.Width = (this.Width) / 2 - 20;
+            panel1.Height = this.Height - 12 - 126;
             panel2.Width = (this.Width) / 2 - 20;
+            panel2.Height = this.Height - 12 - 126;
             panel2.Left = (panel1.Width + 12);
             label2.Left = panel2.Left;
         }
@@ -86,6 +90,10 @@ namespace Project_LENA
         private Rectangle notRect = new Rectangle();
         private Brush selectionBrush = new SolidBrush(Color.FromArgb(128, 72, 145, 220));
         private bool CreatedRect;
+        private bool WidthLeft = false;
+        private bool WidthRight = false;
+        private bool HeightTop = false;
+        private bool HeightBottom = false;
 
         #region pictureBox1
 
@@ -113,17 +121,20 @@ namespace Project_LENA
         {
             toolStripStatusLabel1.Text = String.Format(label1.Text + "  X: {0}; Y: {1}", e.X, e.Y);
             Control c = (Control)sender;
+            pictureBox2.Left = c.Left;
+            pictureBox2.Top = c.Top;
 
             #region Right Click Panning
             if (e.Button == MouseButtons.Right)
             {
-                Cursor = Cursors.SizeAll;              
+                Cursor = Cursors.SizeAll;               
+
                 // Panel is wider than image
                 if (panel1.Width >= pictureBox1.Width)
                 {
                     if (c.Left + (e.X - PanStartPoint.X) >= 0 && c.Left + (e.X - PanStartPoint.X) <= panel1.Width - pictureBox1.Width)
                     {
-                        c.Left = c.Left + (e.X - PanStartPoint.X);
+                        c.Left += (e.X - PanStartPoint.X);
                     }
                     else if (c.Left + (e.X - PanStartPoint.X) < 0)
                     {
@@ -156,7 +167,7 @@ namespace Project_LENA
                 {
                     if (c.Left + (e.X - PanStartPoint.X) < 0 && c.Left + (e.X - PanStartPoint.X) > panel1.Width - pictureBox1.Width)
                     {
-                        c.Left = c.Left + (e.X - PanStartPoint.X);
+                        c.Left += (e.X - PanStartPoint.X);
                     }
                     else if (c.Left + (e.X - PanStartPoint.X) > 0)
                     {
@@ -172,7 +183,7 @@ namespace Project_LENA
                 {
                     if (c.Top + (e.Y - PanStartPoint.Y) < 0 && c.Top + (e.Y - PanStartPoint.Y) > panel1.Height - pictureBox1.Height)
                     {
-                        c.Top = (c.Top + e.Y) - PanStartPoint.Y;
+                        c.Top += (e.Y - PanStartPoint.Y);
                     }
                     else if (c.Top + (e.Y - PanStartPoint.Y) > 0)
                     {
@@ -197,6 +208,7 @@ namespace Project_LENA
                 Rect.Location = new Point(
                     Math.Min(RectStartPoint.X, Math.Max(tempEndPoint.X, 0)),
                     Math.Min(RectStartPoint.Y, Math.Max(tempEndPoint.Y, 0)));
+
 
                 if (tempEndPoint.X <= pictureBox1.Width && tempEndPoint.X >= 0)
                 {
@@ -223,49 +235,95 @@ namespace Project_LENA
                 {
                     Rect.Height = Math.Abs(RectStartPoint.Y - 0);
                 }
-
+      
                 pictureBox1.Invalidate();
                 pictureBox2.Invalidate();
                 toolStripStatusLabel2.Text = String.Format("Selection size: {0} by {1} pixels", Rect.Width, Rect.Height);
 
-                //if (panel1.Width < pictureBox1.Width && pictureBox1.Left + tempEndPoint.X > panel1.Width)
-                //{
-                //    if (pictureBox1.Left + (RectStartPoint.X - tempEndPoint.X) < 0 && pictureBox1.Left + (tempEndPoint.X - RectStartPoint.X) > panel1.Width - pictureBox1.Width)
-                //    {
-                //        pictureBox1.Left = pictureBox1.Left + (panel1.Width - tempEndPoint.X);
-                //    }
-                //    else if (pictureBox1.Left + (tempEndPoint.X - RectStartPoint.X) < 0)
-                //    {
-                //        pictureBox1.Left = 0;
-                //    }
-                //    else if (pictureBox1.Left + (tempEndPoint.X - RectStartPoint.X) < panel1.Width - pictureBox1.Width)
-                //    {
-                //        pictureBox1.Left = panel1.Width - pictureBox1.Width;
-                //    }
-                //    //pictureBox1.Left = pictureBox1.Left + (tempEndPoint.X - RectStartPoint.X);
-                //    //pictureBox1.Left = pictureBox1.Left + (panel1.Width - tempEndPoint.X);
-                //    pictureBox1.BringToFront();
-                //}
+                if (panel1.Width < pictureBox1.Width)
+                {
+                    if (e.X > Math.Abs(c.Left))
+                    {
+                        WidthLeft = false;
+                        //timer1.Enabled = false;                       
+                    }
+                    if (e.X < panel1.Width + Math.Abs(c.Left))
+                    {
+                        WidthRight = false;
+                        //timer1.Enabled = false;
+                    }
 
-                //if (panel1.Width < pictureBox1.Width)
-                //{
-                //    if (Math.Abs(pictureBox1.Left) - tempEndPoint.X > Math.Abs(pictureBox1.Left) || tempEndPoint.X  > panel1.Width + Math.Abs(pictureBox1.Left))
-                //    {
-                //        if (panel1.Width +
-                //        pictureBox1.Left = pictureBox1.Left + (panel1.Width - tempEndPoint.X);
-                //    }
-                //    else if (Math.Abs(pictureBox1.Left) - (tempEndPoint.X) < 0)
-                //    {
-                //        pictureBox1.Left = 0;
-                //    }
-                //    else if (pictureBox1.Left + (tempEndPoint.X - RectStartPoint.X) < panel1.Width - pictureBox1.Width)
-                //    {
-                //        pictureBox1.Left = panel1.Width - pictureBox1.Width;
-                //    }
-                //    //pictureBox1.Left = pictureBox1.Left + (tempEndPoint.X - RectStartPoint.X);
-                //    //pictureBox1.Left = pictureBox1.Left + (panel1.Width - tempEndPoint.X);
-                //    pictureBox1.BringToFront();
-                //}
+                    if (e.X < Math.Abs(c.Left) && c.Left <= 0)
+                    {
+                        WidthLeft = true;
+                        timer1.Enabled = true;
+                        timer2.Enabled = true;
+                    }
+                    else if (c.Left > 0)
+                    {
+                        WidthLeft = false;
+                        timer1.Enabled = false;
+                        timer2.Enabled = false;
+                        c.Left = 0;
+                    }
+
+                    if (e.X > panel1.Width + Math.Abs(c.Left) && c.Left >= panel1.Width - pictureBox1.Width)
+                    {
+                        WidthRight = true;
+                        timer1.Enabled = true;
+                        timer2.Enabled = true;
+                    }
+                    else if (c.Left < panel1.Width - pictureBox1.Width)
+                    {
+                        WidthRight = false;
+                        timer1.Enabled = false;
+                        timer2.Enabled = false;
+                        c.Left = panel1.Width - pictureBox1.Width;
+                    }
+                }
+
+                if (panel1.Height < pictureBox1.Height)
+                {
+                    if (e.Y > Math.Abs(c.Top))
+                    {
+                        HeightTop = false;
+                        //timer1.Enabled = false;                       
+                    }
+                    if (e.Y < panel1.Height + Math.Abs(c.Top))
+                    {
+                        HeightBottom = false;
+                        //timer1.Enabled = false;
+                    }
+
+                    if (e.Y < Math.Abs(c.Top) && c.Top <= 0)
+                    {
+                        HeightTop = true;
+                        timer1.Enabled = true;
+                        timer2.Enabled = true;
+                    }
+                    else if (c.Top > 0)
+                    {
+                        HeightTop = false;
+                        timer1.Enabled = false;
+                        timer2.Enabled = false;
+                        c.Top = 0;
+                    }
+
+                    if (e.Y > panel1.Height + Math.Abs(c.Top) && c.Top >= panel1.Height - pictureBox1.Height)
+                    {
+                        HeightBottom = true;
+                        timer1.Enabled = true;
+                        timer2.Enabled = true;
+                    }
+                    else if (c.Top < panel1.Height - pictureBox1.Height)
+                    {
+                        HeightBottom = false;
+                        timer1.Enabled = false;
+                        timer2.Enabled = false;
+                        c.Top = panel1.Height - pictureBox1.Height;
+                    }
+                }
+                c.BringToFront();
             }
             #endregion
         }
@@ -282,6 +340,34 @@ namespace Project_LENA
             }
             if (e.Button == MouseButtons.Left)
             {
+                Control c = (Control)sender;
+                pictureBox2.Left = c.Left;
+                pictureBox2.Top = c.Top;
+
+                timer1.Enabled = false;
+                timer2.Enabled = false;
+
+                if (panel1.Width < pictureBox1.Width)
+                {
+                    if (c.Left >= 0)
+                    {
+                        c.Left = 0;
+                    }
+                    else if (c.Left <= panel1.Width - pictureBox1.Width)
+                    {
+                        c.Left = panel1.Width - pictureBox1.Width;
+                    }
+
+                    if (c.Top >= 0)
+                    {
+                        c.Top = 0;
+                    }
+                    else if (c.Top <= panel1.Height - pictureBox1.Height)
+                    {
+                        c.Top = panel1.Height - pictureBox1.Height;
+                    }
+                }
+
                 Point tempEndPoint = e.Location;
                 if (RectStartPoint.X == tempEndPoint.X)
                 {
@@ -326,14 +412,23 @@ namespace Project_LENA
                 if (Rect != null && Rect.Width > 0 && Rect.Height > 0)
                 {
                     if (CreatedRect == false)
-                    {
+                    {                     
+                        e.Graphics.FillRectangle(selectionBrush, Rect);
+
                         using (Pen p = new Pen(Color.FromArgb(255, 51, 153, 255), 1.0F))
                         {
                             e.Graphics.DrawRectangle(p, Rect.X, Rect.Y, Rect.Width - 1, Rect.Height - 1);
+                            if (Rect.Width == 1)
+                            {
+                                e.Graphics.DrawLine(p, Rect.X, Rect.Y, Rect.X, Rect.Y + Rect.Height - 1);
+                            }
+                            if (Rect.Height == 1)
+                            {
+                                e.Graphics.DrawLine(p, Rect.X, Rect.Y, Rect.X + Rect.Width - 1, Rect.Y);
+                            }
                         }
-
-                        e.Graphics.FillRectangle(selectionBrush, Rect);
                     }
+                    
 
                     if (CreatedRect == true)
                     {
@@ -352,6 +447,14 @@ namespace Project_LENA
                         using (Pen p = new Pen(Color.FromArgb(255, 255, 255, 255), 1.0F))
                         {
                             e.Graphics.DrawRectangle(p, Rect.X, Rect.Y, Rect.Width - 1, Rect.Height - 1);
+                            if (Rect.Width == 1)
+                            {
+                                e.Graphics.DrawLine(p, Rect.X, Rect.Y, Rect.X, Rect.Y + Rect.Height - 1);
+                            }
+                            if (Rect.Height == 1)
+                            {
+                                e.Graphics.DrawLine(p, Rect.X, Rect.Y, Rect.X + Rect.Width - 1, Rect.Y);
+                            }
                         }
                         //using (Brush selectedBrush = new SolidBrush(Color.FromArgb(0, 72, 145, 220)))
                         //{
@@ -388,10 +491,13 @@ namespace Project_LENA
         private void pictureBox2_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             toolStripStatusLabel1.Text = String.Format(label2.Text + "  X: {0}; Y: {1}", e.X, e.Y);
+            Control c = (Control)sender;
+            pictureBox1.Left = c.Left;
+            pictureBox1.Top = c.Top;
+
             if (e.Button == MouseButtons.Right)
             {
                 Cursor = Cursors.SizeAll;
-                Control c = (Control)sender;
 
                 if (panel2.Width >= pictureBox2.Width)
                 {
@@ -460,7 +566,7 @@ namespace Project_LENA
             {
                 Cursor = Cursors.Cross;
                 Point tempEndPoint = e.Location;
-
+                
                 Rect.Location = new Point(
                     Math.Min(RectStartPoint.X, Math.Max(tempEndPoint.X, 0)),
                     Math.Min(RectStartPoint.Y, Math.Max(tempEndPoint.Y, 0)));
@@ -491,28 +597,86 @@ namespace Project_LENA
                     Rect.Height = Math.Abs(RectStartPoint.Y - 0);
                 }
 
-                pictureBox2.Invalidate();
+                pictureBox1.Invalidate();
                 pictureBox2.Invalidate();
                 toolStripStatusLabel2.Text = String.Format("Selection size: {0} by {1} pixels", Rect.Width, Rect.Height);
 
-                //if (panel2.Width < pictureBox2.Width && pictureBox2.Left + tempEndPoint.X > panel2.Width)
-                //{
-                //    if (pictureBox2.Left + (tempEndPoint.X - RectStartPoint.X) > 0 && pictureBox2.Left + (tempEndPoint.X - RectStartPoint.X) > panel2.Width - pictureBox2.Width)
-                //    {
-                //        pictureBox2.Left = pictureBox2.Left + (panel2.Width - tempEndPoint.X);
-                //    }
-                //    else if (pictureBox2.Left + (tempEndPoint.X - RectStartPoint.X) < 0)
-                //    {
-                //        pictureBox2.Left = 0;
-                //    }
-                //    else if (pictureBox2.Left + (tempEndPoint.X - RectStartPoint.X) < panel2.Width - pictureBox2.Width)
-                //    {
-                //        pictureBox2.Left = panel2.Width - pictureBox2.Width;
-                //    }
-                //    //pictureBox2.Left = pictureBox2.Left + (tempEndPoint.X - RectStartPoint.X);
-                //    //pictureBox2.Left = pictureBox2.Left + (panel2.Width - tempEndPoint.X);
-                //    pictureBox2.BringToFront();
-                //}
+                if (panel2.Width < pictureBox2.Width)
+                {
+                    if (e.X > Math.Abs(c.Left))
+                    {
+                        WidthLeft = false;
+                        //timer2.Enabled = false;                       
+                    }
+                    if (e.X < panel2.Width + Math.Abs(c.Left))
+                    {
+                        WidthRight = false;
+                        //timer2.Enabled = false;
+                    }
+
+                    if (e.X < Math.Abs(c.Left) && c.Left <= 0)
+                    {
+                        WidthLeft = true;
+                        timer2.Enabled = true;
+                    }
+                    else if (c.Left > 0)
+                    {
+                        WidthLeft = false;
+                        timer2.Enabled = false;
+                        c.Left = 0;
+                    }
+
+                    if (e.X > panel2.Width + Math.Abs(c.Left) && c.Left >= panel2.Width - pictureBox2.Width)
+                    {
+                        WidthRight = true;
+                        timer2.Enabled = true;
+                    }
+                    else if (c.Left < panel2.Width - pictureBox2.Width)
+                    {
+                        WidthRight = false;
+                        timer2.Enabled = false;
+                        c.Left = panel2.Width - pictureBox2.Width;
+                    }
+                }
+
+                if (panel2.Height < pictureBox2.Height)
+                {
+                    if (e.Y > Math.Abs(c.Top))
+                    {
+                        HeightTop = false;
+                        //timer2.Enabled = false;                       
+                    }
+                    if (e.Y < panel2.Height + Math.Abs(c.Top))
+                    {
+                        HeightBottom = false;
+                        //timer2.Enabled = false;
+                    }
+
+                    if (e.Y < Math.Abs(c.Top) && c.Top <= 0)
+                    {
+                        HeightTop = true;
+                        timer2.Enabled = true;
+                    }
+                    else if (c.Top > 0)
+                    {
+                        HeightTop = false;
+                        timer2.Enabled = false;
+                        c.Top = 0;
+                    }
+
+                    if (e.Y > panel2.Height + Math.Abs(c.Top) && c.Top >= panel2.Height - pictureBox2.Height)
+                    {
+                        HeightBottom = true;
+                        timer2.Enabled = true;
+                    }
+                    else if (c.Top < panel2.Height - pictureBox2.Height)
+                    {
+                        HeightBottom = false;
+                        timer2.Enabled = false;
+                        c.Top = panel2.Height - pictureBox2.Height;
+                    }
+                }
+                c.BringToFront();
             }
         }
 
@@ -529,8 +693,15 @@ namespace Project_LENA
                     {
                         using (Pen p = new Pen(Color.FromArgb(255, 51, 153, 255), 1.0F))
                         {
-                            /***************** TODO: create if statement to correct left and top boundary issue *********************************************/
                             e.Graphics.DrawRectangle(p, Rect.X, Rect.Y, Rect.Width - 1, Rect.Height - 1);
+                            if (Rect.Width == 1)
+                            {
+                                e.Graphics.DrawLine(p, Rect.X, Rect.Y, Rect.X, Rect.Y + Rect.Height - 1);
+                            }
+                            if (Rect.Height == 1)
+                            {
+                                e.Graphics.DrawLine(p, Rect.X, Rect.Y, Rect.X + Rect.Width - 1, Rect.Y);
+                            }
                         }
 
                         e.Graphics.FillRectangle(selectionBrush, Rect);
@@ -552,6 +723,14 @@ namespace Project_LENA
                         using (Pen p = new Pen(Color.FromArgb(255, 255, 255, 255), 1.0F))
                         {
                             e.Graphics.DrawRectangle(p, Rect.X, Rect.Y, Rect.Width - 1, Rect.Height - 1);
+                            if (Rect.Width == 1)
+                            {
+                                e.Graphics.DrawLine(p, Rect.X, Rect.Y, Rect.X, Rect.Y + Rect.Height - 1);
+                            }
+                            if (Rect.Height == 1)
+                            {
+                                e.Graphics.DrawLine(p, Rect.X, Rect.Y, Rect.X + Rect.Width - 1, Rect.Y);
+                            }
                         }                     
                     }
                 }
@@ -560,6 +739,8 @@ namespace Project_LENA
 
         private void pictureBox2_MouseUp(object sender, MouseEventArgs e)
         {
+            timer1.Enabled = false;
+            timer2.Enabled = false;
             if (e.Button == MouseButtons.Right)
             {
                 //if (Rect.Contains(e.Location))
@@ -773,10 +954,6 @@ namespace Project_LENA
             }
         }
 
-
-        // (c.Left + (e.X - PanStartPoint.X) >= 0 && c.Left + (e.X - PanStartPoint.X) <= panel1.Width - pictureBox1.Width)
-        //else if (c.Left + (e.X - PanStartPoint.X) < 0)
-        //(c.Left + (e.X - PanStartPoint.X) > panel1.Width - pictureBox1.Width)
         private void panel1_SizeChanged(object sender, EventArgs e)
         {
             if (panel1.Width <= pictureBox1.Left + pictureBox1.Width && pictureBox1.Left > 0)
@@ -853,6 +1030,24 @@ namespace Project_LENA
                     pictureBox2.Top = 0;
                 }
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (WidthLeft == true) pictureBox1.Left += 10;
+            else if (WidthRight == true) pictureBox1.Left -= 10;
+
+            if (HeightTop == true) pictureBox1.Top += 10;
+            else if (HeightBottom == true) pictureBox1.Top -= 10;
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            if (WidthLeft == true) pictureBox2.Left += 10;
+            else if (WidthRight == true) pictureBox2.Left -= 10;
+
+            if (HeightTop == true) pictureBox2.Top += 10;
+            else if (HeightBottom == true) pictureBox2.Top -= 10;
         }
     }
 }

@@ -86,9 +86,8 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.button14 = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button23 = new System.Windows.Forms.Button();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -99,6 +98,8 @@
             this.textBox18 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button14 = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button21 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
@@ -169,9 +170,9 @@
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -820,37 +821,9 @@
             this.tabControl1.TabStop = false;
             this.tabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl1_Selected);
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.button14);
-            this.tabPage2.Controls.Add(this.groupBox10);
-            this.tabPage2.Controls.Add(this.button6);
-            this.tabPage2.Controls.Add(this.groupBox8);
-            this.tabPage2.Controls.Add(this.groupBox9);
-            this.tabPage2.Controls.Add(this.label4);
-            this.tabPage2.Location = new System.Drawing.Point(4, 24);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(619, 577);
-            this.tabPage2.TabIndex = 3;
-            this.tabPage2.Text = "Sample Generation";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // button14
-            // 
-            this.button14.Location = new System.Drawing.Point(423, 151);
-            this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(178, 22);
-            this.button14.TabIndex = 34;
-            this.button14.Tag = "";
-            this.button14.Text = "Create Fragment From Images, , ,";
-            this.toolTip1.SetToolTip(this.button14, "Crop the clean and noisy image inputed to gather samples from specific region of " +
-        "image.");
-            this.button14.UseVisualStyleBackColor = true;
-            this.button14.Click += new System.EventHandler(this.button14_Click);
-            // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button23);
             this.tabPage1.Controls.Add(this.checkBox5);
             this.tabPage1.Controls.Add(this.button3);
             this.tabPage1.Controls.Add(this.groupBox2);
@@ -864,6 +837,18 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Noise Generation";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button23
+            // 
+            this.button23.Location = new System.Drawing.Point(15, 265);
+            this.button23.Name = "button23";
+            this.button23.Size = new System.Drawing.Size(140, 22);
+            this.button23.TabIndex = 17;
+            this.button23.Tag = "";
+            this.button23.Text = "Generate Color Image";
+            this.toolTip1.SetToolTip(this.button23, "Generates the grayscale image.");
+            this.button23.UseVisualStyleBackColor = true;
+            this.button23.Click += new System.EventHandler(this.button23_Click);
             // 
             // checkBox5
             // 
@@ -987,6 +972,35 @@
             this.label1.Tag = "";
             this.label1.Text = "Noise:";
             this.toolTip1.SetToolTip(this.label1, "The percentage of Gaussian noise to be applied to the image in decimal.");
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.button14);
+            this.tabPage2.Controls.Add(this.groupBox10);
+            this.tabPage2.Controls.Add(this.button6);
+            this.tabPage2.Controls.Add(this.groupBox8);
+            this.tabPage2.Controls.Add(this.groupBox9);
+            this.tabPage2.Controls.Add(this.label4);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(619, 577);
+            this.tabPage2.TabIndex = 3;
+            this.tabPage2.Text = "Sample Generation";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button14
+            // 
+            this.button14.Location = new System.Drawing.Point(423, 151);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(178, 22);
+            this.button14.TabIndex = 34;
+            this.button14.Tag = "";
+            this.button14.Text = "Create Fragment From Images, , ,";
+            this.toolTip1.SetToolTip(this.button14, "Crop the clean and noisy image inputed to gather samples from specific region of " +
+        "image.");
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
             // tabPage3
             // 
@@ -1602,6 +1616,7 @@
             this.ClientSize = new System.Drawing.Size(634, 611);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.tabControl1);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1623,12 +1638,12 @@
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.groupBox11.ResumeLayout(false);
@@ -1781,6 +1796,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox21;
         private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Button button23;
     }
 }
 

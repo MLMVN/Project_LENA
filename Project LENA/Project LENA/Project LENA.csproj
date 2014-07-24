@@ -85,6 +85,9 @@
     </Compile>
     <Compile Include="Functions.cs" />
     <Compile Include="MLMVN.cs" />
+    <Compile Include="PictureBoxWithInterpolationMode.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

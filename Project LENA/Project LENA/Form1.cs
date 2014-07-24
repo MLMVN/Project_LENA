@@ -548,6 +548,7 @@ namespace Project_LENA
 
                 saveFileDialog2.FileName = Path.GetFileNameWithoutExtension(textBox11.Text) + "_Y" + ".tif";
 
+                #region Save Image
                 if (saveFileDialog2.ShowDialog() == DialogResult.OK)
                 {
                     using (Tiff output = Tiff.Open(saveFileDialog2.FileName, "w"))
@@ -619,9 +620,10 @@ namespace Project_LENA
                     }
                     //System.Diagnostics.Process.Start(FileName);                   
                 }
+                #endregion
                 textBox18.Text = saveFileDialog2.FileName;
                 image.Dispose();
-            }
+            }            
         }
 
         // Generate Noisy Image
@@ -2380,7 +2382,6 @@ namespace Project_LENA
 
         private void button21_Click(object sender, EventArgs e)
         {
-            string[] a = textBox20.Text.Split(',');
             saveFileDialog3.FileName = "Patch_Parameters.xml";
 
             if (saveFileDialog3.ShowDialog() == DialogResult.OK)
@@ -3182,6 +3183,98 @@ namespace Project_LENA
 
             Form2 form2 = new Form2(textBox15.Text, textBox14.Text);
             form2.ShowDialog();
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            int height = 512;
+            int width = 512;
+
+            int imageSize = width * 3;
+            byte[] raster = new byte[imageSize];
+
+            // Read the image into the memory buffer
+            byte[,] red = new byte[height, width];
+            byte[,] green = new byte[height, width];
+            byte[,] blue = new byte[height, width];
+
+            for (int i = 0; height > i; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    red[i, j] = 255; // red color values
+                    green[i, j] = 0; // green color values
+                    blue[i, j] = 0; // blue color values
+                }
+            }
+
+            byte[,] RGB = new byte[height, imageSize];
+
+            #region Merge RGB
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    RGB[i, 3 * j] = Convert.ToByte(red[i, j]);
+                }
+            }
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    RGB[i, 3 * j + 1] = Convert.ToByte(green[i, j]);
+                }
+            }
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    RGB[i, 3 * j + 2] = Convert.ToByte(blue[i, j]);
+                }
+            }
+            #endregion
+
+            #region Save RGB
+            saveFileDialog2.FileName = "image.tif";
+
+            if (saveFileDialog2.ShowDialog() == DialogResult.OK) // Test result.
+            {
+                using (Tiff output = Tiff.Open(saveFileDialog2.FileName, "w"))
+                {
+
+                    // Write the tiff tags to the file
+                    output.SetField(TiffTag.IMAGEWIDTH, width);
+                    output.SetField(TiffTag.IMAGELENGTH, height);
+                    output.SetField(TiffTag.SAMPLESPERPIXEL, 3);
+                    output.SetField(TiffTag.BITSPERSAMPLE, 8);
+                    output.SetField(TiffTag.ORIENTATION, BitMiracle.LibTiff.Classic.Orientation.TOPLEFT);
+                    output.SetField(TiffTag.ROWSPERSTRIP, height);
+                    output.SetField(TiffTag.XRESOLUTION, 88.0);
+                    output.SetField(TiffTag.YRESOLUTION, 88.0);
+                    output.SetField(TiffTag.RESOLUTIONUNIT, ResUnit.INCH);
+                    output.SetField(TiffTag.PLANARCONFIG, PlanarConfig.CONTIG);
+                    output.SetField(TiffTag.PHOTOMETRIC, Photometric.RGB);
+                    output.SetField(TiffTag.COMPRESSION, Compression.NONE);
+                    output.SetField(TiffTag.FILLORDER, FillOrder.MSB2LSB);
+
+
+                    byte[] im = new byte[imageSize * sizeof(byte /*can be changed depending on the format of the image*/)];
+
+                    for (int i = 0; i < height; i++)
+                    {
+
+                        for (int j = 0; j < imageSize; j++)
+                        {
+                            im[j] = RGB[i, j];
+                        }
+                        output.WriteEncodedStrip(i, im, imageSize);
+                    }
+                    output.WriteDirectory();
+                    output.Dispose();
+                }
+            }
+            #endregion
         }
     }
 

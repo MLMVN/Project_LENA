@@ -544,7 +544,6 @@
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(120, 17);
             this.radioButton3.TabIndex = 60;
-            this.radioButton3.TabStop = true;
             this.radioButton3.Text = "Process using pixels";
             this.toolTip1.SetToolTip(this.radioButton3, "Process the image with kernel surrounding a pixel.");
             this.radioButton3.UseVisualStyleBackColor = true;
@@ -557,7 +556,6 @@
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(132, 17);
             this.radioButton4.TabIndex = 61;
-            this.radioButton4.TabStop = true;
             this.radioButton4.Text = "Process using patches";
             this.toolTip1.SetToolTip(this.radioButton4, "Process the image by group of pixels.");
             this.radioButton4.UseVisualStyleBackColor = true;

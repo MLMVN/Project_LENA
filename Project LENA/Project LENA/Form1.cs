@@ -58,7 +58,7 @@ namespace Project_LENA
                 cp.ExStyle |= 0x02000000;
                 return cp;
             }
-        }
+        }      
 
         // Help button on windows form
         private void Form1_helpButtonClicked(object sender, CancelEventArgs e)

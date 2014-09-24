@@ -1483,33 +1483,33 @@ namespace Project_LENA
 
         private void comboBox1_TextChanged(object sender, EventArgs e)
         {
-            //if (!string.IsNullOrWhiteSpace(comboBox1.Text) )
-            //{
-            //    string[] a = comboBox1.Text.Split(' ', '%');
-            //    int value;
+            if (!string.IsNullOrWhiteSpace(comboBox1.Text))
+            {
+                string[] a = comboBox1.Text.Split(' ', '%');
+                int value;
 
-            //    if (int.TryParse(a[0], out value))
-            //    {
-            //        if (value >= 50 && value <= 300) Percentage = Convert.ToDouble(value) / 100;
-            //        else if (value < 50) Percentage = 0.5;
-            //        else if (value > 300) Percentage = 3;
+                if (int.TryParse(a[0], out value))
+                {
+                    if (value >= 50 && value <= 300) Percentage = Convert.ToDouble(value) / 100;
+                    else if (value < 50) Percentage = 0.5;
+                    else if (value > 300) Percentage = 3;
 
-            //        int test3 = Convert.ToInt32(pictureBox1.Image.Width * (Percentage));
-            //        int test4 = Convert.ToInt32(pictureBox1.Image.Height * (Percentage));
+                    int test3 = Convert.ToInt32(pictureBox1.Image.Width * (Percentage));
+                    int test4 = Convert.ToInt32(pictureBox1.Image.Height * (Percentage));
 
-            //        pictureBox1.Location = new Point(0, 0);
-            //        pictureBox1.Size = new Size(test3, test4);
+                    pictureBox1.Location = new Point(0, 0);
+                    pictureBox1.Size = new Size(test3, test4);
 
-            //        pictureBox2.Location = new Point(0, 0);
-            //        pictureBox2.Size = new Size(test3, test4);
+                    pictureBox2.Location = new Point(0, 0);
+                    pictureBox2.Size = new Size(test3, test4);
 
 
-            //        //Rect.Width = (int)(Rect.Width * Percentage);
-            //        //Rect.Height = (int)(Rect.Height * Percentage);
-            //        //Rect.X = (int)(Rect.X * Percentage);
-            //        //Rect.Y = (int)(Rect.Y * Percentage);
-            //    }
-            //}
+                    //Rect.Width = (int)(Rect.Width * Percentage);
+                    //Rect.Height = (int)(Rect.Height * Percentage);
+                    //Rect.X = (int)(Rect.X * Percentage);
+                    //Rect.Y = (int)(Rect.Y * Percentage);
+                }
+            }
         }          
     }
 }

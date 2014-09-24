@@ -1266,6 +1266,7 @@
             this.checkBox1.Enabled = false;
             this.checkBox1.Location = new System.Drawing.Point(135, 30);
             this.checkBox1.Name = "checkBox1";
+            this.checkBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.checkBox1.Size = new System.Drawing.Size(96, 17);
             this.checkBox1.TabIndex = 58;
             this.checkBox1.Text = "Angular RMSE";
